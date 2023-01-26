@@ -8,7 +8,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from imageoperations.Importui import *
+from resources.uipy.importjpg import *
 import os.path
 import shutil
 

@@ -1,7 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from imageoperations.Renameui import *
+from resources.uipy.rename import *
 
 class Rename(QDialog, Ui_Rename): 
     

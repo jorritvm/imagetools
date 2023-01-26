@@ -3,7 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from imageoperations.WebAlbumui import *
+from resources.uipy.web import *
 import os
 
 

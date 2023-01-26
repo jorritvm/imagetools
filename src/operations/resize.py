@@ -1,7 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from imageoperations.Resizeui import *
+from resources.uipy.resize import *
 
 class Resize(QDialog, Ui_Resize):
     

@@ -1,7 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from imageoperations.Numberui import *
+from resources.uipy.number import *
 import __main__
 
 class Number(QDialog, Ui_Number):

@@ -8,7 +8,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from imageoperations.Uploadui import *
+from resources.uipy.upload import *
 import os
 from ftplib import *
 

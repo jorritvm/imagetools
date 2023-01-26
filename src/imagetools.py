@@ -10,7 +10,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 #application code imports
-from resource import *
+from resources.resource import *
 from core.about_run import *
 from core.settings_run import *
 from core.folderSelect import *
@@ -18,13 +18,13 @@ from core.thumbnailBrowser import *
 from threadedResizer.threadedResizer import *
 from msilib.schema import SelfReg
 
-from imageoperations.Import import *
-from imageoperations.Number import *
-from imageoperations.Rename import *
-from imageoperations.Resize import *
-from imageoperations.WebAlbum import *
-from imageoperations.Upload import *
-from imageoperations.Judge import *
+from operations.importjpg import *
+from operations.number import *
+from operations.rename import *
+from operations.resize import *
+from operations.web import *
+from operations.upload import *
+from operations.judge import *
 
 
 class MainWindow(QMainWindow):
