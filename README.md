@@ -14,6 +14,9 @@ Supported operations:
 * Create a webalbum
 * Upload it to an FTP webhost
 
+## Screenshot
+[<img src="doc/screenshots/v3.0/main_window.png" width="300"/>](doc/screenshots/v3.0/main_window.png)
+
 ## Changelog
 See NEWS.md
 
@@ -21,7 +24,7 @@ See NEWS.md
 Jorrit Vander Mynsbrugge
 
 ## Windows user installation instructions
-Download the installer, all dependencies are included.
+Download the installer from the 'release' folder, all dependencies are included.
 
 ## Windows developer installation instructions
 ```

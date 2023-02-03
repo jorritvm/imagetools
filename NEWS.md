@@ -1,3 +1,6 @@
+# todo
+- move from cx_freeze to pyinstaller for build process
+
 # imagetools v3.0 (under development)
 
 ## NOTES
