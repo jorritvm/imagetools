@@ -46,8 +46,8 @@ class Rename(QDialog, Ui_Rename):
     def showThumbnail(self, path):
         self.labelImagePreview.setText("creating preview...")
         request = [[QFileInfo(path), self.height(), True]] # request = [qfileinfo, size, smooth]
-        self.reply = self.supervisor.addItems(request, True) #true for priorty - #reply [qfileinfo, size, smooth, *ticket*]
-        self.supervisor.processQueue() 
+        self.reply = self.supervisor.add_items(request, True) #true for priorty - #reply [qfileinfo, size, smooth, *ticket*]
+        self.supervisor.process_queue()
 
     def displayThumbnail(self, ticket, img):
         if self.reply[0][3] == ticket: #onze resized file is hier

@@ -112,8 +112,8 @@ class Judge(QDialog):
         h = self.height()
         for fi in self.files:
             q.append([fi, h, True]) #smooth
-        self.currentlyProcessing = self.supervisor.addItems(q, True) # prior
-        self.supervisor.processQueue()  
+        self.currentlyProcessing = self.supervisor.add_items(q, True) # prior
+        self.supervisor.process_queue()
     
     
     def processNextResizedItem(self, ticket, img):

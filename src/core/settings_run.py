@@ -18,13 +18,13 @@ class SettingsRun(QDialog, Ui_SettingsDialog):
         self.openActions(values) #values is a dict
                 
     def openActions(self, values):
-        self.nthreadsBox.setValue(values['nThreads'])
+        self.nthreadsBox.setValue(values['n_threads'])
         self.saveThumbsCheck.setChecked(values['saveThumbs'])
         self.rootfolderEdit.setText(values['defaultLocation'])  
     
     def dictValues(self):
         values = dict()
-        values['nThreads'] = self.nthreadsBox.value()
+        values['n_threads'] = self.nthreadsBox.value()
         values['saveThumbs'] = self.saveThumbsCheck.isChecked()
         values['defaultLocation'] = self.rootfolderEdit.text() 
         return values

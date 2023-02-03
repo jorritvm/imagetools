@@ -65,7 +65,7 @@ class WebAlbum(QDialog, Ui_WebAlbum):
     def interuptResize(self):
         self.log("Aborting...")
         self.error = True
-        self.supervisor.clearQueue()        
+        self.supervisor.clear_queue()
         
         
     def gameTime(self):
@@ -396,15 +396,15 @@ p.footnote {
             q = []
             for fi in self.files:
                 q.append([fi, 150, False]) #not smooth
-                self.queueSmall = self.supervisor.addItems(q)
-                self.supervisor.processQueue()  
+                self.queueSmall = self.supervisor.add_items(q)
+                self.supervisor.process_queue()
 
             self.log("STEP 5/5: Creating resized images")
             q = []
             for fi in self.files:
                 q.append([fi, 800, True]) #smooth
-                self.queueLarge = self.supervisor.addItems(q)
-                self.supervisor.processQueue()  
+                self.queueLarge = self.supervisor.add_items(q)
+                self.supervisor.process_queue()
 
                
     def treatResizedImage(self, ticket, img):

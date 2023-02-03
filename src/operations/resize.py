@@ -86,11 +86,11 @@ class Resize(QDialog, Ui_Resize):
         q = []
         for fi in self.files:
             q.append([fi, w, True]) #smooth
-        self.currentlyProcessing = self.supervisor.addItems(q)
-        self.supervisor.processQueue()  
+        self.currentlyProcessing = self.supervisor.add_items(q)
+        self.supervisor.process_queue()
             
     def interuptResize(self):
-        self.supervisor.clearQueue()
+        self.supervisor.clear_queue()
 
     def processNextResizedItem(self, ticket, img):
         for item in self.currentlyProcessing:

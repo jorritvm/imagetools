@@ -185,7 +185,7 @@ class thumbnailBrowser(QWidget):
     def changeFolder(self, path):
         self.rootFolder = path
         self.listView.clear()
-        self.supervisor.clearQueue()
+        self.supervisor.clear_queue()
 
         """set a directory model with appropriate filters to get the image info"""
         self.dirModel = QDir(path)
@@ -205,8 +205,8 @@ class thumbnailBrowser(QWidget):
             x = QListWidgetItem(QIcon(px), os.path.basename(file))
             self.listView.addItem(x) 
             
-        self.currentlyProcessing = self.supervisor.addItems(q, False) # not prior
-        self.supervisor.processQueue()   
+        self.currentlyProcessing = self.supervisor.add_items(q, False) # not prior
+        self.supervisor.process_queue()
     
 
     def getSelection(self): 
