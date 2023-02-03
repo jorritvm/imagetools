@@ -21,7 +21,6 @@ class FolderSelectWidget(QWidget):
     def create_elements(self):
         """
         create both widgets of the left pane
-        :return:
         """
         self.ui_tree = QTreeView()  # create directory browser
         self.ui_path = JLineEdit()  # create path input lineEdit
@@ -58,7 +57,7 @@ class FolderSelectWidget(QWidget):
         self.popup = self.completer.popup()
         self.popup.setMinimumSize(QSize(0,100))
         self.ui_path.setCompleter(self.completer)
-        self.ui_path.tabPressed.connect(self.tabAction)
+        self.ui_path.tabPressed.connect(self.tab_action)
         
         # set clear button
         self.erase_path_btn = QPushButton("x")
@@ -84,7 +83,10 @@ class FolderSelectWidget(QWidget):
             if self.fsm.fileName(model_index) != "":
                 self.tree_selection_model.setCurrentIndex(model_index, QItemSelectionModel.ClearAndSelect)
     
-    def tabAction(self):
+    def tab_action(self):
+        """
+        update the completer with the subfolders of the folder on which we clicked TAB
+        """
         prefix = self.completer.completionPrefix()
         text = self.ui_path.text()
         if prefix != text:
@@ -98,19 +100,26 @@ class FolderSelectWidget(QWidget):
         self.completer.setCompletionPrefix(next)
 
     def expand_to_current(self, current_model_index, old_model_index):
-        oldPath = self.fsm.filePath(old_model_index)
-        newPath = self.fsm.filePath(current_model_index)
+        """
+        make sure the tree expands to the correct filepath
+
+        :param current_model_index:
+        :param old_model_index:
+        :return:
+        """
+        old_path = self.fsm.filePath(old_model_index)
+        new_path = self.fsm.filePath(current_model_index)
  
-        if oldPath in newPath:
+        if old_path in new_path:
             """either the new path is a subfolder of the new path..."""
             self.ui_tree.expand(current_model_index)
-        elif newPath in oldPath:
+        elif new_path in old_path:
             """or the new path is a parent folder..."""
             index = old_model_index
-            while oldPath != newPath:
+            while old_path != new_path:
                 self.ui_tree.collapse(index)
                 index = self.fsm.parent(index)
-                oldPath = self.fsm.filePath(index)  
+                old_path = self.fsm.filePath(index)
         else:
             """...or we start collapsing until they have the same joined path"""
             index = old_model_index
@@ -118,7 +127,7 @@ class FolderSelectWidget(QWidget):
                 self.ui_tree.collapse(index)
                 index = self.fsm.parent(index)
                 tempPath = self.fsm.filePath(index)
-                if tempPath in newPath:
+                if tempPath in new_path:
                     """here they have common path, so we break the collapse loop"""
                     break
             """and even if the loop continues all the way up the tree, this still works out fine for us..."""
@@ -133,20 +142,24 @@ class FolderSelectWidget(QWidget):
         
        
     def handle_selection_change(self, new, old):
-        """since the selection model is annoying we make sure it always selects the 'current' item"""
+        # make sure the annoying selection model always selects the 'current' item
         current_model_index = self.tree_selection_model.currentIndex()
-        """although this is messy, just go with it ;-) """
+
+        # although this is messy, just go with it ;-)
         if len(new.indexes()) > 0:
-            selectedModelIndex = new.indexes()[0]
-            if current_model_index != selectedModelIndex:
+            selected_model_index = new.indexes()[0]
+            if current_model_index != selected_model_index:
                 self.tree_selection_model.select(current_model_index, QItemSelectionModel.Clear)
                 self.tree_selection_model.select(current_model_index, QItemSelectionModel.Select)
                 
-        abspath =  self.ui_path.text()
+        abspath = self.ui_path.text()
         self.selectionChanged.emit(abspath)
 
 
     def create_layout(self):
+        """
+        combine the path lineEdit, the clear button and the folder tree view into a single layout
+        """
         line_edit_layout = QHBoxLayout()
         line_edit_layout.addWidget(self.ui_path)
         line_edit_layout.addWidget(self.erase_path_btn)

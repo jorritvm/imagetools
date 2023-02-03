@@ -1,30 +1,27 @@
-#python imports
 import os
 import sys
-import time
+# import time
 import pickle
 
-#pyqt imports
 from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+# from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from pyprojroot import here
 
-#application code imports
-from resources.resource import *
-from core.about_run import *
-from core.settings_run import *
-from core.folderSelect import *
-from core.thumbnailBrowser import *
+# from resources.resource import *
+# from core.about_run import *
+# from core.settings_run import *
+from core.folder_select import *
+# from core.thumbnailBrowser import *
 from threadedResizer.threadedResizer import *
-from msilib.schema import SelfReg
 
-from operations.importjpg import *
-from operations.number import *
-from operations.rename import *
-from operations.resize import *
-from operations.web import *
-from operations.upload import *
-from operations.judge import *
+# from operations.importjpg import *
+# from operations.number import *
+# from operations.rename import *
+# from operations.resize import *
+# from operations.web import *
+# from operations.upload import *
+# from operations.judge import *
 
 
 class MainWindow(QMainWindow):
@@ -33,39 +30,35 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
        
         self.settings = self.getSettings()
-        self.supervisor = Supervisor(self.settings['nThreads'], self)
+        self.supervisor = Supervisor(self.settings['n_threads'], self)
         
-        self.widgetLeft = folderSelectWidget()
+        self.widget_left = FolderSelectWidget()
         self.thumbnailBrowser = thumbnailBrowser(self.supervisor, self.settings['path'])
         self.setupUi()
-        self.widgetLeft.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
+        self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
         self.setupToolButtons()
         self.setFolder(self.settings['path'])
 
 
-    def debugButton(self):
-        pass
-         
-     
     def setFolder(self, path):
-        self.widgetLeft.uiPath.setText(path)
-        self.widgetLeft.uiPath.returnPressed.emit()
+        self.widget_left.ui_path.setText(path)
+        self.widget_left.ui_path.returnPressed.emit()
     
     #===========================================================================
     # DIALOG HANDLING
     #===========================================================================
 
     def getSettings(self):
-        #get settings
         values = dict()
-        if not os.path.exists("settings.bin"):
-            values['nThreads'] = 1
+        fpfn_settings = here("src/settings/settings.bin")
+        if not fpfn_settings.exists():
+            values['n_threads'] = os.cpu_count() / 2
             values['saveThumbs'] = False
             values['defaultLocation'] = "c:/temp"
             values['path'] = ""  
         else:
             try:
-                fi = open("settings.bin", 'rb')
+                fi = open(fpfn_settings, 'rb')
                 values = pickle.load(fi)
             finally:
                 fi.close()
@@ -110,7 +103,7 @@ class MainWindow(QMainWindow):
     
     def closeEvent(self, event):
         #saving settings
-        self.settings['path'] = self.widgetLeft.uiPath.text()
+        self.settings['path'] = self.widget_left.ui_path.text()
         self.saveSettings()
     
     def showAbout(self):
@@ -141,7 +134,7 @@ class MainWindow(QMainWindow):
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
-            im = Import(files, self.settings, self.widgetLeft.uiPath.text()) 
+            im = Import(files, self.settings, self.widget_left.ui_path.text())
             if im.exec_():
                 path = im.getNewPath()
                 self.setFolder(path)
@@ -185,9 +178,9 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
             """create the dialog"""
-            res = Resize(files, self.supervisor, self.widgetLeft.uiPath.text())
+            res = Resize(files, self.supervisor, self.widget_left.ui_path.text())
             res.exec_()
-            x = self.widgetLeft.uiPath.text()
+            x = self.widget_left.ui_path.text()
             res.close()
          
     def webAlbumButtonAction(self):
@@ -202,7 +195,7 @@ class MainWindow(QMainWindow):
            
     def uploadButtonAction(self):
         """create the dialog"""
-        up = Upload(self.settings, self.widgetLeft.uiPath.text()) 
+        up = Upload(self.settings, self.widget_left.ui_path.text())
         up.exec_()
         up.close()
         
@@ -267,7 +260,7 @@ class MainWindow(QMainWindow):
         #=======================================================================
         """vertical splitter (left | right)"""
         self.hsplitter = QSplitter()
-        self.hsplitter.addWidget(self.widgetLeft)
+        self.hsplitter.addWidget(self.widget_left)
         self.hsplitter.addWidget(self.widgetRight)
                   
         """setting the central widget and its contents"""
@@ -279,7 +272,7 @@ class MainWindow(QMainWindow):
         self.resize(800, 600)
         self.hsplitter.setSizes([150,300]) #this gives us a nice startup size distribution
         #sizepol = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
-        #self.uiTree.setSizePolicy(sizepol)
+        #self.ui_tree.setSizePolicy(sizepol)
         
         self.setWindowIcon(QIcon(":/appicon.ico"))
         
@@ -303,14 +296,7 @@ class MainWindow(QMainWindow):
         
 
 if __name__ == "__main__":
-    
-    import sys
     app = QApplication(sys.argv)
-    
     main = MainWindow()
     main.show()
-    
     sys.exit(app.exec_())
-        
-
-
