@@ -1,27 +1,27 @@
 import os
 import sys
-# import time
+import time
 import pickle
 
 from PyQt5.QtGui import *
-# from PyQt5.QtCore import *
+from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from pyprojroot import here
 
-# from resources.resource import *
-# from core.about_run import *
-# from core.settings_run import *
+from resources.resource import *
+from core.about_run import *
+from core.settings_run import *
 from core.folder_select import *
-# from core.thumbnailBrowser import *
+from core.thumbnailBrowser import *
 from threadedResizer.threadedResizer import *
 
-# from operations.importjpg import *
-# from operations.number import *
-# from operations.rename import *
-# from operations.resize import *
-# from operations.web import *
-# from operations.upload import *
-# from operations.judge import *
+from operations.importjpg import *
+from operations.number import *
+from operations.rename import *
+from operations.resize import *
+from operations.web import *
+from operations.upload import *
+from operations.judge import *
 
 
 class MainWindow(QMainWindow):
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent = None):
         super(MainWindow, self).__init__(parent)
        
-        self.settings = self.getSettings()
+        self.settings = self.get_settings()
         self.supervisor = Supervisor(self.settings['n_threads'], self)
         
         self.widget_left = FolderSelectWidget()
@@ -39,6 +39,8 @@ class MainWindow(QMainWindow):
         self.setupToolButtons()
         self.setFolder(self.settings['path'])
 
+    def debug(self):
+        print(self.widget_left.ui_path.text())
 
     def setFolder(self, path):
         self.widget_left.ui_path.setText(path)
@@ -48,11 +50,11 @@ class MainWindow(QMainWindow):
     # DIALOG HANDLING
     #===========================================================================
 
-    def getSettings(self):
+    def get_settings(self):
         values = dict()
         fpfn_settings = here("src/settings/settings.bin")
         if not fpfn_settings.exists():
-            values['n_threads'] = os.cpu_count() / 2
+            values['n_threads'] = int(os.cpu_count() / 2)
             values['saveThumbs'] = False
             values['defaultLocation'] = "c:/temp"
             values['path'] = ""  
@@ -64,10 +66,9 @@ class MainWindow(QMainWindow):
                 fi.close()
         return values
     
-    def saveSettings(self):
-        flag = False
+    def save_settings(self):
         try:
-            fi = open("settings.bin", 'wb')
+            fi = open(here("src/settings/settings.bin"), 'wb')
             pickle.dump(self.settings, fi)
             flag = True
         except:
@@ -78,33 +79,32 @@ class MainWindow(QMainWindow):
 
         return flag
 
-    def showSettings(self):
+    def show_settings(self):
         self.settingsDialog = SettingsRun(self.settings)
         # ---
         #not yet implemented
         self.settingsDialog.saveThumbsCheck.setDisabled(True)
         self.settingsDialog.label_2.setDisabled(True)
         # ---
-        self.settingsDialog.accepted.connect(self.acceptSettings)
-        self.settingsDialog.rejected.connect(self.rejectSettings)
+        self.settingsDialog.accepted.connect(self.accept_settings)
+        self.settingsDialog.rejected.connect(self.reject_settings)
         self.settingsDialog.exec_()
         
-    def acceptSettings(self):
+    def accept_settings(self):
         temp = self.settingsDialog.dictValues()
         for key,value in temp.items():
             self.settings[key] = value
-        flag = self.saveSettings()
+        flag = self.save_settings()
         if flag:
-            QMessageBox.warning(self,"Warning", "You must restart Imagetools for changes to take effect...")
+            QMessageBox.warning(self, "Warning", "You must restart Imagetools for changes to take effect...")
         self.settingsDialog.close()
         
-    def rejectSettings(self):
+    def reject_settings(self):
         self.settingsDialog.close()
     
     def closeEvent(self, event):
-        #saving settings
         self.settings['path'] = self.widget_left.ui_path.text()
-        self.saveSettings()
+        self.save_settings()
     
     def showAbout(self):
         about = AboutRun()
@@ -278,7 +278,7 @@ class MainWindow(QMainWindow):
         
         """create menubar"""
         settingsAction = QAction("&Settings", self)
-        settingsAction.triggered.connect(self.showSettings)
+        settingsAction.triggered.connect(self.show_settings)
         exitAction = QAction('&Exit', self)        
         exitAction.triggered.connect(qApp.quit)
         aboutAction = QAction('&About', self)        
@@ -291,7 +291,7 @@ class MainWindow(QMainWindow):
         helpMenu .addAction(aboutAction)
         
         debugAction = QAction("&Debug", self)
-        debugAction.triggered.connect(self.debugButton)
+        debugAction.triggered.connect(self.debug)
         helpMenu.addAction(debugAction)
         
 

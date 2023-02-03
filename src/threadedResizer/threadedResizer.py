@@ -50,7 +50,7 @@ class Supervisor(QObject):
         """
             new_images: [ [fileinfo, size, fast, ticket], ...] 
             prior: true/false
-        """"
+        """
         for item in new_images:
             self.ticketCounter += 1
             item.append(self.ticketCounter)
