@@ -23,8 +23,8 @@ class a(QObject):
         for i in range(1,57): #zorg dat jpg's 01 tot 56 in de folder staan voor TEST 
             q.append([QFileInfo('pics/' + str(i).zfill(2)  + '.jpg'), 300, True])
         print('ex: new piece of queue: ' + str(q))
-        sup.addItems(q)
-        sup.processQueue()
+        sup.add_items(q)
+        sup.process_queue()
         
     def perform(self, ticket, img):
         print("ex: received & showing scaled item with ticket " + str(ticket))
