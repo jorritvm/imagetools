@@ -1,80 +1,84 @@
-# -*- coding: utf-8 -*-
+from PyQt5.QtWidgets import *
+from resources.uipy.settings import *
+from pyprojroot import here
+import pickle
 
-# Form implementation generated from reading ui file 'C:\Dropbox\dev\python\applications\imagetools\dev\core\settings.ui'
-#
-# Created: Tue Jun  3 20:44:18 2014
-#      by: PyQt5 UI code generator 5.2.1
-#
-# WARNING! All changes made in this file will be lost!
+class SettingsDialog(QDialog, Ui_SettingsDialog):
+    
+    def __init__(self, values, parent = None):
+        QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.to_dialog(values) #values is a dict of settings
+                
+    def to_dialog(self, values):
+        self.nthreadsBox.setValue(values['n_threads'])
+        self.saveThumbsCheck.setChecked(values['saveThumbs'])
+        self.rootfolderEdit.setText(values['defaultLocation'])  
+    
+    def to_dict(self):
+        values = dict()
+        values['n_threads'] = self.nthreadsBox.value()
+        values['saveThumbs'] = self.saveThumbsCheck.isChecked()
+        values['defaultLocation'] = self.rootfolderEdit.text() 
+        return values
+            
+    def closeEvent(self, ev):
+        ev.accept() #redundant
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_SettingsDialog(object):
-    def setupUi(self, SettingsDialog):
-        SettingsDialog.setObjectName("SettingsDialog")
-        SettingsDialog.resize(390, 137)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(SettingsDialog.sizePolicy().hasHeightForWidth())
-        SettingsDialog.setSizePolicy(sizePolicy)
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(SettingsDialog)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setObjectName("gridLayout")
-        self.label = QtWidgets.QLabel(SettingsDialog)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-        self.nthreadsBox = QtWidgets.QSpinBox(SettingsDialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.nthreadsBox.sizePolicy().hasHeightForWidth())
-        self.nthreadsBox.setSizePolicy(sizePolicy)
-        self.nthreadsBox.setObjectName("nthreadsBox")
-        self.gridLayout.addWidget(self.nthreadsBox, 0, 1, 1, 1)
-        self.label_2 = QtWidgets.QLabel(SettingsDialog)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.saveThumbsCheck = QtWidgets.QCheckBox(SettingsDialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.saveThumbsCheck.sizePolicy().hasHeightForWidth())
-        self.saveThumbsCheck.setSizePolicy(sizePolicy)
-        self.saveThumbsCheck.setText("")
-        self.saveThumbsCheck.setObjectName("saveThumbsCheck")
-        self.gridLayout.addWidget(self.saveThumbsCheck, 1, 1, 1, 1)
-        self.verticalLayout_2.addLayout(self.gridLayout)
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.label_3 = QtWidgets.QLabel(SettingsDialog)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout.addWidget(self.label_3)
-        self.rootfolderEdit = QtWidgets.QLineEdit(SettingsDialog)
-        self.rootfolderEdit.setObjectName("rootfolderEdit")
-        self.verticalLayout.addWidget(self.rootfolderEdit)
-        self.verticalLayout_2.addLayout(self.verticalLayout)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.buttonBox = QtWidgets.QDialogButtonBox(SettingsDialog)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout.addWidget(self.buttonBox)
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
+class SettingsManager():
 
-        self.retranslateUi(SettingsDialog)
-        self.buttonBox.accepted.connect(SettingsDialog.accept)
-        self.buttonBox.rejected.connect(SettingsDialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
+    def __init__:
+        pass
 
-    def retranslateUi(self, SettingsDialog):
-        _translate = QtCore.QCoreApplication.translate
-        SettingsDialog.setWindowTitle(_translate("SettingsDialog", "Imagetools settings"))
-        self.label.setText(_translate("SettingsDialog", "Number of threads to use for resizing:"))
-        self.label_2.setText(_translate("SettingsDialog", "Save thumbnails in binary file in image folder:"))
-        self.label_3.setText(_translate("SettingsDialog", "Set destination images root folder"))
+    def get_settings(self):
+        values = dict()
+        fpfn_settings = here("src/settings/settings.bin")
+        if not fpfn_settings.exists():
+            values['n_threads'] = int(os.cpu_count() / 2)
+            values['saveThumbs'] = False
+            values['defaultLocation'] = "c:/temp"
+            values['path'] = ""
+        else:
+            try:
+                fi = open(fpfn_settings, 'rb')
+                values = pickle.load(fi)
+            finally:
+                fi.close()
+        return values
 
+    def save_settings(self):
+        try:
+            fi = open(here("src/settings/settings.bin"), 'wb')
+            pickle.dump(self.settings, fi)
+            flag = True
+        except:
+            flag = False
+            QMessageBox.critical(self, "ERROR", "There was an error saving these settings...")
+        finally:
+            fi.close()
+
+        return flag
+
+    def show_settings(self):
+        self.settingsDialog = SettingsDialog(self.settings)
+        # ---
+        # not yet implemented
+        self.settingsDialog.saveThumbsCheck.setDisabled(True)
+        self.settingsDialog.label_2.setDisabled(True)
+        # ---
+        self.settingsDialog.accepted.connect(self.accept_settings)
+        self.settingsDialog.rejected.connect(self.reject_settings)
+        self.settingsDialog.exec_()
+
+    def accept_settings(self):
+        temp = self.settingsDialog.to_dict()
+        for key, value in temp.items():
+            self.settings[key] = value
+        flag = self.save_settings()
+        if flag:
+            QMessageBox.warning(self, "Warning", "You must restart Imagetools for changes to take effect...")
+        self.settingsDialog.close()
+
+    def reject_settings(self):
+        self.settingsDialog.close()
