@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import *
 from pyprojroot import here
 
 from resources.resource import *
-from core.about_run import *
+from core.about import *
 from core.settings import *
 from core.folder_select import *
 from core.thumbnailBrowser import *
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent = None):
         super(MainWindow, self).__init__(parent)
        
-        self.settings = SettingsManager()
+        self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
         
         self.widget_left = FolderSelectWidget()
@@ -45,22 +45,15 @@ class MainWindow(QMainWindow):
     def setFolder(self, path):
         self.widget_left.ui_path.setText(path)
         self.widget_left.ui_path.returnPressed.emit()
-    
-    #===========================================================================
-    # DIALOG HANDLING
-    #===========================================================================
 
-
-    
-    def closeEvent(self, event):
-        self.settings['path'] = self.widget_left.ui_path.text()
-        self.save_settings()
-    
-    def showAbout(self):
-        about = AboutRun()
+    def show_about(self):
+        about = AboutDialog()
         about.exec_()
         about.close()
         
+    def closeEvent(self, event):
+        self.settings['path'] = self.widget_left.ui_path.text()
+        self.settings.save_settings()
 
     #===========================================================================
     # TOOL BUTTONS ACTIONS
@@ -228,11 +221,11 @@ class MainWindow(QMainWindow):
         
         """create menubar"""
         settingsAction = QAction("&Settings", self)
-        settingsAction.triggered.connect(self.show_settings)
+        settingsAction.triggered.connect(self.settings.show_settings)
         exitAction = QAction('&Exit', self)        
         exitAction.triggered.connect(qApp.quit)
         aboutAction = QAction('&About', self)        
-        aboutAction.triggered.connect(self.showAbout)
+        aboutAction.triggered.connect(self.show_about)
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(settingsAction)

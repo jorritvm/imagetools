@@ -1,7 +1,12 @@
-from PyQt5.QtWidgets import *
-from resources.uipy.settings import *
-from pyprojroot import here
+import os
 import pickle
+
+from PyQt5.QtWidgets import *
+# from resources.uipy.settings import *
+from pyprojroot import here
+
+from src.resources.uipy.settings import Ui_SettingsDialog
+
 
 class SettingsDialog(QDialog, Ui_SettingsDialog):
     
@@ -26,42 +31,41 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         ev.accept() #redundant
 
 
-class SettingsManager():
+class SettingsManager(dict):
+    def __init__(self, parent):
+        self.parent = parent
+        self.load_settings()
 
-    def __init__:
-        pass
-
-    def get_settings(self):
-        values = dict()
+    def load_settings(self):
         fpfn_settings = here("src/settings/settings.bin")
         if not fpfn_settings.exists():
-            values['n_threads'] = int(os.cpu_count() / 2)
-            values['saveThumbs'] = False
-            values['defaultLocation'] = "c:/temp"
-            values['path'] = ""
+            self['n_threads'] = int(os.cpu_count() / 2)
+            self['saveThumbs'] = False
+            self['defaultLocation'] = "c:/temp"
+            self['path'] = ""
         else:
             try:
                 fi = open(fpfn_settings, 'rb')
-                values = pickle.load(fi)
+                self.update(pickle.load(fi))  # merge pure dict in this empty subclassed dict
             finally:
                 fi.close()
-        return values
 
     def save_settings(self):
         try:
-            fi = open(here("src/settings/settings.bin"), 'wb')
-            pickle.dump(self.settings, fi)
+            fpfn = here("src/settings/settings.bin")
+            fcon = open(fpfn, 'wb')
+            pickle.dump(self.copy(), fcon)  # only pure dict can be pickled
             flag = True
         except:
             flag = False
-            QMessageBox.critical(self, "ERROR", "There was an error saving these settings...")
+            QMessageBox.critical(self.parent, "ERROR", "There was an error saving these settings...")
+            os.rename(fpfn, here("src/settings/settings_broken.bin"))
         finally:
-            fi.close()
-
+            fcon.close()
         return flag
 
     def show_settings(self):
-        self.settingsDialog = SettingsDialog(self.settings)
+        self.settingsDialog = SettingsDialog(self)
         # ---
         # not yet implemented
         self.settingsDialog.saveThumbsCheck.setDisabled(True)
@@ -74,11 +78,13 @@ class SettingsManager():
     def accept_settings(self):
         temp = self.settingsDialog.to_dict()
         for key, value in temp.items():
-            self.settings[key] = value
+            self[key] = value
         flag = self.save_settings()
         if flag:
-            QMessageBox.warning(self, "Warning", "You must restart Imagetools for changes to take effect...")
+            QMessageBox.warning(self.parent, "Warning", "You must restart Imagetools for changes to take effect...")
         self.settingsDialog.close()
 
     def reject_settings(self):
         self.settingsDialog.close()
+
+
