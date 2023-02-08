@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import *
 from pyprojroot import here
 
 from resources.resource import *
+from core.mainwindow import *
 from core.about import *
 from core.settings import *
 from core.folder_select import *
@@ -24,17 +25,17 @@ from operations.upload import *
 from operations.judge import *
 
 
-class MainWindow(QMainWindow):
-    
-    def __init__(self, parent = None):
+class MainWindow(QMainWindow, Ui_mainwindow):
+
+    def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-       
+
         self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
         
         self.widget_left = FolderSelectWidget()
         self.thumbnailBrowser = thumbnailBrowser(self.supervisor, self.settings['path'])
-        self.setupUi()
+        self.setupUi(self)
         self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
         self.setupToolButtons()
         self.setFolder(self.settings['path'])
@@ -157,86 +158,7 @@ class MainWindow(QMainWindow):
     # SET UP UI
     #===========================================================================
         
-    def setupUi(self):
 
-        self.centralWidget = QWidget(self)
-        self.setWindowTitle("Imagetools")
-        
-        #=======================================================================
-        # """create toolbuttons"""
-        #=======================================================================
-        self.uiBtnAutoSelect = QPushButton("1. Auto Select")
-        self.uiBtnImport = QPushButton("2. Import")
-        self.uiBtnRotate = QPushButton("3. Rotate")
-        self.uiBtnNumber = QPushButton("4. Number")
-        self.uiBtnJudge = QPushButton("5. Judge")
-        self.uiBtnRename = QPushButton("6. Rename")
-        self.uiBtnResize = QPushButton("7. Resize")
-        self.uiBtnWebAlbum = QPushButton("8. Web Album")
-        self.uiBtnUpload = QPushButton("9. Upload")
-        BtnList = [self.uiBtnAutoSelect, self.uiBtnImport, self.uiBtnRotate, self.uiBtnNumber, self.uiBtnJudge, self.uiBtnRename, self.uiBtnResize, self.uiBtnWebAlbum, self.uiBtnUpload]
-                
-        """layout buttons 3x3"""
-        self.groupActions = QGroupBox("Actions")
-        self.uiLayoutBtns = QGridLayout(self.groupActions)
-        i = 0
-        for Btn in BtnList:
-            x = i % 3
-            y = int(i/3)
-            self.uiLayoutBtns.addWidget(Btn,y,x)
-            i += 1
-        self.uiLayoutBtns.setContentsMargins(4,4,4,4)
-        self.uiLayoutBtns.setSpacing(4)
-        self.groupActions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred,QSizePolicy.Minimum))
-     
-        self.uiLayoutRight = QVBoxLayout()
-        self.uiLayoutRight.addWidget(self.thumbnailBrowser)
-        self.uiLayoutRight.addWidget(self.groupActions)
-        self.uiLayoutRight.setContentsMargins(0,0,0,0)
-        
-        self.widgetRight = QWidget()
-        self.widgetRight.setLayout(self.uiLayoutRight)
-        
-        
-        #=======================================================================
-        # """globale layout"""
-        #=======================================================================
-        """vertical splitter (left | right)"""
-        self.hsplitter = QSplitter()
-        self.hsplitter.addWidget(self.widget_left)
-        self.hsplitter.addWidget(self.widgetRight)
-                  
-        """setting the central widget and its contents"""
-        self.setCentralWidget(self.centralWidget)
-        self.gridLayout = QGridLayout(self.centralWidget)
-        self.gridLayout.addWidget(self.hsplitter)
-        
-        """size"""
-        self.resize(800, 600)
-        self.hsplitter.setSizes([150,300]) #this gives us a nice startup size distribution
-        #sizepol = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
-        #self.ui_tree.setSizePolicy(sizepol)
-        
-        self.setWindowIcon(QIcon(":/appicon.ico"))
-        
-        """create menubar"""
-        settingsAction = QAction("&Settings", self)
-        settingsAction.triggered.connect(self.settings.show_settings)
-        exitAction = QAction('&Exit', self)        
-        exitAction.triggered.connect(qApp.quit)
-        aboutAction = QAction('&About', self)        
-        aboutAction.triggered.connect(self.show_about)
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(settingsAction)
-        fileMenu.addAction(exitAction)
-        helpMenu = menubar.addMenu("&Help")
-        helpMenu .addAction(aboutAction)
-        
-        debugAction = QAction("&Debug", self)
-        debugAction.triggered.connect(self.debug)
-        helpMenu.addAction(debugAction)
-        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
