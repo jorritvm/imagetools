@@ -1,85 +1,95 @@
 from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-# written by hand instead of the qt designer, but using the same style of creating a second super class
+from core.folder_select import *
+from pyprojroot import here
+
+# written by hand instead of the qt designer, but using the same 'trick' of creating a second super class
 
 class Ui_mainwindow(object):
-    def setupUi(self, second):
-        self.centralWidget = QWidget(self)
-        self.setWindowTitle("Imagetools")
+    def setupUi(self):
+        self.setup_widgets()
+        self.setup_menu_bar()
+        self.setup_various()
 
-        # =======================================================================
-        # """create toolbuttons"""
-        # =======================================================================
-        self.uiBtnAutoSelect = QPushButton("1. Auto Select")
-        self.uiBtnImport = QPushButton("2. Import")
-        self.uiBtnRotate = QPushButton("3. Rotate")
-        self.uiBtnNumber = QPushButton("4. Number")
-        self.uiBtnJudge = QPushButton("5. Judge")
-        self.uiBtnRename = QPushButton("6. Rename")
-        self.uiBtnResize = QPushButton("7. Resize")
-        self.uiBtnWebAlbum = QPushButton("8. Web Album")
-        self.uiBtnUpload = QPushButton("9. Upload")
-        BtnList = [self.uiBtnAutoSelect, self.uiBtnImport, self.uiBtnRotate, self.uiBtnNumber, self.uiBtnJudge,
-                   self.uiBtnRename, self.uiBtnResize, self.uiBtnWebAlbum, self.uiBtnUpload]
 
-        """layout buttons 3x3"""
-        self.groupActions = QGroupBox("Actions")
-        self.uiLayoutBtns = QGridLayout(self.groupActions)
+    def setup_widgets(self):
+        """
+            the UI consists parent structure is as follows
+             main window
+                -> central widget
+                    -> grid layout
+                        -> hsplitter
+                            -> left widget: folderselect widget
+                            -> right widget
+                                -> v layout
+                                    -> thumbnailbrowser
+                                    -> group of buttons """
+
+        """ create left widget"""
+        self.widget_left = FolderSelectWidget()
+
+        """ create the right widget"""
+        # create toolbuttons & organise them in a 3x3 layout
+        self.btn_auto_select = QPushButton("1. Auto Select")
+        self.btn_import = QPushButton("2. Import")
+        self.btn_rotate = QPushButton("3. Rotate")
+        self.btn_number = QPushButton("4. Number")
+        self.btn_judge = QPushButton("5. Judge")
+        self.btn_rename = QPushButton("6. Rename")
+        self.btn_resize = QPushButton("7. Resize")
+        self.btn_webalbum = QPushButton("8. Web Album")
+        self.btn_upload = QPushButton("9. Upload")
+        list_buttons = [self.btn_auto_select, self.btn_import, self.btn_rotate, self.btn_number, self.btn_judge,
+                        self.btn_rename, self.btn_resize, self.btn_webalbum, self.btn_upload]
+        self.group_actions = QGroupBox("Actions")
+        self.layout_buttons = QGridLayout(self.group_actions)
         i = 0
-        for Btn in BtnList:
+        for btn in list_buttons:
             x = i % 3
             y = int(i / 3)
-            self.uiLayoutBtns.addWidget(Btn, y, x)
+            self.layout_buttons.addWidget(btn, y, x)
             i += 1
-        self.uiLayoutBtns.setContentsMargins(4, 4, 4, 4)
-        self.uiLayoutBtns.setSpacing(4)
-        self.groupActions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
+        self.layout_buttons.setContentsMargins(4, 4, 4, 4)
+        self.layout_buttons.setSpacing(4)
+        self.group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
+        self.layout_right = QVBoxLayout()
+        self.layout_right.addWidget(self.thumbnailBrowser)
+        self.layout_right.addWidget(self.group_actions)
+        self.layout_right.setContentsMargins(0, 0, 0, 0)
+        self.widget_right = QWidget()
+        self.widget_right.setLayout(self.layout_right)
 
-        self.uiLayoutRight = QVBoxLayout()
-        self.uiLayoutRight.addWidget(self.thumbnailBrowser)
-        self.uiLayoutRight.addWidget(self.groupActions)
-        self.uiLayoutRight.setContentsMargins(0, 0, 0, 0)
-
-        self.widgetRight = QWidget()
-        self.widgetRight.setLayout(self.uiLayoutRight)
-
-        # =======================================================================
-        # """global layout"""
-        # =======================================================================
-        """vertical splitter (left | right)"""
+        """combine left and right into the central widget"""
         self.hsplitter = QSplitter()
         self.hsplitter.addWidget(self.widget_left)
-        self.hsplitter.addWidget(self.widgetRight)
-
-        """setting the central widget and its contents"""
+        self.hsplitter.addWidget(self.widget_right)
+        self.centralWidget = QWidget(self)
         self.setCentralWidget(self.centralWidget)
         self.gridLayout = QGridLayout(self.centralWidget)
         self.gridLayout.addWidget(self.hsplitter)
 
-        """size"""
+    def setup_various(self):
+        self.setWindowTitle("Imagetools by JVM")
+        self.setWindowIcon(QIcon(str(here("src/resources/appicon.ico"))))
         self.resize(800, 600)
         self.hsplitter.setSizes([150, 300])  # this gives us a nice startup size distribution
-        # sizepol = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
-        # self.ui_tree.setSizePolicy(sizepol)
 
-        self.setWindowIcon(QIcon(":/appicon.ico"))
-
-        """create menubar"""
-        settingsAction = QAction("&Settings", self)
-        settingsAction.triggered.connect(self.settings.show_settings)
-        exitAction = QAction('&Exit', self)
-        exitAction.triggered.connect(qApp.quit)
-        aboutAction = QAction('&About', self)
-        aboutAction.triggered.connect(self.show_about)
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(settingsAction)
-        fileMenu.addAction(exitAction)
-        helpMenu = menubar.addMenu("&Help")
-        helpMenu.addAction(aboutAction)
-
-        debugAction = QAction("&Debug", self)
-        debugAction.triggered.connect(self.debug)
-        helpMenu.addAction(debugAction)
+    def setup_menu_bar(self):
+        """create menu_bar"""
+        action_settings = QAction("&Settings", self)
+        action_settings.triggered.connect(self.settings.show_settings)
+        action_exit = QAction('&Exit', self)
+        action_exit.triggered.connect(qApp.quit)
+        action_about = QAction('&About', self)
+        action_about.triggered.connect(self.show_about)
+        menu_bar = self.menuBar()
+        menu_file = menu_bar.addMenu('&File')
+        menu_file.addAction(action_settings)
+        menu_file.addAction(action_exit)
+        menu_help = menu_bar.addMenu("&Help")
+        menu_help.addAction(action_about)
+        # todo: remove
+        action_debug = QAction("&Debug", self)
+        action_debug.triggered.connect(self.debug)
+        menu_help.addAction(action_debug)

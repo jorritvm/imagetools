@@ -9,10 +9,11 @@ from PyQt5.QtWidgets import *
 from pyprojroot import here
 
 from resources.resource import *
+
 from core.mainwindow import *
 from core.about import *
 from core.settings import *
-from core.folder_select import *
+
 from core.thumbnailBrowser import *
 from threadedResizer.threadedResizer import *
 
@@ -32,10 +33,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
         self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
-        
-        self.widget_left = FolderSelectWidget()
+
         self.thumbnailBrowser = thumbnailBrowser(self.supervisor, self.settings['path'])
-        self.setupUi(self)
+        self.setupUi()
         self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
         self.setupToolButtons()
         self.setFolder(self.settings['path'])
@@ -61,16 +61,16 @@ class MainWindow(QMainWindow, Ui_mainwindow):
     #===========================================================================
     
     def setupToolButtons(self):
-        self.uiBtnImport.pressed.connect(self.importButtonAction)
-        self.uiBtnNumber.pressed.connect(self.numberButtonAction)
-        self.uiBtnRename.pressed.connect(self.renameButtonAction)
-        self.uiBtnResize.pressed.connect(self.resizeButtonAction)
-        self.uiBtnWebAlbum.pressed.connect(self.webAlbumButtonAction)
-        self.uiBtnUpload.pressed.connect(self.uploadButtonAction)
-        self.uiBtnJudge.pressed.connect(self.judgeButtonAction)
+        self.btn_import.pressed.connect(self.importButtonAction)
+        self.btn_number.pressed.connect(self.numberButtonAction)
+        self.btn_rename.pressed.connect(self.renameButtonAction)
+        self.btn_resize.pressed.connect(self.resizeButtonAction)
+        self.btn_webalbum.pressed.connect(self.webAlbumButtonAction)
+        self.btn_upload.pressed.connect(self.uploadButtonAction)
+        self.btn_judge.pressed.connect(self.judgeButtonAction)
         
-        self.uiBtnAutoSelect.setDisabled(True)
-        self.uiBtnRotate.setDisabled(True)
+        self.btn_auto_select.setDisabled(True)
+        self.btn_rotate.setDisabled(True)
         
     
     def importButtonAction(self):
