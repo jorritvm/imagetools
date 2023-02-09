@@ -1,19 +1,12 @@
-'''
-Created on 19-okt.-2013
-
-@author: jorrit
-'''
-
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from resources.uipy.importjpg import *
+from resources.uipy.import_images import Ui_Import
 import os.path
 import shutil
 
 
-class Import(QDialog, Ui_Import):
+class ImportImages(QDialog, Ui_Import):
     
     def __init__(self, files, settings, root,  parent=None):
         QDialog.__init__(self, parent)
@@ -31,11 +24,7 @@ class Import(QDialog, Ui_Import):
         
         self.fh = FileHandler()
         self.fh.nextDone.connect(self.nextDone)     
-        
-            
-    def debug(self):
-        print(self.settings)
-    
+
     def log(self, txt):
         self.text.append(txt)
         

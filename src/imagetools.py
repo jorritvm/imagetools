@@ -1,22 +1,12 @@
-import os
 import sys
-import time
-import pickle #todo remove
-
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from pyprojroot import here
-
-from resources.resource import *
 
 from core.mainwindow import *
 from core.about import *
 from core.settings import *
 
-from threadedResizer.threadedResizer import *
+from threaded_resizer.threaded_resizer import *
 
-from operations.importjpg import *
+from operations.import_images import *
 from operations.number import *
 from operations.rename import *
 from operations.resize import *
@@ -37,7 +27,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
     def setup_slots(self):
         self.widget_left.selectionChanged.connect(self.t_browser.change_folder)
-        self.btn_import.pressed.connect(self.importButtonAction)
+        self.btn_import.pressed.connect(self.import_btn_action)
         self.btn_number.pressed.connect(self.numberButtonAction)
         self.btn_rename.pressed.connect(self.renameButtonAction)
         self.btn_resize.pressed.connect(self.resizeButtonAction)
@@ -61,12 +51,12 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.settings['path'] = self.widget_left.ui_path.text()
         self.settings.save_settings()
 
-    def importButtonAction(self):
+    def import_btn_action(self):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
-            im = Import(files, self.settings, self.widget_left.ui_path.text())
+            im = ImportImages(files, self.settings, self.widget_left.ui_path.text())
             if im.exec_():
                 path = im.getNewPath()
                 self.setFolder(path)

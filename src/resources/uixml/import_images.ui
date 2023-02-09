@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>264</width>
-    <height>456</height>
+    <width>402</width>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,19 +37,22 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <widget class="QRadioButton" name="radioMove">
+       <widget class="QRadioButton" name="radio_move">
         <property name="text">
          <string>Move</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QRadioButton" name="radioCopy">
+       <widget class="QRadioButton" name="radio_copy">
         <property name="text">
          <string>Copy</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -63,13 +66,13 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QLineEdit" name="editDestination"/>
+       <widget class="QLineEdit" name="edit_destination"/>
       </item>
      </layout>
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QPushButton" name="btnImport">
+    <widget class="QPushButton" name="btn_import">
      <property name="text">
       <string>Import</string>
      </property>
@@ -89,7 +92,7 @@
     <widget class="QTextBrowser" name="text"/>
    </item>
    <item row="6" column="0">
-    <widget class="QPushButton" name="btnGoto">
+    <widget class="QPushButton" name="btn_goto">
      <property name="text">
       <string>Take me to the new folder...</string>
      </property>
