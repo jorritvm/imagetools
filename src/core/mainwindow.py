@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import *
 from pyprojroot import here
 
 from core.folder_select import *
-from core.thumbnailBrowser import *
+from core.thumbnail_browser import ThumbnailBrowser
 
 class Ui_mainwindow(object):
     def setup_ui(self):
@@ -25,7 +25,7 @@ class Ui_mainwindow(object):
                             -> left widget: folderselect widget
                             -> right widget
                                 -> v layout
-                                    -> thumbnailbrowser
+                                    -> thumbnail_browser
                                     -> group of buttons """
 
         """ create left widget"""
@@ -57,11 +57,12 @@ class Ui_mainwindow(object):
         self.group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
 
         # create the thumbnailbrowser
-        self.thumbnailBrowser = thumbnailBrowser(self.supervisor, self.settings['path'])
+        # self supervisor and self.settings must exist in subclass (templating)
+        self.t_browser = ThumbnailBrowser(self.supervisor, self.settings['path'])
 
         # combine thumbnailbrowser and buttonbox using a vlayout into the right widget
         self.layout_right = QVBoxLayout()
-        self.layout_right.addWidget(self.thumbnailBrowser)
+        self.layout_right.addWidget(self.t_browser)
         self.layout_right.addWidget(self.group_actions)
         self.layout_right.setContentsMargins(0, 0, 0, 0)
         self.widget_right = QWidget()
@@ -77,6 +78,7 @@ class Ui_mainwindow(object):
         self.gridLayout.addWidget(self.hsplitter)
 
     def setup_btn_tweaks(self):
+        # todo: remove when features are added
         self.btn_auto_select.setDisabled(True)
         self.btn_rotate.setDisabled(True)
 

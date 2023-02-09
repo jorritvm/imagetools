@@ -36,7 +36,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.setFolder(self.settings['path'])
 
     def setup_slots(self):
-        self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
+        self.widget_left.selectionChanged.connect(self.t_browser.change_folder)
         self.btn_import.pressed.connect(self.importButtonAction)
         self.btn_number.pressed.connect(self.numberButtonAction)
         self.btn_rename.pressed.connect(self.renameButtonAction)
@@ -47,7 +47,6 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.action_settings.triggered.connect(self.settings.show_settings)
         self.action_exit.triggered.connect(self.close)
         self.action_about.triggered.connect(self.show_about)
-
 
     def setFolder(self, path):
         self.widget_left.ui_path.setText(path)
@@ -63,7 +62,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.settings.save_settings()
 
     def importButtonAction(self):
-        files = self.thumbnailBrowser.getSelection()
+        files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
@@ -74,7 +73,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             im.close()
 
     def numberButtonAction(self):
-        files = self.thumbnailBrowser.getSelection()
+        files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
@@ -86,11 +85,11 @@ class MainWindow(QMainWindow, Ui_mainwindow):
                 
                 """start the rename procedure"""
                 trackChanges = num.renameFiles(files, settings)
-                self.thumbnailBrowser.updateElements(trackChanges)
+                self.t_browser.update_elements(trackChanges)
                 num.close()
        
     def renameButtonAction(self):
-        files = self.thumbnailBrowser.getSelection()
+        files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
@@ -101,11 +100,11 @@ class MainWindow(QMainWindow, Ui_mainwindow):
            
             """the dialog is ready now, we should update the application with the new filenames"""
             trackChanges = ren.getChanges()
-            self.thumbnailBrowser.updateElements(trackChanges)
+            self.t_browser.update_elements(trackChanges)
        
   
     def resizeButtonAction(self):
-        files = self.thumbnailBrowser.getSelection()
+        files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
@@ -116,7 +115,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             res.close()
          
     def webAlbumButtonAction(self):
-        files = self.thumbnailBrowser.getSelection()
+        files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
@@ -132,7 +131,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         up.close()
         
     def judgeButtonAction(self):
-        files = self.thumbnailBrowser.getSelection()
+        files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 

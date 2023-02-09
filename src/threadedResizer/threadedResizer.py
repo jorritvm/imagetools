@@ -46,7 +46,7 @@ class Supervisor(QObject):
         
     def add_items(self, new_images, prior=False):
         """
-            new_images: [ [fileinfo, size, fast, ticket], ...] 
+            new_images: [ [fileinfo, img_size, fast, ticket], ...]
             prior: true/false
         """
         for item in new_images:
@@ -58,7 +58,7 @@ class Supervisor(QObject):
         else:
             self.queue = self.queue + new_images
       
-        return new_images #this time ticket has been added
+        return new_images  # this time ticket has been added
 
     def clear_queue(self):
         self.queue = []
