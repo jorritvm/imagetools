@@ -1,3 +1,5 @@
+""" UI written by hand instead of the qt designer, but using the same 'trick' of creating a second super class """
+
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
@@ -6,10 +8,8 @@ from pyprojroot import here
 from core.folder_select import *
 from core.thumbnailBrowser import *
 
-# written by hand instead of the qt designer, but using the same 'trick' of creating a second super class
-
 class Ui_mainwindow(object):
-    def setupUi(self):
+    def setup_ui(self):
         self.setup_widgets()
         self.setup_btn_tweaks()
         self.setup_menu_bar()

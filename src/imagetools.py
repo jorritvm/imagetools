@@ -14,7 +14,6 @@ from core.mainwindow import *
 from core.about import *
 from core.settings import *
 
-
 from threadedResizer.threadedResizer import *
 
 from operations.importjpg import *
@@ -32,7 +31,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         super(MainWindow, self).__init__(parent)
         self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
-        self.setupUi()
+        self.setup_ui()  # this is where most of the widgets are created
         self.setup_slots()
         self.setFolder(self.settings['path'])
 

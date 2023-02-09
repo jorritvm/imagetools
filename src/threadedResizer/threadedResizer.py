@@ -21,8 +21,6 @@
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-# from PyQt5.QtWidgets import *
-# from msilib.schema import SelfReg
 
 
 class Supervisor(QObject):
@@ -38,12 +36,12 @@ class Supervisor(QObject):
         self.threads = []
         self.create_threads()
 
-        self.ticketCounter = 0
+        self.ticket_counter = 0
 
     def create_threads(self):
         for i in range(self.n_threads):
             x = Worker()
-            x.resizeDone.connect(self.process_result)
+            x.resize_done.connect(self.process_result)
             self.threads.append(x)
         
     def add_items(self, new_images, prior=False):
@@ -52,8 +50,8 @@ class Supervisor(QObject):
             prior: true/false
         """
         for item in new_images:
-            self.ticketCounter += 1
-            item.append(self.ticketCounter)
+            self.ticket_counter += 1
+            item.append(self.ticket_counter)
 
         if prior:
             self.queue = new_images + self.queue
@@ -79,7 +77,7 @@ class Supervisor(QObject):
     
 class Worker(QThread):
     
-    resizeDone = pyqtSignal(int, QImage)
+    resize_done = pyqtSignal(int, QImage)
     
     def __init__(self,  parent=None):
         QThread.__init__(self, parent)
@@ -90,9 +88,7 @@ class Worker(QThread):
         self.ticket = 0 # value should be overwritten in initialize
 
     def set_image_to_convert(self, item):
-        """
-        set an item for this worker
-        """
+        """ set an item for this worker """
         self.file_info = item[0]
         self.size = item[1]
         if item[2]:
@@ -102,13 +98,11 @@ class Worker(QThread):
         self.ticket = item[3]
 
     def run(self):
-        """
-        do the work when thread.start() is called
-        """
+        """ do the work when thread.start() is called """
         img = QImage(self.file_info.absoluteFilePath())
         try:
             img = img.scaled(self.size, self.size, Qt.KeepAspectRatio, self.speed)
-            self.resizeDone.emit(self.ticket, img) 
+            self.resize_done.emit(self.ticket, img)
         finally:
             pass
         
