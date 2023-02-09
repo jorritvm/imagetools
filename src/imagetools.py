@@ -36,6 +36,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.setFolder(self.settings['path'])
 
     def setup_slots(self):
+        self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
         self.btn_import.pressed.connect(self.importButtonAction)
         self.btn_number.pressed.connect(self.numberButtonAction)
         self.btn_rename.pressed.connect(self.renameButtonAction)
@@ -43,7 +44,10 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.btn_webalbum.pressed.connect(self.webAlbumButtonAction)
         self.btn_upload.pressed.connect(self.uploadButtonAction)
         self.btn_judge.pressed.connect(self.judgeButtonAction)
-        self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
+        self.action_settings.triggered.connect(self.settings.show_settings)
+        self.action_exit.triggered.connect(self.close)
+        self.action_about.triggered.connect(self.show_about)
+
 
     def setFolder(self, path):
         self.widget_left.ui_path.setText(path)

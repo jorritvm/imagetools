@@ -88,21 +88,16 @@ class Ui_mainwindow(object):
 
     def setup_menu_bar(self):
         """create menu_bar"""
-        action_settings = QAction("&Settings", self)
-        action_settings.triggered.connect(self.settings.show_settings)
-
-        action_exit = QAction('&Exit', self)
-        action_exit.triggered.connect(qApp.quit)
-
-        action_about = QAction('&About', self)
-        action_about.triggered.connect(self.show_about)
+        self.action_settings = QAction("&Settings", self)
+        self.action_exit = QAction('&Exit', self)
+        self.action_about = QAction('&About', self)
 
         menu_bar = self.menuBar()
         menu_file = menu_bar.addMenu('&File')
-        menu_file.addAction(action_settings)
-        menu_file.addAction(action_exit)
+        menu_file.addAction(self.action_settings)
+        menu_file.addAction(self.action_exit)
         menu_help = menu_bar.addMenu("&Help")
-        menu_help.addAction(action_about)
+        menu_help.addAction(self.action_about)
         # todo: remove debug button and related code
         action_debug = QAction("&Debug", self)
         action_debug.triggered.connect(self.debug)
