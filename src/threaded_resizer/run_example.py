@@ -7,7 +7,7 @@ Created on 4-sep.-2013
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import os
-from threadedResizer import *
+from threaded_resizer import *
 import time
 
     
