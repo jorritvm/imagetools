@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>390</width>
-    <height>137</height>
+    <width>513</width>
+    <height>194</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,7 +30,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QSpinBox" name="nthreadsBox">
+      <widget class="QSpinBox" name="box_nthreads">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -47,7 +47,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QCheckBox" name="saveThumbsCheck">
+      <widget class="QCheckBox" name="check_save_thumbs">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -71,7 +71,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="rootfolderEdit"/>
+      <widget class="QLineEdit" name="edit_root_folder"/>
      </item>
     </layout>
    </item>

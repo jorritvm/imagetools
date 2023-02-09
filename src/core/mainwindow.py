@@ -1,17 +1,19 @@
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from core.folder_select import *
 from pyprojroot import here
+
+from core.folder_select import *
+from core.thumbnailBrowser import *
 
 # written by hand instead of the qt designer, but using the same 'trick' of creating a second super class
 
 class Ui_mainwindow(object):
     def setupUi(self):
         self.setup_widgets()
+        self.setup_btn_tweaks()
         self.setup_menu_bar()
         self.setup_various()
-
 
     def setup_widgets(self):
         """
@@ -53,6 +55,11 @@ class Ui_mainwindow(object):
         self.layout_buttons.setContentsMargins(4, 4, 4, 4)
         self.layout_buttons.setSpacing(4)
         self.group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
+
+        # create the thumbnailbrowser
+        self.thumbnailBrowser = thumbnailBrowser(self.supervisor, self.settings['path'])
+
+        # combine thumbnailbrowser and buttonbox using a vlayout into the right widget
         self.layout_right = QVBoxLayout()
         self.layout_right.addWidget(self.thumbnailBrowser)
         self.layout_right.addWidget(self.group_actions)
@@ -69,6 +76,10 @@ class Ui_mainwindow(object):
         self.gridLayout = QGridLayout(self.centralWidget)
         self.gridLayout.addWidget(self.hsplitter)
 
+    def setup_btn_tweaks(self):
+        self.btn_auto_select.setDisabled(True)
+        self.btn_rotate.setDisabled(True)
+
     def setup_various(self):
         self.setWindowTitle("Imagetools by JVM")
         self.setWindowIcon(QIcon(str(here("src/resources/appicon.ico"))))
@@ -79,17 +90,20 @@ class Ui_mainwindow(object):
         """create menu_bar"""
         action_settings = QAction("&Settings", self)
         action_settings.triggered.connect(self.settings.show_settings)
+
         action_exit = QAction('&Exit', self)
         action_exit.triggered.connect(qApp.quit)
+
         action_about = QAction('&About', self)
         action_about.triggered.connect(self.show_about)
+
         menu_bar = self.menuBar()
         menu_file = menu_bar.addMenu('&File')
         menu_file.addAction(action_settings)
         menu_file.addAction(action_exit)
         menu_help = menu_bar.addMenu("&Help")
         menu_help.addAction(action_about)
-        # todo: remove
+        # todo: remove debug button and related code
         action_debug = QAction("&Debug", self)
         action_debug.triggered.connect(self.debug)
         menu_help.addAction(action_debug)

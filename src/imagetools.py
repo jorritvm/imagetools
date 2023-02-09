@@ -14,7 +14,7 @@ from core.mainwindow import *
 from core.about import *
 from core.settings import *
 
-from core.thumbnailBrowser import *
+
 from threadedResizer.threadedResizer import *
 
 from operations.importjpg import *
@@ -30,18 +30,21 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-
         self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
-
-        self.thumbnailBrowser = thumbnailBrowser(self.supervisor, self.settings['path'])
         self.setupUi()
-        self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
-        self.setupToolButtons()
+        self.setup_slots()
         self.setFolder(self.settings['path'])
 
-    def debug(self):
-        print(self.widget_left.ui_path.text())
+    def setup_slots(self):
+        self.btn_import.pressed.connect(self.importButtonAction)
+        self.btn_number.pressed.connect(self.numberButtonAction)
+        self.btn_rename.pressed.connect(self.renameButtonAction)
+        self.btn_resize.pressed.connect(self.resizeButtonAction)
+        self.btn_webalbum.pressed.connect(self.webAlbumButtonAction)
+        self.btn_upload.pressed.connect(self.uploadButtonAction)
+        self.btn_judge.pressed.connect(self.judgeButtonAction)
+        self.widget_left.selectionChanged.connect(self.thumbnailBrowser.changeFolder)
 
     def setFolder(self, path):
         self.widget_left.ui_path.setText(path)
@@ -56,23 +59,6 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.settings['path'] = self.widget_left.ui_path.text()
         self.settings.save_settings()
 
-    #===========================================================================
-    # TOOL BUTTONS ACTIONS
-    #===========================================================================
-    
-    def setupToolButtons(self):
-        self.btn_import.pressed.connect(self.importButtonAction)
-        self.btn_number.pressed.connect(self.numberButtonAction)
-        self.btn_rename.pressed.connect(self.renameButtonAction)
-        self.btn_resize.pressed.connect(self.resizeButtonAction)
-        self.btn_webalbum.pressed.connect(self.webAlbumButtonAction)
-        self.btn_upload.pressed.connect(self.uploadButtonAction)
-        self.btn_judge.pressed.connect(self.judgeButtonAction)
-        
-        self.btn_auto_select.setDisabled(True)
-        self.btn_rotate.setDisabled(True)
-        
-    
     def importButtonAction(self):
         files = self.thumbnailBrowser.getSelection()
         if len(files) == 0:
@@ -83,8 +69,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
                 path = im.getNewPath()
                 self.setFolder(path)
             im.close()
-        
-    
+
     def numberButtonAction(self):
         files = self.thumbnailBrowser.getSelection()
         if len(files) == 0:
@@ -153,11 +138,8 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             ju.exec_()
             ju.close()
 
-            
-    #===========================================================================
-    # SET UP UI
-    #===========================================================================
-        
+    def debug(self):
+        print(self.widget_left.ui_path.text())
 
 
 if __name__ == "__main__":

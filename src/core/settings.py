@@ -2,33 +2,9 @@ import os
 import pickle
 
 from PyQt5.QtWidgets import *
-# from resources.uipy.settings import *
 from pyprojroot import here
 
 from src.resources.uipy.settings import Ui_SettingsDialog
-
-
-class SettingsDialog(QDialog, Ui_SettingsDialog):
-    
-    def __init__(self, values, parent = None):
-        QDialog.__init__(self, parent)
-        self.setupUi(self)
-        self.to_dialog(values) #values is a dict of settings
-                
-    def to_dialog(self, values):
-        self.nthreadsBox.setValue(values['n_threads'])
-        self.saveThumbsCheck.setChecked(values['saveThumbs'])
-        self.rootfolderEdit.setText(values['defaultLocation'])  
-    
-    def to_dict(self):
-        values = dict()
-        values['n_threads'] = self.nthreadsBox.value()
-        values['saveThumbs'] = self.saveThumbsCheck.isChecked()
-        values['defaultLocation'] = self.rootfolderEdit.text() 
-        return values
-            
-    def closeEvent(self, ev):
-        ev.accept() #redundant
 
 
 class SettingsManager(dict):
@@ -40,8 +16,8 @@ class SettingsManager(dict):
         fpfn_settings = here("src/settings/settings.bin")
         if not fpfn_settings.exists():
             self['n_threads'] = int(os.cpu_count() / 2)
-            self['saveThumbs'] = False
-            self['defaultLocation'] = "c:/temp"
+            self['save_thumbs'] = False
+            self['default_location'] = "c:/temp"
             self['path'] = ""
         else:
             try:
@@ -66,11 +42,10 @@ class SettingsManager(dict):
 
     def show_settings(self):
         self.settingsDialog = SettingsDialog(self)
-        # ---
-        # not yet implemented
-        self.settingsDialog.saveThumbsCheck.setDisabled(True)
+        # todo: --- not yet implemented ---
+        self.settingsDialog.check_save_thumbs.setDisabled(True)
         self.settingsDialog.label_2.setDisabled(True)
-        # ---
+        # ---------------------------
         self.settingsDialog.accepted.connect(self.accept_settings)
         self.settingsDialog.rejected.connect(self.reject_settings)
         self.settingsDialog.exec_()
@@ -79,12 +54,34 @@ class SettingsManager(dict):
         temp = self.settingsDialog.to_dict()
         for key, value in temp.items():
             self[key] = value
-        flag = self.save_settings()
-        if flag:
+        if self.save_settings():
             QMessageBox.warning(self.parent, "Warning", "You must restart Imagetools for changes to take effect...")
         self.settingsDialog.close()
 
     def reject_settings(self):
         self.settingsDialog.close()
+
+
+class SettingsDialog(QDialog, Ui_SettingsDialog):
+    
+    def __init__(self, values, parent=None):
+        QDialog.__init__(self, parent)
+        self.setupUi(self)
+        self.to_dialog(values) #values is a dict of settings
+                
+    def to_dialog(self, values):
+        self.box_nthreads.setValue(values['n_threads'])
+        self.check_save_thumbs.setChecked(values['save_thumbs'])
+        self.edit_root_folder.setText(values['default_location'])
+    
+    def to_dict(self):
+        values = dict()
+        values['n_threads'] = self.box_nthreads.value()
+        values['save_thumbs'] = self.check_save_thumbs.isChecked()
+        values['default_location'] = self.edit_root_folder.text()
+        return values
+            
+    def closeEvent(self, ev):
+        ev.accept() #redundant
 
 
