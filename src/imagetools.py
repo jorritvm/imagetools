@@ -23,7 +23,11 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.supervisor = Supervisor(self.settings['n_threads'], self)
         self.setup_ui()  # this is where most of the widgets are created
         self.setup_slots()
+
+        # restore latest settings
         self.setFolder(self.settings['path'])
+        self.resize(self.settings['app_size'])
+        self.move(self.settings['app_pos'])
 
     def setup_slots(self):
         self.widget_left.selectionChanged.connect(self.t_browser.change_folder)
@@ -50,6 +54,8 @@ class MainWindow(QMainWindow, Ui_mainwindow):
     def closeEvent(self, event):
         self.settings['path'] = self.widget_left.ui_path.text()
         self.settings['image_size'] = self.t_browser.thumbs_view.icon_size_position
+        self.settings['app_size'] = self.size()
+        self.settings['app_pos'] = self.pos()
         self.settings.save_settings()
 
     def import_btn_action(self):
