@@ -44,29 +44,29 @@ class Ui_mainwindow(object):
         self.btn_upload = QPushButton("9. Upload")
         list_buttons = [self.btn_auto_select, self.btn_import, self.btn_rotate, self.btn_number, self.btn_judge,
                         self.btn_rename, self.btn_resize, self.btn_webalbum, self.btn_upload]
-        self.group_actions = QGroupBox("Actions")
-        self.layout_buttons = QGridLayout(self.group_actions)
+        group_actions = QGroupBox("Actions")
+        layout_buttons = QGridLayout(group_actions)
         i = 0
         for btn in list_buttons:
             x = i % 3
             y = int(i / 3)
-            self.layout_buttons.addWidget(btn, y, x)
+            layout_buttons.addWidget(btn, y, x)
             i += 1
-        self.layout_buttons.setContentsMargins(4, 4, 4, 4)
-        self.layout_buttons.setSpacing(4)
-        self.group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
+        layout_buttons.setContentsMargins(4, 4, 4, 4)
+        layout_buttons.setSpacing(4)
+        group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
 
         # create the thumbnailbrowser
         # self supervisor and self.settings must exist in subclass (templating)
-        self.t_browser = ThumbnailBrowser(self.supervisor, self.settings['path'])
+        self.t_browser = ThumbnailBrowser(self.supervisor, self.settings['path'], self.settings['image_size'])
 
         # combine thumbnailbrowser and buttonbox using a vlayout into the right widget
-        self.layout_right = QVBoxLayout()
-        self.layout_right.addWidget(self.t_browser)
-        self.layout_right.addWidget(self.group_actions)
-        self.layout_right.setContentsMargins(0, 0, 0, 0)
+        layout_right = QVBoxLayout()
+        layout_right.addWidget(self.t_browser)
+        layout_right.addWidget(group_actions)
+        layout_right.setContentsMargins(0, 0, 0, 0)
         self.widget_right = QWidget()
-        self.widget_right.setLayout(self.layout_right)
+        self.widget_right.setLayout(layout_right)
 
         """combine left and right into the central widget"""
         self.hsplitter = QSplitter()
@@ -74,8 +74,8 @@ class Ui_mainwindow(object):
         self.hsplitter.addWidget(self.widget_right)
         self.centralWidget = QWidget(self)
         self.setCentralWidget(self.centralWidget)
-        self.gridLayout = QGridLayout(self.centralWidget)
-        self.gridLayout.addWidget(self.hsplitter)
+        gridLayout = QGridLayout(self.centralWidget)
+        gridLayout.addWidget(self.hsplitter)
 
     def setup_btn_tweaks(self):
         # todo: remove when features are added

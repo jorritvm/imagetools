@@ -5,11 +5,14 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 class ThumbnailBrowser(QWidget):
-    def __init__(self, supervisor, path, parent=None):
+    def __init__(self, supervisor, path, image_size, parent=None):
         QWidget.__init__(self, parent)
         
         self.setup_ui()
         self.setup_slots()
+
+        self.thumbs_view.icon_size_position = image_size
+        self.thumbs_view.set_icon_size()
 
         self.supervisor = supervisor
         self.supervisor.newItemReady.connect(self.image_ready)

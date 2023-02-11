@@ -49,6 +49,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         
     def closeEvent(self, event):
         self.settings['path'] = self.widget_left.ui_path.text()
+        self.settings['image_size'] = self.t_browser.thumbs_view.icon_size_position
         self.settings.save_settings()
 
     def import_btn_action(self):

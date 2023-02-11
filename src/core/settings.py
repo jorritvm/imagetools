@@ -19,6 +19,7 @@ class SettingsManager(dict):
             self['save_thumbs'] = False
             self['default_location'] = "c:/temp"
             self['path'] = ""
+            self['image_size'] = 2
         else:
             try:
                 fi = open(fpfn_settings, 'rb')
