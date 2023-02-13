@@ -1,4 +1,5 @@
-# from PyQt5.QtGui import *
+import os
+
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
@@ -17,6 +18,7 @@ class FolderSelectWidget(QWidget):
         self.create_layout()
         
         self.tree_selection_model.selectionChanged.connect(self.handle_selection_change)
+        self.ui_tree.doubleClicked.connect(self.open_directory_in_os)
          
     def create_elements(self):
         """
@@ -82,7 +84,7 @@ class FolderSelectWidget(QWidget):
             model_index = self.fsm.index(path)
             if self.fsm.fileName(model_index) != "":
                 self.tree_selection_model.setCurrentIndex(model_index, QItemSelectionModel.ClearAndSelect)
-    
+
     def tab_action(self):
         """
         update the completer with the subfolders of the folder on which we clicked TAB
@@ -139,8 +141,7 @@ class FolderSelectWidget(QWidget):
         self.ui_tree.resizeColumnToContents(0)
         """make the first column wider"""
         self.ui_tree.setColumnWidth(0, 500)
-        
-       
+
     def handle_selection_change(self, new, old):
         # make sure the annoying selection model always selects the 'current' item
         current_model_index = self.tree_selection_model.currentIndex()
@@ -155,6 +156,8 @@ class FolderSelectWidget(QWidget):
         abspath = self.ui_path.text()
         self.selectionChanged.emit(abspath)
 
+    def open_directory_in_os(self, model_index):
+        os.startfile(self.fsm.filePath(model_index))
 
     def create_layout(self):
         """

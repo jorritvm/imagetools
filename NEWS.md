@@ -5,12 +5,14 @@
 
 ## NOTES
 
-- abandonned MVC framework and recoded using simple widget 
+- abandonned MVC framework and recoded using simple widget
 - (added thumbnail storage)
 
 ## NEW FEATURES
 
-- now opens external viewer when image is double clicked
+- remembers and restores previous window size and position
+- opens folder in OS file explorer when one is double clicked
+- opens image in OS default viewer when image is double clicked
 - selections can be done in the thumbnail browser
 - added about box
 - added settings panel + remembers last directory etc..
