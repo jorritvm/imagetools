@@ -76,13 +76,10 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         else: 
             """create the dialog and extract the user's settings"""
             num = Number()
-            settings = None
             if num.exec_():
-                settings = num.getSettings()
-                
-                """start the rename procedure"""
-                trackChanges = num.renameFiles(files, settings)
-                self.t_browser.update_elements(trackChanges)
+                settings = num.get_settings()
+                track_changes = num.rename_files(files, settings)
+                self.t_browser.update_elements(track_changes)
                 num.close()
        
     def renameButtonAction(self):

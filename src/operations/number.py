@@ -1,98 +1,66 @@
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from resources.uipy.number import *
-import __main__
+
 
 class Number(QDialog, Ui_Number):
 
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
-        
-        """qdialog features"""
-        self.buttonStartNumbering.clicked.connect(self.accept)
-        self.buttonStartNumbering.setDefault(True)
-    
-    
-    def getSettings(self):
+
+        self.btn_start_numbering.clicked.connect(self.accept)
+        self.btn_start_numbering.setDefault(True)
+
+    def get_settings(self):
         """returns the user input / settings of the dialog"""
         settings = dict()
-        if self.radioPre.isChecked():
-            settings["position"] = "pre"
-        elif self.radioSuff.isChecked():
-            settings["position"] = "suff"
-        else:
-            settings["position"] = None
-        settings["digits"] = self.spinDigits.value()
-        settings["seperator"] = self.editLineSeparator.text()
-        if self.checkKeepOldName.isChecked():
-            settings["keepOldFileName"] = True
-        else:
-            settings["keepOldFileName"] = False
+        if self.radio_pre.isChecked():
+            settings["position"] = "prefix"
+        elif self.radio_suff.isChecked():
+            settings["position"] = "suffix"
+        settings["digits"] = self.spin_digits.value()
+        settings["seperator"] = self.edit_separator.text()
+        settings["keep_old_filename"] = self.check_keep_old_name.isChecked()
+
         return settings
-    
-    
-    def renameFiles(self, files, settings):
+
+    def rename_files(self, files, settings):
         """renames the files with the given settings"""
-        
-        trackChanges = dict()
+        track_changes = dict()
 
-        """transform the settings"""
-        if settings["position"] == "pre": 
-            addto = 0
-        elif settings["position"] == "suff":
-            addto = 1
-        else: 
-            #print("Error, select prefix or suffix first!")
-            return
-        digits = settings["digits"]
-        sep = settings["seperator"]
-        if settings["keepOldFileName"]:
-            keepold = 1
-        else:
-            keepold = 0
-        
-        """start the rename procedure"""
-        for i in range(1, len(files) + 1):
+        for i in range(len(files)):
             """create the objects to manipulate the files"""
-            fileInfo = files[i - 1]
-            ext = fileInfo.completeSuffix()
-            file = QFile(fileInfo.absoluteFilePath())
-            
-            """create the new name"""
-            newName = str(i).zfill(digits) # leading zeroes            
-                        
-            if not addto: #prefix
-                if digits:
-                    newName += sep
-            
-                if keepold:
-                    newName += fileInfo.fileName()
-                else:
-                    newName += "."
-                    newName += ext
-                    
-            else: #suffix
-                if digits:
-                    newName = sep + newName
-                if keepold:
-                    newName = fileInfo.baseName() + newName + "." + ext
-                else:
-                    newName += '.'
-                    newName += ext
+            fi = files[i]
+            ext = fi.completeSuffix()
 
-            """rename the file to the new name"""          
-            absoluteNewName = fileInfo.absolutePath() + "/" + newName
+            # numbering is done with leading zeros
+            new_name = str(i+1).zfill(settings["digits"])
+                        
+            if settings["position"] == "prefix":
+                if settings["digits"]:
+                    new_name += settings["seperator"]
+                if settings["keep_old_filename"]:
+                    new_name += fi.fileName()
+                else:
+                    new_name += "." + ext
+
+            elif settings["position"] == "suffix":
+                if settings["digits"]:
+                    new_name = settings["seperator"] + new_name
+                if settings["keep_old_filename"]:
+                    new_name = fi.baseName() + new_name + "." + ext
+                else:
+                    new_name += "." + ext
+
+            """rename the file to the new name"""
+            file = QFile(fi.absoluteFilePath())
+            absolute_new_name = fi.absolutePath() + "/" + new_name
             
-            x = file.rename(absoluteNewName)
-            if x:
-                trackChanges[fileInfo.absoluteFilePath()] = absoluteNewName #list met key = oude abspath en value = new abspath
+            x = file.rename(absolute_new_name)
+            if x:  # rename success
+                track_changes[fi.absoluteFilePath()] = absolute_new_name
             else:
                 pass
         
-        return trackChanges
-                
-                
-                
-                
+        return track_changes

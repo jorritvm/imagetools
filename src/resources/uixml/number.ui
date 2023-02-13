@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>262</width>
-    <height>211</height>
+    <width>347</width>
+    <height>288</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,14 +33,17 @@
      </property>
      <layout class="QGridLayout">
       <item row="0" column="0">
-       <widget class="QRadioButton" name="radioPre">
+       <widget class="QRadioButton" name="radio_pre">
         <property name="text">
          <string>Prefix</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QRadioButton" name="radioSuff">
+       <widget class="QRadioButton" name="radio_suff">
         <property name="text">
          <string>Suffix</string>
         </property>
@@ -56,7 +59,7 @@
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="_2">
         <item>
-         <widget class="QSpinBox" name="spinDigits">
+         <widget class="QSpinBox" name="spin_digits">
           <property name="maximum">
            <number>3</number>
           </property>
@@ -85,14 +88,14 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="editLineSeparator">
+       <widget class="QLineEdit" name="edit_separator">
         <property name="text">
          <string>-</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
-       <widget class="QCheckBox" name="checkKeepOldName">
+       <widget class="QCheckBox" name="check_keep_old_name">
         <property name="text">
          <string>Keep old filename</string>
         </property>
@@ -108,7 +111,7 @@
      </property>
      <layout class="QGridLayout" name="_3">
       <item row="0" column="0">
-       <widget class="QPushButton" name="buttonStartNumbering">
+       <widget class="QPushButton" name="btn_start_numbering">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>

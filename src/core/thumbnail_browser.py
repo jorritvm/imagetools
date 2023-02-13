@@ -156,13 +156,12 @@ class ThumbnailBrowser(QWidget):
 
     def update_elements(self, changes):
         """update filenames of items in the thumbnailbrowser"""
-        for old,new in changes.items():
+        for old, new in changes.items():
             fi_old = QFileInfo(old)
             fi_new = QFileInfo(new)                       
-            if self.root_folder == fi_old.absolutePath():
-                view = self.thumbs_view
-                for i in range(view.count()):
-                    item = view.item(i)
+            if QFileInfo(self.root_folder).absoluteFilePath() == fi_old.absolutePath():
+                for i in range(self.thumbs_view.count()):
+                    item = self.thumbs_view.item(i)
                     if item.text() == fi_old.fileName():
                         item.setText(fi_new.fileName())
 
