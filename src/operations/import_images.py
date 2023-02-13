@@ -18,49 +18,55 @@ class ImportImages(QDialog, Ui_Import):
         self.progress = 0
 
         self.setupUi(self)
-        self.setupSlots()
+        self.setup_slots()
     
-        self.presetValues()
+        self.preset_values()
         
         self.fh = FileHandler()
-        self.fh.nextDone.connect(self.nextDone)     
+        self.fh.next_done.connect(self.next_done)
 
     def log(self, txt):
         self.text.append(txt)
         
-    def setupSlots(self):
-        self.btnImport.clicked.connect(self.startImport)
-        self.btnGoto.clicked.connect(self.accept)
+    def setup_slots(self):
+        self.btn_import.clicked.connect(self.start_import)
+        self.btn_goto.clicked.connect(self.accept)
+        self.btn_folder_select.clicked.connect(self.folder_select)
     
-    def presetValues(self):
+    def preset_values(self):
         tmp = self.files[0].lastModified()
         yyyymmdd = tmp.toString("yyyy-MM-dd")
-        x = os.path.normcase(os.path.join(self.settings['defaultLocation'], yyyymmdd))
-        self.editDestination.setText(x)
+        x = os.path.normcase(os.path.join(self.settings['default_location'], yyyymmdd))
+        self.edit_destination.setText(x)
+
+    def folder_select(self):
+        x = QFileDialog.getExistingDirectory(self, 'Select Folder', self.edit_destination.text())
+        if x != "":
+            self.edit_destination.setText(x)
         
-    def updateprogressBar(self):
+    def update_progress_bar(self):
         self.progress += 1
         x = self.progress / self.total * 100
-        self.progressBar.setValue(x)
+        self.progress_bar.setValue(x)
         
-    def startImport(self):
+    def start_import(self):
         self.abort = False
         
-        # is it copy or move?
+        # copy or move?
         mode = ""
-        if self.radioMove.isChecked():
+        if self.radio_move.isChecked():
             mode = "move"
-        if self.radioCopy.isChecked():
+        if self.radio_copy.isChecked():
             mode = "copy"
-        self.log("Mode set to "+mode)
+        self.log("Mode set to " + mode)
             
         # create the directory
         self.log("Creating main directory..")
-        newPath = self.editDestination.text()
+        new_path = self.edit_destination.text()
         fi = self.files[0]
         dirp = fi.dir()
         
-        if dirp.mkpath(newPath):
+        if dirp.mkpath(new_path):
             self.log("Directory created...")
         else:
             self.abort = True
@@ -68,57 +74,53 @@ class ImportImages(QDialog, Ui_Import):
                     
         if not self.abort:
             self.mode = mode
-            self.manageFiles()
+            self.manage_files()
     
-    def manageFiles(self):
+    def manage_files(self):
+        """ send the move/copy command to the filehandler thread
+        when it is done, it will give a signal back to next_done
+        which will in turn again invoke this method"""
         if len(self.files) > 0:
             fi = self.files.pop()
-            destDir = self.editDestination.text()
+            destination_dir = self.edit_destination.text()
             
-            self.log('Handling '+fi.fileName())
-            self.fh.initialize(fi, destDir, self.mode)
+            self.log('Handling ' + fi.fileName())
+            self.fh.initialize(fi, destination_dir, self.mode)
             self.fh.start()
         else:
-            self.btnImport.setDisabled(True)
+            self.btn_import.setDisabled(True)
             self.log("FINISHED")
-          
-        
-    def nextDone(self, s):
+
+    def next_done(self, s):
         self.log(s + " handled..")
-        self.updateprogressBar()
-        self.manageFiles()
+        self.update_progress_bar()
+        self.manage_files()
         
-    def getNewPath(self):
-        return self.editDestination.text()
+    def get_new_path(self):
+        return self.edit_destination.text()
     
     
 class FileHandler(QThread):
     
-    nextDone = pyqtSignal(str)
+    next_done = pyqtSignal(str)
     
     def __init__(self,  parent=None):
         QThread.__init__(self, parent)
         self.parent = parent
     
-    def initialize(self, fi, destDir, mode):
+    def initialize(self, fi, destination_dir, mode):
         self.fi = fi
-        self.destDir = destDir
+        self.destination_dir = destination_dir
         self.mode = mode
 
     def run(self):
         fi = self.fi
         fi_old = fi.absoluteFilePath()
-        fi_new = QFileInfo(QDir(self.destDir), fi.fileName()).absoluteFilePath()
-        fi_cr2_old = fi.absolutePath() + "/" +  fi.baseName() + ".CR2"
-        fi_cr2_new = QFileInfo(QDir(self.destDir), fi.baseName() + ".CR2").absoluteFilePath()
-         
+        fi_new = QFileInfo(QDir(self.destination_dir), fi.fileName()).absoluteFilePath()
+
         if self.mode == "copy":
             shutil.copy2(fi_old, fi_new)
-            if os.path.exists(fi_cr2_old):
-                shutil.copy2(fi_cr2_old, fi_cr2_new)
         if self.mode == "move":
             shutil.move(fi_old, fi_new)
-            if os.path.exists(fi_cr2_old):
-                shutil.move(fi_cr2_old, fi_cr2_new)
-        
-        self.nextDone.emit(fi.fileName())
+
+        self.next_done.emit(fi.fileName())

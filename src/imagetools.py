@@ -65,7 +65,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         else: 
             im = ImportImages(files, self.settings, self.widget_left.ui_path.text())
             if im.exec_():
-                path = im.getNewPath()
+                path = im.get_new_path()
                 self.setFolder(path)
             im.close()
 
