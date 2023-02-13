@@ -93,6 +93,7 @@ class Ui_mainwindow(object):
         self.action_settings = QAction("&Settings", self)
         self.action_exit = QAction('&Exit', self)
         self.action_about = QAction('&About', self)
+        self.action_changelog = QAction('&Changelog', self)
 
         menu_bar = self.menuBar()
         menu_file = menu_bar.addMenu('&File')
@@ -100,6 +101,7 @@ class Ui_mainwindow(object):
         menu_file.addAction(self.action_exit)
         menu_help = menu_bar.addMenu("&Help")
         menu_help.addAction(self.action_about)
+        menu_help.addAction(self.action_changelog)
         # todo: remove debug button and related code
         action_debug = QAction("&Debug", self)
         action_debug.triggered.connect(self.debug)

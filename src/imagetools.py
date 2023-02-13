@@ -41,15 +41,21 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.action_settings.triggered.connect(self.settings.show_settings)
         self.action_exit.triggered.connect(self.close)
         self.action_about.triggered.connect(self.show_about)
+        self.action_changelog.triggered.connect(self.show_changelog)
 
     def setFolder(self, path):
         self.widget_left.ui_path.setText(path)
         self.widget_left.ui_path.returnPressed.emit()
 
     def show_about(self):
-        about = AboutDialog()
-        about.exec_()
-        about.close()
+        dlg = AboutDialog("README.md")
+        dlg.exec_()
+        dlg.close()
+
+    def show_changelog(self):
+        dlg = AboutDialog("NEWS.md")
+        dlg.exec_()
+        dlg.close()
         
     def closeEvent(self, event):
         self.settings['path'] = self.widget_left.ui_path.text()
