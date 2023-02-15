@@ -1,9 +1,3 @@
-'''
-Created on 27-okt.-2013
-
-@author: jorrit
-'''
-
 import os
 import shutil
 from PyQt5.QtCore import *
@@ -37,10 +31,8 @@ class Judge(QDialog):
         
         self.fh = FileHandler()
         self.fh.nextDone.connect(self.writeResult)     
-        
-    
+
     def keyPressEvent(self, e):
-        
         if e.key() == Qt.Key_1 :
             self.adaptCount(1)
         if e.key() == Qt.Key_2 :
@@ -64,11 +56,11 @@ class Judge(QDialog):
         if e.key() == Qt.Key_Left :
             self.move("left")
         if e.key() == Qt.Key_A :
-            self.markImage("Sel_A")
+            self.markImage("sel_a")
         if e.key() == Qt.Key_B :
-            self.markImage("Sel_B")
+            self.markImage("sel_b")
         if e.key() == Qt.Key_T :
-            self.markImage("Trash")
+            self.markImage("trash")
         if e.key() == Qt.Key_Enter or e.key() == Qt.Key_Return:
             self.writeResult()
         if e.key() == Qt.Key_Escape:
@@ -114,16 +106,14 @@ class Judge(QDialog):
             q.append([fi, h, True]) #smooth
         self.currentlyProcessing = self.supervisor.add_items(q, True) # prior
         self.supervisor.process_queue()
-    
-    
+
     def processNextResizedItem(self, ticket, img):
         for item in self.currentlyProcessing:
             if item[3] == ticket:
                 fn = item[0].fileName()
                 self.thumbs[fn] = img
         self.setupJudging()        
-        
-        
+
     def readyForJudging(self, fi):
         ready = True
         if not self.currentlyJudgingReady:
@@ -140,8 +130,7 @@ class Judge(QDialog):
                 except: 
                     pass # in case we want to go outside of self.files bounds
         return ready #we are ready to show all these thumbs based on the count and current judging item   
-    
-           
+
     def setupJudging(self):
         if not self.currentlyJudgingReady:
             #print("not ready to judge: "+ self.currentlyJudging.fileName())
@@ -180,8 +169,7 @@ class Judge(QDialog):
                     self.layout.addLayout(lout)
 
                 self.setupJudgingReady = True
-            
-            
+
     def writeResult(self):
         if len(self.marked) > 0:
            
@@ -193,7 +181,7 @@ class Judge(QDialog):
             self.fh.start()
         else:
             self.accept()
-          
+
                     
 class FileHandler(QThread):
     
@@ -222,7 +210,7 @@ class FileHandler(QThread):
         else:
             print("Creating directory failed...")
          
-        #moving the files
+        # moving the files
         if self.mode == "copy":
             shutil.copy2(fi_old, fi_new)
             if os.path.exists(fi_cr2_old):
@@ -233,7 +221,7 @@ class FileHandler(QThread):
                 shutil.move(fi_cr2_old, fi_cr2_new)
         
         self.nextDone.emit()
-             
+
 
         
         
