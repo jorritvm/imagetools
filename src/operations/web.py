@@ -402,7 +402,7 @@ p.footnote {
             self.log("STEP 5/5: Creating resized images")
             q = []
             for fi in self.files:
-                q.append([fi, 800, True]) #smooth
+                q.append([fi, 1250, True]) #smooth
                 self.queueLarge = self.supervisor.add_items(q)
                 self.supervisor.process_queue()
 
