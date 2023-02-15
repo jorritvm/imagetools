@@ -44,8 +44,8 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.action_changelog.triggered.connect(self.show_changelog)
 
     def setFolder(self, path):
-        self.widget_left.ui_path.setText(path)
-        self.widget_left.ui_path.returnPressed.emit()
+        self.widget_left.dir_edit.setText(path)
+        self.widget_left.dir_edit.returnPressed.emit()
 
     def show_about(self):
         dlg = AboutDialog("README.md")
@@ -58,7 +58,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         dlg.close()
         
     def closeEvent(self, event):
-        self.settings['path'] = self.widget_left.ui_path.text()
+        self.settings['path'] = self.widget_left.dir_edit.text()
         self.settings['image_size'] = self.t_browser.thumbs_view.icon_size_position
         self.settings['app_size'] = self.size()
         self.settings['app_pos'] = self.pos()
@@ -69,7 +69,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
-            im = ImportImages(files, self.settings, self.widget_left.ui_path.text())
+            im = ImportImages(files, self.settings, self.widget_left.dir_edit.text())
             if im.exec_():
                 path = im.get_new_path()
                 self.setFolder(path)
@@ -109,9 +109,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else: 
             """create the dialog"""
-            res = Resize(files, self.supervisor, self.widget_left.ui_path.text())
+            res = Resize(files, self.supervisor, self.widget_left.dir_edit.text())
             res.exec_()
-            x = self.widget_left.ui_path.text()
+            x = self.widget_left.dir_edit.text()
             res.close()
          
     def webAlbumButtonAction(self):
@@ -126,7 +126,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
            
     def uploadButtonAction(self):
         """create the dialog"""
-        up = Upload(self.settings, self.widget_left.ui_path.text())
+        up = Upload(self.settings, self.widget_left.dir_edit.text())
         up.exec_()
         up.close()
         
@@ -141,7 +141,10 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             ju.close()
 
     def debug(self):
-        print(self.widget_left.ui_path.text())
+        print("paths")
+        print(self.widget_left.dir_mem.paths)
+        print("index")
+        print(self.widget_left.dir_mem.index)
 
 
 if __name__ == "__main__":

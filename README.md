@@ -33,3 +33,9 @@ python -m venv venv
 pip install -r requirements.txt
 python src/imagetools.py 
 ```
+
+## Run all unit tests
+From the src directory, run 
+```
+pytest test
+```
