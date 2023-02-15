@@ -178,17 +178,14 @@ class ThumbnailListWidget(QListWidget):
         self.icon_size_position = 2
         self.set_icon_size()
 
-        """add some spacing around the elements"""
+        """add spacing around and wrapping of the items. also set up for auto resize"""
         self.setSpacing(10)
-
-        """wrap the items when there are too many to layout horizontally"""
         self.setWrapping(True)
-
-        """set the automatic resize to adjust instead of fixed"""
         self.setResizeMode(QListView.Adjust)
 
-        """set the view to allow multiple selection"""
+        """set the view to allow multiple selection and disable drag and drop"""
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.setDragEnabled(False)
 
     def adjustIconSize(self, direction):
         if direction == "+":
