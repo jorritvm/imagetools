@@ -1,23 +1,30 @@
-# todo
-- move from cx_freeze to pyinstaller for build process
-
-# imagetools v3.0 (under development)
+# imagetools v3.0
 
 ## NOTES
 
 - abandonned MVC framework and recoded using simple widget
-- (added thumbnail storage)
+- refactored about half of the existing modules
+- added ui build scripts
+- increased maximum thumbnail size
+- increased webalbum image thumbnail size 
+- bugfix where close action did not store latest settings
+- added some tests (pytest)
+- move from cx_freeze to pyinstaller for build process
 
 ## NEW FEATURES
-
-- remembers and restores previous window size and position
+- redesigned UI
+- selections can be done in the thumbnail browser
+- added backward/forward folder navigation
 - opens folder in OS file explorer when one is double clicked
 - opens image in OS default viewer when image is double clicked
-- selections can be done in the thumbnail browser
 - added about box
-- added settings panel + remembers last directory etc..
+- added changelog box
+- added settings panel
+- remembers last directory etc..
+- remembers and restores previous window size and position
 - added ftp upload (nonblocking) + site manager
 - improved resizer using multithreading which is used for both browser & resizer tool
+
 
 <br />
 
