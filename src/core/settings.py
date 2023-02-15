@@ -4,7 +4,7 @@ import pickle
 from PyQt5.QtWidgets import *
 from pyprojroot import here
 
-from src.resources.uipy.settings import Ui_SettingsDialog
+from resources.uipy.settings import Ui_SettingsDialog
 
 
 class SettingsManager(dict):

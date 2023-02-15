@@ -39,3 +39,8 @@ From the src directory, run
 ```
 pytest test
 ```
+
+## Building the windows installer
+```commandline
+pyinstaller imagetools.spec
+```
