@@ -1,4 +1,6 @@
-doc/test_pictures
+#user defined
+~$*
+$~*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
