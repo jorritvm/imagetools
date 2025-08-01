@@ -35,9 +35,9 @@ python src/imagetools.py
 ```
 
 ## Run all unit tests
-From the src directory, run 
+From the project root directory, run 
 ```
-pytest test
+python -m pytest
 ```
 
 ## Building the windows installer
