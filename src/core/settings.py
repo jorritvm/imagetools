@@ -1,9 +1,9 @@
 import os
 import pickle
 
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import QSize, QPoint
+from PyQt6.QtWidgets import *
 from pyprojroot import here
-
 from resources.uipy.settings import Ui_SettingsDialog
 
 
@@ -12,14 +12,26 @@ class SettingsManager(dict):
         self.parent = parent
         self.load_settings()
 
+    def _create_settings_folder(self):
+        """Create the settings folder if it does not exist."""
+        fpfn = here("settings")
+        try:
+            if not fpfn.exists():
+                os.makedirs(fpfn, exist_ok=True)
+        except OSError as e:
+            QMessageBox.critical(self.parent, "ERROR", "There was an error creating the settings folder...")
+
     def load_settings(self):
-        fpfn_settings = here("src/settings/settings.bin")
+        self._create_settings_folder()
+        fpfn_settings = here("settings/settings.bin")
         if not fpfn_settings.exists():
             self['n_threads'] = int(os.cpu_count() / 2)
             self['save_thumbs'] = False
             self['default_location'] = "c:/temp"
             self['path'] = ""
             self['image_size'] = 2
+            self['app_size'] = QSize(800, 600)
+            self['app_pos'] = QPoint(100, 100)
         else:
             try:
                 fi = open(fpfn_settings, 'rb')
@@ -29,14 +41,14 @@ class SettingsManager(dict):
 
     def save_settings(self):
         try:
-            fpfn = here("src/settings/settings.bin")
+            fpfn = here("settings/settings.bin")
             fcon = open(fpfn, 'wb')
             pickle.dump(self.copy(), fcon)  # only pure dict can be pickled
             flag = True
         except:
             flag = False
             QMessageBox.critical(self.parent, "ERROR", "There was an error saving these settings...")
-            os.rename(fpfn, here("src/settings/settings_broken.bin"))
+            os.rename(fpfn, here("settings/settings_broken.bin"))
         finally:
             fcon.close()
         return flag
@@ -49,7 +61,7 @@ class SettingsManager(dict):
         # ---------------------------
         self.settingsDialog.accepted.connect(self.accept_settings)
         self.settingsDialog.rejected.connect(self.reject_settings)
-        self.settingsDialog.exec_()
+        self.settingsDialog.exec()
 
     def accept_settings(self):
         temp = self.settingsDialog.to_dict()
@@ -64,25 +76,23 @@ class SettingsManager(dict):
 
 
 class SettingsDialog(QDialog, Ui_SettingsDialog):
-    
+
     def __init__(self, values, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
-        self.to_dialog(values) #values is a dict of settings
-                
+        self.to_dialog(values)  # values is a dict of settings
+
     def to_dialog(self, values):
         self.box_nthreads.setValue(values['n_threads'])
         self.check_save_thumbs.setChecked(values['save_thumbs'])
         self.edit_root_folder.setText(values['default_location'])
-    
+
     def to_dict(self):
         values = dict()
         values['n_threads'] = self.box_nthreads.value()
         values['save_thumbs'] = self.check_save_thumbs.isChecked()
         values['default_location'] = self.edit_root_folder.text()
         return values
-            
+
     def closeEvent(self, ev):
-        ev.accept() #redundant
-
-
+        ev.accept()  # redundant
