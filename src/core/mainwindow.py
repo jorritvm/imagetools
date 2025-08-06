@@ -1,12 +1,11 @@
 """ UI written by hand instead of the qt designer, but using the same 'trick' of creating a second super class """
 
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-
-from pyprojroot import here
-
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 from core.folder_select import *
 from core.thumbnail_browser import ThumbnailBrowser
+from pyprojroot import here
+
 
 class Ui_mainwindow(object):
     def setup_ui(self):
@@ -54,7 +53,7 @@ class Ui_mainwindow(object):
             i += 1
         layout_buttons.setContentsMargins(4, 4, 4, 4)
         layout_buttons.setSpacing(4)
-        group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum))
+        group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum))
 
         # create the thumbnailbrowser
         # self supervisor and self.settings must exist in subclass (templating)

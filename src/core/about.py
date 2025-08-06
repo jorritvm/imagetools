@@ -1,14 +1,15 @@
-from PyQt5.QtWidgets import *
+from PyQt6.QtWidgets import *
 from pyprojroot import here
 
 from resources.uipy.about import Ui_Dialog
 
+
 class AboutDialog(QDialog, Ui_Dialog):
-    
-    def __init__(self, md, parent = None):
+
+    def __init__(self, md, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
-        
+
         if here(md).exists():
             try:
                 fcon = open(here(md), "r")
@@ -17,5 +18,4 @@ class AboutDialog(QDialog, Ui_Dialog):
             finally:
                 fcon.close()
 
-        self.resize(600,600)
-        
+        self.resize(600, 600)

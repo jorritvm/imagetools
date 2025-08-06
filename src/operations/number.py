@@ -1,5 +1,5 @@
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtWidgets import *
 from resources.uipy.number import *
 
 
@@ -35,8 +35,8 @@ class Number(QDialog, Ui_Number):
             ext = fi.completeSuffix()
 
             # numbering is done with leading zeros
-            new_name = str(i+1).zfill(settings["digits"])
-                        
+            new_name = str(i + 1).zfill(settings["digits"])
+
             if settings["position"] == "prefix":
                 if settings["digits"]:
                     new_name += settings["seperator"]
@@ -56,11 +56,11 @@ class Number(QDialog, Ui_Number):
             """rename the file to the new name"""
             file = QFile(fi.absoluteFilePath())
             absolute_new_name = fi.absolutePath() + "/" + new_name
-            
+
             x = file.rename(absolute_new_name)
             if x:  # rename success
                 track_changes[fi.absoluteFilePath()] = absolute_new_name
             else:
                 pass
-        
+
         return track_changes

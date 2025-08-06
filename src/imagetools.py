@@ -1,18 +1,16 @@
 import sys
 
-from core.mainwindow import *
 from core.about import *
+from core.mainwindow import *
 from core.settings import *
-
-from threaded_resizer.threaded_resizer import *
-
 from operations.import_images import *
+from operations.judge import *
 from operations.number import *
 from operations.rename import *
 from operations.resize import *
-from operations.web import *
 from operations.upload import *
-from operations.judge import *
+from operations.web import *
+from threaded_resizer.threaded_resizer import *
 
 
 class MainWindow(QMainWindow, Ui_mainwindow):
@@ -49,14 +47,14 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
     def show_about(self):
         dlg = AboutDialog("README.md")
-        dlg.exec_()
+        dlg.exec()
         dlg.close()
 
     def show_changelog(self):
         dlg = AboutDialog("NEWS.md")
-        dlg.exec_()
+        dlg.exec()
         dlg.close()
-        
+
     def closeEvent(self, event):
         self.settings['path'] = self.widget_left.dir_edit.text()
         self.settings['image_size'] = self.t_browser.thumbs_view.icon_size_position
@@ -68,9 +66,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
-        else: 
+        else:
             im = ImportImages(files, self.settings, self.widget_left.dir_edit.text())
-            if im.exec_():
+            if im.exec():
                 path = im.get_new_path()
                 self.setFolder(path)
             im.close()
@@ -79,65 +77,64 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
-        else: 
+        else:
             """create the dialog and extract the user's settings"""
             num = Number()
-            if num.exec_():
+            if num.exec():
                 settings = num.get_settings()
                 track_changes = num.rename_files(files, settings)
                 self.t_browser.update_elements(track_changes)
                 num.close()
-       
+
     def renameButtonAction(self):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
-        else: 
+        else:
             """create the dialog"""
             ren = Rename(files, self.supervisor)
-            ren.exec_()
+            ren.exec()
             ren.close()
-           
+
             """the dialog is ready now, we should update the application with the new filenames"""
             trackChanges = ren.getChanges()
             self.t_browser.update_elements(trackChanges)
-       
-  
+
     def resizeButtonAction(self):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
-        else: 
+        else:
             """create the dialog"""
             res = Resize(files, self.supervisor, self.widget_left.dir_edit.text())
-            res.exec_()
+            res.exec()
             x = self.widget_left.dir_edit.text()
             res.close()
-         
+
     def webAlbumButtonAction(self):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
-        else: 
+        else:
             """create the dialog"""
             wa = WebAlbum(files, self.supervisor)
-            wa.exec_()
+            wa.exec()
             wa.close()
-           
+
     def uploadButtonAction(self):
         """create the dialog"""
         up = Upload(self.settings, self.widget_left.dir_edit.text())
-        up.exec_()
+        up.exec()
         up.close()
-        
+
     def judgeButtonAction(self):
         files = self.t_browser.get_selection()
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
-        else: 
+        else:
             """create the dialog"""
-            ju = Judge(files, self.supervisor) 
-            ju.exec_()
+            ju = Judge(files, self.supervisor)
+            ju.exec()
             ju.close()
 
     def debug(self):
@@ -151,4 +148,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     main = MainWindow()
     main.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

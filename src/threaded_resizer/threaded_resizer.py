@@ -1,4 +1,4 @@
-#===============================================================================
+# ===============================================================================
 # information:
 #
 # Upon creation of a single supervisor it will create a fixed amount of workers.
@@ -17,20 +17,19 @@
 # q.append('QFileInfo', size in int, True/False for priority])
 # self.supervisor.addItems(q)
 # self.supervisor.processQueue()
-#===============================================================================
+# ===============================================================================
 
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
 
 
 class Supervisor(QObject):
-    
     newItemReady = pyqtSignal(int, QImage)
-    
+
     def __init__(self, n_threads, parent=None):
         QObject.__init__(self, parent)
         self.parent = parent
-        self.queue = [] # lists [ [fileinfo, size, fast, ticket], ...]
+        self.queue = []  # lists [ [fileinfo, size, fast, ticket], ...]
 
         self.n_threads = n_threads
         self.threads = []
@@ -43,7 +42,7 @@ class Supervisor(QObject):
             x = Worker()
             x.resize_done.connect(self.process_result)
             self.threads.append(x)
-        
+
     def add_items(self, new_images, prior=False):
         """
             new_images: [ [fileinfo, img_size, fast, ticket], ...]
@@ -57,7 +56,7 @@ class Supervisor(QObject):
             self.queue = new_images + self.queue
         else:
             self.queue = self.queue + new_images
-      
+
         return new_images  # this time ticket has been added
 
     def clear_queue(self):
@@ -69,32 +68,31 @@ class Supervisor(QObject):
                 item = self.queue.pop(0)
                 thread.set_image_to_convert(item)
                 thread.start()
-                    
-    def process_result(self, ticket, resized_image):
-        self.newItemReady.emit(ticket, resized_image) # emit to client
-        self.process_queue() # get on with the rest of the queue
 
-    
+    def process_result(self, ticket, resized_image):
+        self.newItemReady.emit(ticket, resized_image)  # emit to client
+        self.process_queue()  # get on with the rest of the queue
+
+
 class Worker(QThread):
-    
     resize_done = pyqtSignal(int, QImage)
-    
-    def __init__(self,  parent=None):
+
+    def __init__(self, parent=None):
         QThread.__init__(self, parent)
         self.parent = parent
         self.file_info = QFileInfo()
         self.size = 0
-        self.speed = Qt.SmoothTransformation
-        self.ticket = 0 # value should be overwritten in initialize
+        self.speed = Qt.TransformationMode.SmoothTransformation
+        self.ticket = 0  # value should be overwritten in initialize
 
     def set_image_to_convert(self, item):
         """ set an item for this worker """
         self.file_info = item[0]
         self.size = item[1]
         if item[2]:
-            self.speed = Qt.FastTransformation
+            self.speed = Qt.TransformationMode.FastTransformation
         else:
-            self.speed = Qt.SmoothTransformation
+            self.speed = Qt.TransformationMode.SmoothTransformation
         self.ticket = item[3]
 
     def run(self):
@@ -105,4 +103,3 @@ class Worker(QThread):
             self.resize_done.emit(self.ticket, img)
         finally:
             pass
-        

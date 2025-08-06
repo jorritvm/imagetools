@@ -1,13 +1,14 @@
 import os
 
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+
 
 class ThumbnailBrowser(QWidget):
     def __init__(self, supervisor, path, image_size, parent=None):
         QWidget.__init__(self, parent)
-        
+
         self.setup_ui()
         self.setup_slots()
 
@@ -16,7 +17,7 @@ class ThumbnailBrowser(QWidget):
 
         self.supervisor = supervisor
         self.supervisor.newItemReady.connect(self.image_ready)
-        
+
         self.root_folder = ""
         self.change_folder(path)
 
@@ -56,12 +57,12 @@ class ThumbnailBrowser(QWidget):
             layout_buttons_browser.addWidget(button)
         layout_buttons_browser.setContentsMargins(4, 4, 4, 4)
         layout_buttons_browser.setSpacing(4)
-        group_browser.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
-                             
+        group_browser.setSizePolicy(QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred))
+
         """combine all components into a vlayout"""
         layout_all_buttons = QHBoxLayout()
         layout_all_buttons.addWidget(group_selection)
-        btnSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        btnSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
         layout_all_buttons.addItem(btnSpacer)
         layout_all_buttons.addWidget(group_browser)
         layout_thumbnail_browser = QVBoxLayout()
@@ -87,19 +88,19 @@ class ThumbnailBrowser(QWidget):
 
     def add_to_selection(self):
         items = self.thumbs_view.selectedItems()
-        self.change_color(items, Qt.darkGray)
+        self.change_color(items, Qt.GlobalColor.darkGray)
 
     def remove_from_selection(self):
         items = self.thumbs_view.selectedItems()
-        self.change_color(items, Qt.white)
+        self.change_color(items, Qt.GlobalColor.white)
 
     def add_all_to_selection(self):
         items = [self.thumbs_view.item(x) for x in range(self.thumbs_view.count())]
-        self.change_color(items, Qt.darkGray)
+        self.change_color(items, Qt.GlobalColor.darkGray)
 
     def clear_selection(self):
         items = [self.thumbs_view.item(x) for x in range(self.thumbs_view.count())]
-        self.change_color(items, Qt.white)
+        self.change_color(items, Qt.GlobalColor.white)
 
     def change_color(self, items, color):
         for item in items:
@@ -112,28 +113,28 @@ class ThumbnailBrowser(QWidget):
 
         """set a directory model with appropriate filters to get the image info"""
         dirModel = QDir(path)
-        dirModel.setNameFilters(["*.jpg","*.jpeg","*.png","*.bmp"])
+        dirModel.setNameFilters(["*.jpg", "*.jpeg", "*.png", "*.bmp"])
 
         """create the DATA the model will use"""
         images = dirModel.entryList()
         img_absolute_paths = list()
         for fileName in images:
             img_absolute_paths.append(dirModel.absoluteFilePath(fileName))
-        
+
         q = []
         maximum_thumbnail_size = self.thumbs_view.iconSizes[-1]
         for file in img_absolute_paths:
             q.append([QFileInfo(file), maximum_thumbnail_size, False])  # not smooth
-            px = QPixmap(maximum_thumbnail_size,maximum_thumbnail_size)  #take this dummy thumbnail large enough
-            px.fill(QColor(255,255,255))  # makes sure it's white
+            px = QPixmap(maximum_thumbnail_size, maximum_thumbnail_size)  # take this dummy thumbnail large enough
+            px.fill(QColor(255, 255, 255))  # makes sure it's white
             x = QListWidgetItem(QIcon(px), os.path.basename(file))
             self.thumbs_view.addItem(x)
-            
+
         # pass the work to the supervisor and receive tickets for every image in return
         self.currentlyProcessing = self.supervisor.add_items(q, False)
         self.supervisor.process_queue()
 
-    def image_ready(self, ticket, img): #img is in QImage format
+    def image_ready(self, ticket, img):  # img is in QImage format
         for item in self.currentlyProcessing:
             # match the QListViewItem to the QImage using the ticket the threaded resizer offers
             if item[3] == ticket:
@@ -158,7 +159,7 @@ class ThumbnailBrowser(QWidget):
         """update filenames of items in the thumbnailbrowser"""
         for old, new in changes.items():
             fi_old = QFileInfo(old)
-            fi_new = QFileInfo(new)                       
+            fi_new = QFileInfo(new)
             if QFileInfo(self.root_folder).absoluteFilePath() == fi_old.absolutePath():
                 for i in range(self.thumbs_view.count()):
                     item = self.thumbs_view.item(i)
@@ -168,10 +169,10 @@ class ThumbnailBrowser(QWidget):
 
 class ThumbnailListWidget(QListWidget):
     def __init__(self, parent=None):
-        QListWidget.__init__(self,parent)
+        QListWidget.__init__(self, parent)
 
         """change the viewmode to iconmode instead of listmode"""
-        self.setViewMode(QListView.IconMode)
+        self.setViewMode(QListView.ViewMode.IconMode)
 
         """set the icon size"""
         self.iconSizes = list(range(50, 750, 50))
@@ -181,10 +182,10 @@ class ThumbnailListWidget(QListWidget):
         """add spacing around and wrapping of the items. also set up for auto resize"""
         self.setSpacing(10)
         self.setWrapping(True)
-        self.setResizeMode(QListView.Adjust)
+        self.setResizeMode(QListView.ResizeMode.Adjust)
 
         """set the view to allow multiple selection and disable drag and drop"""
-        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setDragEnabled(False)
 
     def adjustIconSize(self, direction):
@@ -192,9 +193,9 @@ class ThumbnailListWidget(QListWidget):
             newPos = self.icon_size_position + 1
         elif direction == "-":
             newPos = self.icon_size_position - 1
-        
+
         """make sure we don't try to go out of bounds of our sizes list"""
-        if newPos < 0 or newPos > len(self.iconSizes)-1:
+        if newPos < 0 or newPos > len(self.iconSizes) - 1:
             newPos = self.icon_size_position
 
         self.icon_size_position = newPos
@@ -203,6 +204,5 @@ class ThumbnailListWidget(QListWidget):
     def set_icon_size(self):
         """here we really set the iconSize, the view will update automaticly"""
         size = self.iconSizes[self.icon_size_position]
-        self.setIconSize(QSize(size,size*9/16))
-        self.setGridSize(QSize(size+0,size*9/16+25))
-        
+        self.setIconSize(QSize(size, size))
+        self.setGridSize(QSize(size + 25, size + 25))

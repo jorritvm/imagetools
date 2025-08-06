@@ -1,13 +1,13 @@
 import os
 
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 
 class FolderSelectWidget(QWidget):
-
     selectionChanged = pyqtSignal(str)
-                
+
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         # setup the left pane of the application's main window
@@ -29,6 +29,7 @@ class FolderSelectWidget(QWidget):
     """
     setup_ui section
     """
+
     def create_elements(self):
         # create both widgets of the left pane
         self.dir_tree = QTreeView()  # create directory browser
@@ -38,8 +39,8 @@ class FolderSelectWidget(QWidget):
         # file system model
         self.fsm = QFileSystemModel(self)
         self.fsm.setRootPath("")
-        self.fsm.setFilter(QDir.Dirs | QDir.NoDotAndDotDot)
-   
+        self.fsm.setFilter(QDir.Filter.Dirs | QDir.Filter.NoDotAndDotDot)
+
         # modify the treeview to show only the first column
         self.dir_tree.setModel(self.fsm)
         for i in range(3):
@@ -50,23 +51,24 @@ class FolderSelectWidget(QWidget):
         # if the current item is changed, only expand up to the new item
         self.tree_selection_model = self.dir_tree.selectionModel()
         self.tree_selection_model.currentChanged.connect(self.expand_to_current)
-        
+
         # add a horizontal scrollbar to the tree
-        self.dir_tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)  # todo: this probably can be deleted
+        self.dir_tree.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOn)  # todo: this probably can be deleted
 
     def setup_edit(self):
         # set up a completer used by the lineEdit
         self.completer = QCompleter(self)
-        self.completer.setCaseSensitivity(Qt.CaseInsensitive)
-        self.completer.setCompletionMode(QCompleter.PopupCompletion)
+        self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.completer.setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
         self.completer.setModel(self.fsm)
-        
+
         # set minimum popup height
         self.popup = self.completer.popup()
-        self.popup.setMinimumSize(QSize(0,100))
+        self.popup.setMinimumSize(QSize(0, 100))
         self.dir_edit.setCompleter(self.completer)
         self.dir_edit.tabPressed.connect(self.tab_action)
-        
+
         # set buttons
         self.erase_path_btn = QPushButton("x")
         self.prev_btn = QPushButton("<")
@@ -104,6 +106,7 @@ class FolderSelectWidget(QWidget):
     navigation section: 
     navigation is done by clicking gin the tree, entering the path in the edit, or using back & forward buttons
     """
+
     def set_directory_upon_edit(self):
         # get the path
         path = QFileInfo(self.dir_edit.text()).absoluteFilePath()
@@ -156,14 +159,15 @@ class FolderSelectWidget(QWidget):
     """
     helpers
     """
+
     def tab_action(self):
         # update the completer with the subfolders of the folder on which we clicked TAB
         prefix = self.completer.completionPrefix()
         text = self.dir_edit.text()
         if prefix != text:
-            #a different option is chosen with the arrows in the dropdown
+            # a different option is chosen with the arrows in the dropdown
             next = text
-        else: 
+        else:
             next = self.completer.currentCompletion()
         if QFileInfo(next).isDir():
             next = next + "\\"
@@ -180,7 +184,7 @@ class FolderSelectWidget(QWidget):
         """
         old_path = self.fsm.filePath(old_model_index)
         new_path = self.fsm.filePath(current_model_index)
- 
+
         if old_path in new_path:
             """either the new path is a subfolder of the new path..."""
             self.dir_tree.expand(current_model_index)
@@ -202,10 +206,10 @@ class FolderSelectWidget(QWidget):
                     """here they have common path, so we break the collapse loop"""
                     break
             """and even if the loop continues all the way up the tree, this still works out fine for us..."""
-            
+
             """time to expand the new path"""
             self.dir_tree.expand(current_model_index)
-                
+
         """resize width of column every time expansion/collapsing happens"""
         self.dir_tree.resizeColumnToContents(0)
         """make the first column wider"""
@@ -217,13 +221,13 @@ class FolderSelectWidget(QWidget):
 
 class JLineEdit(QLineEdit):
     tabPressed = pyqtSignal()
-    
+
     def __init__(self, *args):
         QLineEdit.__init__(self, *args)
 
     def event(self, event):
         # emit new signal when tab key is pressed
-        if (event.type() == QEvent.KeyPress) and (event.key() == Qt.Key_Tab):
+        if (event.type() == QEvent.Type.KeyPress) and (event.key() == Qt.Key.Key_Tab):
             self.tabPressed.emit()
             return True
 
@@ -254,7 +258,3 @@ class DirMemory:
             return self.paths[self.index]
         except IndexError:
             return ""
-
-
-
-
