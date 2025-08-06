@@ -1,9 +1,22 @@
+# future
+
+- refactor everything
+    - add type annotations everywhere
+    - make sure style guide is followed
+    - make sure autoformatter is applied to every document
+    - add docstrings where needed (module/class/function doc)
+    - nadd architecture document (diagram)
+- add picture housekeeper modules
+- fix race conditions with threaded resizer!!!
+- maakt een versie 4 van imagetools als alles af is
+
 # imagetools v4.0
 
 ### NOTES
 
-- removing project IDE folders from source control
+- removing IDE project folders (.idea / .vscode) from source control
 - project changes from pip to uv for dependency management
+- remove settings.bin from github & improve default settings handling
 - upgrade to PyQt6
 - added style guide to repo
 - adding style guide to the documentation folder
