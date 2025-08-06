@@ -4,7 +4,7 @@ echo "Current working dir is..."
 cd
 
 echo "Activating venv..."
-call .\venv\Scripts\activate.bat
+call .\.venv\Scripts\activate.bat
 
 echo "Executing conversion script..."
 python .\scripts\build_ui.py

@@ -2,7 +2,9 @@
 
 ### NOTES
 
+- removing project IDE folders from source control
 - project changes from pip to uv for dependency management
+- upgrade to PyQt6
 
 ### NEW FEATURES
 

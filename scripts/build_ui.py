@@ -1,10 +1,11 @@
 # goal of the file: convert the project's UI files into PY files
 
-from pyprojroot import here
-from pathlib import Path
 import os
+from pathlib import Path
 
-pyuic = here("./venv/Scripts/pyuic5.exe")
+from pyprojroot import here
+
+pyuic = here("./.venv/Scripts/pyuic6.exe")
 ui_path_from = here("./src/resources/uixml")
 ui_path_to = here("./src/resources/uipy")
 
@@ -15,6 +16,3 @@ for uifile in sorted(ui_path_from.glob('*.ui')):
     print(cmd)
     os.system(cmd)
 print("Done.")
-
-
-
