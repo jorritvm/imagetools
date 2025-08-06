@@ -1,0 +1,149 @@
+version = 1
+revision = 3
+requires-python = ">=3.13"
+
+[[package]]
+name = "colorama"
+version = "0.4.6"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93a6792e2acffb9d9d5cb0a5cfd8802644b7b1c9a02e4/colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44", size = 27697, upload-time = "2022-10-25T02:36:22.414Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", size = 25335, upload-time = "2022-10-25T02:36:20.889Z" },
+]
+
+[[package]]
+name = "imagetools"
+version = "4.0.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pyprojroot" },
+    { name = "pyqt6" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pyprojroot", specifier = ">=0.3.0" },
+    { name = "pyqt6", specifier = "==6.4.2" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.4.1" }]
+
+[[package]]
+name = "iniconfig"
+version = "2.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f2/97/ebf4da567aa6827c909642694d71c9fcf53e5b504f2d96afea02718862f3/iniconfig-2.1.0.tar.gz", hash = "sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7", size = 4793, upload-time = "2025-03-19T20:09:59.721Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2c/e1/e6716421ea10d38022b952c159d5161ca1193197fb744506875fbb87ea7b/iniconfig-2.1.0-py3-none-any.whl", hash = "sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760", size = 6050, upload-time = "2025-03-19T20:10:01.071Z" },
+]
+
+[[package]]
+name = "packaging"
+version = "25.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a1/d4/1fc4078c65507b51b96ca8f8c3ba19e6a61c8253c72794544580a7b6c24d/packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f", size = 165727, upload-time = "2025-04-19T11:48:59.673Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484", size = 66469, upload-time = "2025-04-19T11:48:57.875Z" },
+]
+
+[[package]]
+name = "pluggy"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
+]
+
+[[package]]
+name = "pygments"
+version = "2.19.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b0/77/a5b8c569bf593b0140bde72ea885a803b82086995367bf2037de0159d924/pygments-2.19.2.tar.gz", hash = "sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887", size = 4968631, upload-time = "2025-06-21T13:39:12.283Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl", hash = "sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b", size = 1225217, upload-time = "2025-06-21T13:39:07.939Z" },
+]
+
+[[package]]
+name = "pyprojroot"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ec/7f/d04044efe4acc4185db1174209fadac33cc21c015ed0d6bef8884c9fa808/pyprojroot-0.3.0.tar.gz", hash = "sha256:109705bb790968704958efcfc5ccce85d8e3dafa054897cc81371fcbbf56cb10", size = 6287, upload-time = "2023-03-13T05:39:30.318Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/53/9b/eef01392be945c0fe86a8d084ba9188b1e2b22af037d7109b9f40a962cd0/pyprojroot-0.3.0-py3-none-any.whl", hash = "sha256:c426b51b17ab4f4d4f95b479cf5b6c22df59bb58fbd4f01b37a6977d29b99888", size = 7558, upload-time = "2023-03-13T05:39:28.707Z" },
+]
+
+[[package]]
+name = "pyqt6"
+version = "6.4.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyqt6-qt6" },
+    { name = "pyqt6-sip" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c3/e0/e1b592a6253712721612e2e64a323930a724e1f5cf297ed5ec6d6c86dda1/PyQt6-6.4.2.tar.gz", hash = "sha256:740244f608fe15ee1d89695c43f31a14caeca41c4f02ac36c86dfba4a5d5813d", size = 1025595, upload-time = "2023-02-06T11:24:05.031Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f4/ff/b9334375470a288ad7a56e14ece9d533a512259a13705b58b5fa20596c78/PyQt6-6.4.2-cp37-abi3-macosx_10_14_universal2.whl", hash = "sha256:c128bc0f17833e324593e3db83e99470d451a197dd17ff0333927b946c935bd9", size = 11627119, upload-time = "2023-02-06T11:23:41.59Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/34/cadd90fc335f09a08d9f586748a50ffdfba40eba07197c0d695361f65116/PyQt6-6.4.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:18d1daf98d9236d55102cdadafd1056f5802f3c9288fcf7238569937b71a89f0", size = 7979668, upload-time = "2023-02-06T11:23:53.179Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/4e/4acc0ebe1f3231217bee58ec0f90ef6bdfbd6e0b7d08420c5ddb97780288/PyQt6-6.4.2-cp37-abi3-win_amd64.whl", hash = "sha256:25bd399b4a95dce65d5f937c1aa85d3c7e14a21745ae2a4ca14c0116cd104290", size = 6400443, upload-time = "2023-02-06T11:24:02.214Z" },
+]
+
+[[package]]
+name = "pyqt6-qt6"
+version = "6.9.1"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/51/40/04f652e714f85ba6b0c24f4ead860f2c5769f9e64737f415524d792d5914/pyqt6_qt6-6.9.1-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:3854c7f83ee4e8c2d91e23ab88b77f90e2ca7ace34fe72f634a446959f2b4d4a", size = 66236777, upload-time = "2025-06-03T14:53:17.684Z" },
+    { url = "https://files.pythonhosted.org/packages/57/31/e4fa40568a59953ce5cf9a5adfbd1be4a806dafd94e39072d3cc0bed5468/pyqt6_qt6-6.9.1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:123e4aeb037c099bb4696a3ea8edcb1d9d62cedd0b2b950556b26024c97f3293", size = 60551574, upload-time = "2025-06-03T14:53:48.42Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/8d/7c8073cbbefe9c103ec8add70f29ffee1db95a3755b429b9f47cd6afa41b/pyqt6_qt6-6.9.1-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:cc5bd193ebd2d1a3ec66e1eee65bf532d762c239459bce1ecebf56177243e89b", size = 82000130, upload-time = "2025-06-03T14:54:26.585Z" },
+    { url = "https://files.pythonhosted.org/packages/1e/60/a4ab932028b0c15c0501cb52eb1e7f24f4ce2e4c78d46c7cce58a375a88c/pyqt6_qt6-6.9.1-py3-none-manylinux_2_39_aarch64.whl", hash = "sha256:b065af7243d1d450a49470a8185301196a18b1d41085d3ef476eb55bbb225083", size = 80463127, upload-time = "2025-06-03T14:55:03.272Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/85/552710819019a96d39d924071324a474aec54b31c410d7de8ebb398adcc1/pyqt6_qt6-6.9.1-py3-none-win_amd64.whl", hash = "sha256:f9e54c424bc921ecb76792a75d123e4ecfc26b00b0c57dae526f41f1d57951d3", size = 73778423, upload-time = "2025-06-03T14:55:39.756Z" },
+    { url = "https://files.pythonhosted.org/packages/16/b4/70f6b18a4913f2326dcf7acb15c12cc0b91cb3932c2ba3b5728811f22acd/pyqt6_qt6-6.9.1-py3-none-win_arm64.whl", hash = "sha256:432caaedf5570bc8a9b7c75bc6af6a26bf88589536472eca73417ac019f59d41", size = 49617924, upload-time = "2025-06-03T14:57:13.038Z" },
+]
+
+[[package]]
+name = "pyqt6-sip"
+version = "13.10.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/4a/96daf6c2e4f689faae9bd8cebb52754e76522c58a6af9b5ec86a2e8ec8b4/pyqt6_sip-13.10.2.tar.gz", hash = "sha256:464ad156bf526500ce6bd05cac7a82280af6309974d816739b4a9a627156fafe", size = 92548, upload-time = "2025-05-23T12:26:49.901Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a1/1e/979ea64c98ca26979d8ce11e9a36579e17d22a71f51d7366d6eec3c82c13/pyqt6_sip-13.10.2-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:8b5d06a0eac36038fa8734657d99b5fe92263ae7a0cd0a67be6acfe220a063e1", size = 112227, upload-time = "2025-05-23T12:26:38.758Z" },
+    { url = "https://files.pythonhosted.org/packages/d9/21/84c230048e3bfef4a9209d16e56dcd2ae10590d03a31556ae8b5f1dcc724/pyqt6_sip-13.10.2-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ad376a6078da37b049fdf9d6637d71b52727e65c4496a80b753ddc8d27526aca", size = 322920, upload-time = "2025-05-23T12:26:39.856Z" },
+    { url = "https://files.pythonhosted.org/packages/b0/1e/c6a28a142f14e735088534cc92951c3f48cccd77cdd4f3b10d7996be420f/pyqt6_sip-13.10.2-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:3dde8024d055f496eba7d44061c5a1ba4eb72fc95e5a9d7a0dbc908317e0888b", size = 303833, upload-time = "2025-05-23T12:26:41.075Z" },
+    { url = "https://files.pythonhosted.org/packages/89/63/e5adf350c1c3123d4865c013f164c5265512fa79f09ad464fb2fdf9f9e61/pyqt6_sip-13.10.2-cp313-cp313-win_amd64.whl", hash = "sha256:0b097eb58b4df936c4a2a88a2f367c8bb5c20ff049a45a7917ad75d698e3b277", size = 53527, upload-time = "2025-05-23T12:26:42.625Z" },
+    { url = "https://files.pythonhosted.org/packages/58/74/2df4195306d050fbf4963fb5636108a66e5afa6dc05fd9e81e51ec96c384/pyqt6_sip-13.10.2-cp313-cp313-win_arm64.whl", hash = "sha256:cc6a1dfdf324efaac6e7b890a608385205e652845c62130de919fd73a6326244", size = 45373, upload-time = "2025-05-23T12:26:43.536Z" },
+]
+
+[[package]]
+name = "pytest"
+version = "8.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "iniconfig" },
+    { name = "packaging" },
+    { name = "pluggy" },
+    { name = "pygments" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/08/ba/45911d754e8eba3d5a841a5ce61a65a685ff1798421ac054f85aa8747dfb/pytest-8.4.1.tar.gz", hash = "sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c", size = 1517714, upload-time = "2025-06-18T05:48:06.109Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/29/16/c8a903f4c4dffe7a12843191437d7cd8e32751d5de349d45d3fe69544e87/pytest-8.4.1-py3-none-any.whl", hash = "sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7", size = 365474, upload-time = "2025-06-18T05:48:03.955Z" },
+]
+
+[[package]]
+name = "typing-extensions"
+version = "4.14.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/98/5a/da40306b885cc8c09109dc2e1abd358d5684b1425678151cdaed4731c822/typing_extensions-4.14.1.tar.gz", hash = "sha256:38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36", size = 107673, upload-time = "2025-07-04T13:28:34.16Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b5/00/d631e67a838026495268c2f6884f3711a15a9a2a96cd244fdaea53b823fb/typing_extensions-4.14.1-py3-none-any.whl", hash = "sha256:d1e1e3b58374dc93031d6eda2420a48ea44a36c2b4766a4fdeb3710755731d76", size = 43906, upload-time = "2025-07-04T13:28:32.743Z" },
+]

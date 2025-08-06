@@ -1,0 +1,15 @@
+[project]
+name = "imagetools"
+version = "4.0.0"
+description = "Collection of JPEG image management tools"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pyprojroot>=0.3.0",
+    "pyqt6==6.4.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
