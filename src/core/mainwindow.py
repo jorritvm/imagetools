@@ -81,12 +81,6 @@ class Ui_mainwindow(object):
         self.btn_auto_select.setDisabled(True)
         self.btn_rotate.setDisabled(True)
 
-    def setup_various(self):
-        self.setWindowTitle("Imagetools by JVM")
-        self.setWindowIcon(QIcon(str(here("src/resources/appicon.ico"))))
-        self.resize(800, 600)
-        self.hsplitter.setSizes([150, 300])  # this gives us a nice startup size distribution
-
     def setup_menu_bar(self):
         """create menu_bar"""
         self.action_settings = QAction("&Settings", self)
@@ -105,3 +99,9 @@ class Ui_mainwindow(object):
         action_debug = QAction("&Debug", self)
         action_debug.triggered.connect(self.debug)
         menu_help.addAction(action_debug)
+
+    def setup_various(self):
+        self.setWindowTitle("Imagetools by JVM")
+        self.setWindowIcon(QIcon(str(here("src/resources/appicon.ico"))))
+        self.resize(800, 600)
+        self.hsplitter.setSizes([150, 300])  # this gives us a nice startup size distribution

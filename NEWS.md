@@ -5,6 +5,9 @@
 - removing project IDE folders from source control
 - project changes from pip to uv for dependency management
 - upgrade to PyQt6
+- added style guide to repo
+- adding style guide to the documentation folder
+- adding ADR to the documentation folder
 
 ### NEW FEATURES
 
