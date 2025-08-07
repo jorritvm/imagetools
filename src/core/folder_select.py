@@ -13,7 +13,7 @@ class FolderSelectWidget(QWidget):
         # setup the left pane of the application's main window
         self.setup_ui()
         self.setup_slots()
-        self.dir_mem = DirMemory()
+        self.dir_mem = FolderMemory()
 
     def setup_ui(self):
         self.create_elements()
@@ -235,7 +235,7 @@ class JLineEdit(QLineEdit):
         return QLineEdit.event(self, event)
 
 
-class DirMemory:
+class FolderMemory:
     def __init__(self):
         self.paths = []
         self.index = -1

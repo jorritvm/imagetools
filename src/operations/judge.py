@@ -205,8 +205,8 @@ class FileHandler(QThread):
         fi_cr2_new = QFileInfo(QDir(self.destDir), fi.baseName() + ".CR2").absoluteFilePath()
 
         # create the directory
-        dirp = fi.dir()
-        if dirp.mkpath(self.destDir):
+        folder_path = fi.dir()
+        if folder_path.mkpath(self.destDir):
             pass
         else:
             print("Creating directory failed...")

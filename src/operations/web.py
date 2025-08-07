@@ -33,11 +33,11 @@ class WebAlbum(QDialog, Ui_WebAlbum):
         os.startfile(link)
 
     def setInitPath(self):
-        fi = self.files[0]
-        dir = fi.dir()
-        dirName = dir.dirName()
-        path = fi.absolutePath()
-        self.editLocation.setText(path + "/../web/")
+        file = self.files[0]
+        folder = file.dir()
+        folder_name = folder.dirName()
+        file_path = file.absolutePath()
+        self.editLocation.setText(file_path + "/../web/")
 
     def log(self, txt):
         self.textBox.append(txt)
@@ -276,10 +276,10 @@ p.footnote {
         # create the folder
         self.log("STEP 1/5: Creating directory")
         newPath = self.editLocation.text()
-        fi = self.files[0]
-        dirp = fi.dir()
+        file = self.files[0]
+        folder_path = file.dir()
 
-        if dirp.mkpath(newPath):
+        if folder_path.mkpath(newPath):
             self.log("Directory created...")
         else:
             self.error = True
@@ -315,15 +315,15 @@ p.footnote {
                 stream << text
 
                 i = 1
-                for fi in self.files:
+                for file in self.files:
                     if i % 3 == 1:
                         if i < 3:
                             stream << "<tr>"
                         else:
                             stream << "</tr><tr>"
                     text = self.html_5_text
-                    text = text.replace("CHTML", fi.baseName() + ".html")
-                    text = text.replace("CPICSMALL", "1_" + fi.fileName())
+                    text = text.replace("CHTML", file.baseName() + ".html")
+                    text = text.replace("CPICSMALL", "1_" + file.fileName())
                     stream << text
 
                     i += 1
@@ -340,9 +340,9 @@ p.footnote {
             PREVHTML = ""
             CURRENTPIC = ""
             i = 0
-            for fi in self.files:
+            for file in self.files:
                 # create the html file
-                name = fi.baseName() + ".html"
+                name = file.baseName() + ".html"
                 name = self.editLocation.text() + "/" + name
 
                 # create the file handle
@@ -359,7 +359,7 @@ p.footnote {
                         NEXTHTML = self.files[i + 1].baseName() + ".html"
                     else:
                         NEXTHTML = ""
-                    CURRENTPIC = "0_" + fi.fileName()
+                    CURRENTPIC = "0_" + file.fileName()
 
                     html = self.html_2_text.replace("PREVHTML", PREVHTML)
                     html = html.replace("NEXTHTML", NEXTHTML)

@@ -103,10 +103,10 @@ class Resize(QDialog, Ui_Resize):
                 newName += "."
                 newName += fileInfo.completeSuffix()
 
-                dir = QDir(self.rootPath + "/" + self.settings["dprefix"])
-                dir.mkpath(dir.absolutePath())  # creating all necessary directories
+                folder = QDir(self.rootPath + "/" + self.settings["dprefix"])
+                folder.mkpath(folder.absolutePath())  # creating all necessary directories
 
-                newNameAbs = dir.absolutePath() + '/' + newName
+                newNameAbs = folder.absolutePath() + '/' + newName
                 print(newNameAbs)
 
                 if img.save(newNameAbs, format=None, quality=self.settings["quality"]):
@@ -120,6 +120,6 @@ class Resize(QDialog, Ui_Resize):
                 self.progressBar.setValue(progress)
 
                 if self.countItemsDone == self.totalItemsTodo:
-                    QMessageBox.information(self, "Done", "All files have been resized...", QMessageBox.Ok,
-                                            QMessageBox.Ok)
+                    QMessageBox.information(self, "Done", "All files have been resized...",
+                                            QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Ok)
                     self.accept()

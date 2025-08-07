@@ -1,5 +1,11 @@
 # Style Guide
 
+## General
+
+Stick to PEP8 style guide as much as possible.
+
+## Capitalization
+
 PyQt are automatically generated python bindings for the C++ Qt framework.  
 In the C++ API camelCase is used.  
 As a consequence, PyQt has camelCase bindings...
@@ -16,3 +22,21 @@ Some examples:
 There is one exception to this rule:
 
 - When overriding or interacting with Qt API methods, one must follow camelCase.
+
+## Files en folder variable names
+
+Avoid using `dir, d, fi, f`  
+Instead use:
+
+- `file` for files (objects)
+- `file_name` for base file names (str)
+- `file_path` for full file paths, absolute or relative (str)
+
+
+- `folder` for folders (objects)
+- `folder_name` for base folder names (str)
+- `folder_path` for full folder paths, absolute or relative (str)
+
+Use prefixes to make it more specific if required. E.g.:
+
+- `image_file` for image files

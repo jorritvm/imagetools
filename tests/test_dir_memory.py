@@ -1,7 +1,8 @@
 from src.core import folder_select as fs
 
+
 def test_dir_memory():
-    dm = fs.DirMemory()
+    dm = fs.FolderMemory()
     assert dm.current() == ""
 
     dm.add("path_a")

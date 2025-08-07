@@ -64,9 +64,9 @@ class ImportImages(QDialog, Ui_Import):
         self.log("Creating main directory..")
         new_path = self.edit_destination.text()
         fi = self.files[0]
-        dirp = fi.dir()
+        folder_path = fi.dir()
 
-        if dirp.mkpath(new_path):
+        if folder_path.mkpath(new_path):
             self.log("Directory created...")
         else:
             self.abort = True

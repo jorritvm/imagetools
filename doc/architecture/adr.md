@@ -42,3 +42,6 @@ This project uses the second method for the following reasons:
 - XML parsing is rare, and has been automated using a bat/py script in the scripts/ folder
 - having the python code in the project allows for IDE autocompletion
 
+## ADR 2: Use the style guide as described in style_guide.md
+
+This project follows the style guide as described in `doc/style_guide/style_guide.md`.
