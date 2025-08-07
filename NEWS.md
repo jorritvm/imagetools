@@ -5,7 +5,7 @@
     - make sure style guide is followed
     - make sure autoformatter is applied to every document
     - add docstrings where needed (module/class/function doc)
-    - nadd architecture document (diagram)
+    - add architecture document (diagram)
 - add picture housekeeper modules
 - fix race conditions with threaded resizer!!!
 - maakt een versie 4 van imagetools als alles af is
@@ -21,6 +21,7 @@
 - added style guide to repo
 - adding style guide to the documentation folder
 - adding ADR to the documentation folder
+- adding main window widget nesting diagram
 
 ### NEW FEATURES
 

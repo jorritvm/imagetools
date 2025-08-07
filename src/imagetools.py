@@ -28,7 +28,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.move(self.settings['app_pos'])
 
     def setup_slots(self):
-        self.widget_left.selectionChanged.connect(self.t_browser.change_folder)
+        self.folder_select.selectionChanged.connect(self.t_browser.change_folder)
         self.btn_import.pressed.connect(self.import_btn_action)
         self.btn_number.pressed.connect(self.numberButtonAction)
         self.btn_rename.pressed.connect(self.renameButtonAction)
@@ -42,8 +42,8 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.action_changelog.triggered.connect(self.show_changelog)
 
     def setFolder(self, path):
-        self.widget_left.dir_edit.setText(path)
-        self.widget_left.dir_edit.returnPressed.emit()
+        self.folder_select.folder_edit.setText(path)
+        self.folder_select.folder_edit.returnPressed.emit()
 
     def show_about(self):
         dlg = AboutDialog("README.md")
@@ -56,7 +56,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         dlg.close()
 
     def closeEvent(self, event):
-        self.settings['path'] = self.widget_left.dir_edit.text()
+        self.settings['path'] = self.folder_select.folder_edit.text()
         self.settings['image_size'] = self.t_browser.thumbs_view.icon_size_position
         self.settings['app_size'] = self.size()
         self.settings['app_pos'] = self.pos()
@@ -67,7 +67,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         if len(files) == 0:
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else:
-            im = ImportImages(files, self.settings, self.widget_left.dir_edit.text())
+            im = ImportImages(files, self.settings, self.folder_select.folder_edit.text())
             if im.exec():
                 path = im.get_new_path()
                 self.setFolder(path)
@@ -106,9 +106,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             QMessageBox.warning(self, "No selection", "Create a selection first.")
         else:
             """create the dialog"""
-            res = Resize(files, self.supervisor, self.widget_left.dir_edit.text())
+            res = Resize(files, self.supervisor, self.folder_select.folder_edit.text())
             res.exec()
-            x = self.widget_left.dir_edit.text()
+            x = self.folder_select.folder_edit.text()
             res.close()
 
     def webAlbumButtonAction(self):
@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
     def uploadButtonAction(self):
         """create the dialog"""
-        up = Upload(self.settings, self.widget_left.dir_edit.text())
+        up = Upload(self.settings, self.folder_select.folder_edit.text())
         up.exec()
         up.close()
 
@@ -139,9 +139,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
     def debug(self):
         print("paths")
-        print(self.widget_left.dir_mem.paths)
+        print(self.folder_select.folder_memory.paths)
         print("index")
-        print(self.widget_left.dir_mem.index)
+        print(self.folder_select.folder_memory.index)
 
 
 if __name__ == "__main__":

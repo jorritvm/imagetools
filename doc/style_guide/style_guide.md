@@ -23,6 +23,17 @@ There is one exception to this rule:
 
 - When overriding or interacting with Qt API methods, one must follow camelCase.
 
+## Avoid the use of abbreviations in names as much as possible
+
+While the abbreviation may seem clear at the time of writing, it may not be clear to others later on.  
+E.g. ´fi´ could be interpreted as 'file', 'file_info', etc.
+
+| Approved abbreviations | Discouraged abbreviations |
+|------------------------|---------------------------|
+| app, i, j              | fi, pos, dir, d, f        |
+
+i, j are allowed as loop variables in for loops, but should not be used in other contexts.
+
 ## Files en folder variable names
 
 Avoid using `dir, d, fi, f`  

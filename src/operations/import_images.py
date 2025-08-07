@@ -8,10 +8,10 @@ from resources.uipy.import_images import Ui_Import
 
 class ImportImages(QDialog, Ui_Import):
 
-    def __init__(self, files, settings, root, parent=None):
+    def __init__(self, files: list[QFileInfo], settings, root, parent=None):
         QDialog.__init__(self, parent)
 
-        self.files = files
+        self.files = files  # list of QFileInfo objects
         self.root = root
         self.settings = settings
         self.total = len(self.files)

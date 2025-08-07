@@ -1,10 +1,9 @@
 """ UI written by hand instead of the qt designer, but using the same 'trick' of creating a second super class """
 
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
+from pyprojroot import here
+
 from core.folder_select import *
 from core.thumbnail_browser import ThumbnailBrowser
-from pyprojroot import here
 
 
 class Ui_mainwindow(object):
@@ -15,20 +14,8 @@ class Ui_mainwindow(object):
         self.setup_various()
 
     def setup_widgets(self):
-        """
-            the UI consists parent structure is as follows
-             main window
-                -> central widget
-                    -> grid layout
-                        -> hsplitter
-                            -> left widget: folderselect widget
-                            -> right widget
-                                -> v layout
-                                    -> thumbnail_browser
-                                    -> group of buttons """
-
         """ create left widget"""
-        self.widget_left = FolderSelectWidget()
+        self.folder_select = FolderSelectWidget()
 
         """ create the right widget"""
         # create toolbuttons & organise them in a 3x3 layout
@@ -69,7 +56,7 @@ class Ui_mainwindow(object):
 
         """combine left and right into the central widget"""
         self.hsplitter = QSplitter()
-        self.hsplitter.addWidget(self.widget_left)
+        self.hsplitter.addWidget(self.folder_select)
         self.hsplitter.addWidget(self.widget_right)
         self.centralWidget = QWidget(self)
         self.setCentralWidget(self.centralWidget)

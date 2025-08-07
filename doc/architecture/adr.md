@@ -45,3 +45,4 @@ This project uses the second method for the following reasons:
 ## ADR 2: Use the style guide as described in style_guide.md
 
 This project follows the style guide as described in `doc/style_guide/style_guide.md`.
+

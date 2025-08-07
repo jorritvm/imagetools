@@ -62,8 +62,8 @@ class ThumbnailBrowser(QWidget):
         """combine all components into a vlayout"""
         layout_all_buttons = QHBoxLayout()
         layout_all_buttons.addWidget(group_selection)
-        btnSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-        layout_all_buttons.addItem(btnSpacer)
+        spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        layout_all_buttons.addItem(spacer)
         layout_all_buttons.addWidget(group_browser)
         layout_thumbnail_browser = QVBoxLayout()
         layout_thumbnail_browser.addWidget(self.thumbs_view)
@@ -77,27 +77,32 @@ class ThumbnailBrowser(QWidget):
         self.btn_remove.pressed.connect(self.remove_from_selection)
         self.btn_add_all.pressed.connect(self.add_all_to_selection)
         self.btn_clear.pressed.connect(self.clear_selection)
-        self.btn_zoom_in.pressed.connect(lambda: self.thumbs_view.adjustIconSize("+"))
-        self.btn_zoom_out.pressed.connect(lambda: self.thumbs_view.adjustIconSize("-"))
+        self.btn_zoom_in.pressed.connect(lambda: self.thumbs_view.adjust_icon_size("+"))
+        self.btn_zoom_out.pressed.connect(lambda: self.thumbs_view.adjust_icon_size("-"))
 
+    @pyqtSlot(QListWidgetItem)
     def open_in_external_app(self, item):
-        fi = QFileInfo()
-        fi.setFile(QDir(self.root_folder), item.text())
-        link = fi.absoluteFilePath()
+        file_info = QFileInfo()
+        file_info.setFile(QDir(self.root_folder), item.text())
+        link = file_info.absoluteFilePath()
         os.startfile(link)
 
+    @pyqtSlot()
     def add_to_selection(self):
         items = self.thumbs_view.selectedItems()
         self.change_color(items, Qt.GlobalColor.darkGray)
 
+    @pyqtSlot()
     def remove_from_selection(self):
         items = self.thumbs_view.selectedItems()
         self.change_color(items, Qt.GlobalColor.white)
 
+    @pyqtSlot()
     def add_all_to_selection(self):
         items = [self.thumbs_view.item(x) for x in range(self.thumbs_view.count())]
         self.change_color(items, Qt.GlobalColor.darkGray)
 
+    @pyqtSlot()
     def clear_selection(self):
         items = [self.thumbs_view.item(x) for x in range(self.thumbs_view.count())]
         self.change_color(items, Qt.GlobalColor.white)
@@ -112,14 +117,14 @@ class ThumbnailBrowser(QWidget):
         self.supervisor.clear_queue()
 
         """set a directory model with appropriate filters to get the image info"""
-        dirModel = QDir(path)
-        dirModel.setNameFilters(["*.jpg", "*.jpeg", "*.png", "*.bmp"])
+        folder = QDir(path)
+        folder.setNameFilters(["*.jpg", "*.jpeg", "*.png", "*.bmp"])
 
         """create the DATA the model will use"""
-        images = dirModel.entryList()
+        images = folder.entryList()
         img_absolute_paths = list()
         for fileName in images:
-            img_absolute_paths.append(dirModel.absoluteFilePath(fileName))
+            img_absolute_paths.append(folder.absoluteFilePath(fileName))
 
         q = []
         maximum_thumbnail_size = self.thumbs_view.iconSizes[-1]
@@ -149,7 +154,7 @@ class ThumbnailBrowser(QWidget):
         view = self.thumbs_view
         for i in range(view.count()):
             item = view.item(i)
-            if item.background() == QColor(Qt.darkGray):
+            if item.background() == QColor(Qt.GlobalColor.darkGray):
                 fi = QFileInfo()
                 fi.setFile(QDir(self.root_folder), item.text())
                 x.append(fi)
@@ -158,13 +163,13 @@ class ThumbnailBrowser(QWidget):
     def update_elements(self, changes):
         """update filenames of items in the thumbnailbrowser"""
         for old, new in changes.items():
-            fi_old = QFileInfo(old)
-            fi_new = QFileInfo(new)
-            if QFileInfo(self.root_folder).absoluteFilePath() == fi_old.absolutePath():
+            file_old = QFileInfo(old)
+            file_new = QFileInfo(new)
+            if QFileInfo(self.root_folder).absoluteFilePath() == file_old.absolutePath():
                 for i in range(self.thumbs_view.count()):
                     item = self.thumbs_view.item(i)
-                    if item.text() == fi_old.fileName():
-                        item.setText(fi_new.fileName())
+                    if item.text() == file_old.fileName():
+                        item.setText(file_new.fileName())
 
 
 class ThumbnailListWidget(QListWidget):
@@ -188,17 +193,19 @@ class ThumbnailListWidget(QListWidget):
         self.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setDragEnabled(False)
 
-    def adjustIconSize(self, direction):
+    @pyqtSlot(str)
+    def adjust_icon_size(self, direction):
+        new_position = self.icon_size_position
         if direction == "+":
-            newPos = self.icon_size_position + 1
+            new_position = self.icon_size_position + 1
         elif direction == "-":
-            newPos = self.icon_size_position - 1
+            new_position = self.icon_size_position - 1
 
         """make sure we don't try to go out of bounds of our sizes list"""
-        if newPos < 0 or newPos > len(self.iconSizes) - 1:
-            newPos = self.icon_size_position
+        if new_position < 0 or new_position > len(self.iconSizes) - 1:
+            new_position = self.icon_size_position
 
-        self.icon_size_position = newPos
+        self.icon_size_position = new_position
         self.set_icon_size()
 
     def set_icon_size(self):

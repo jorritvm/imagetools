@@ -4,40 +4,51 @@ import pickle
 from PyQt6.QtCore import QSize, QPoint
 from PyQt6.QtWidgets import *
 from pyprojroot import here
+
+import constants
 from resources.uipy.settings import Ui_SettingsDialog
 
 
 class SettingsManager(dict):
-    def __init__(self, parent):
+    def __init__(self, parent=None):
+        super().__init__()
         self.parent = parent
+        self.settings_folder_path = here(constants.SETTINGS_FOLDER_NAME)
+        self.create_settings_folder()
+
+        self.settings_file_path = os.path.join(self.settings_folder_path, constants.SETTINGS_FILE_NAME)
         self.load_settings()
 
-    def _create_settings_folder(self):
+    def generate_default_settings(self):
+        self['n_threads'] = int(os.cpu_count() / 2)
+        self['save_thumbs'] = False
+        self['default_location'] = "c:/temp"
+        self['path'] = ""
+        self['image_size'] = 2
+        self['app_size'] = QSize(800, 600)
+        self['app_pos'] = QPoint(100, 100)
+
+    def create_settings_folder(self):
         """Create the settings folder if it does not exist."""
-        fpfn = here("settings")
         try:
-            if not fpfn.exists():
-                os.makedirs(fpfn, exist_ok=True)
+            if not self.settings_folder_path.exists():
+                os.makedirs(self.settings_folder_path, exist_ok=True)
         except OSError as e:
             QMessageBox.critical(self.parent, "ERROR", "There was an error creating the settings folder...")
 
     def load_settings(self):
-        self._create_settings_folder()
-        fpfn_settings = here("settings/settings.bin")
-        if not fpfn_settings.exists():
-            self['n_threads'] = int(os.cpu_count() / 2)
-            self['save_thumbs'] = False
-            self['default_location'] = "c:/temp"
-            self['path'] = ""
-            self['image_size'] = 2
-            self['app_size'] = QSize(800, 600)
-            self['app_pos'] = QPoint(100, 100)
+        if not os.path.exists(self.settings_file_path):
+            self.generate_default_settings()
         else:
             try:
-                fi = open(fpfn_settings, 'rb')
-                self.update(pickle.load(fi))  # merge pure dict in this empty subclassed dict
-            finally:
-                fi.close()
+                with open(self.settings_file_path, 'rb') as file:
+                    self.update(pickle.load(file))  # merge pure dict in this empty subclassed dict
+            except Exception as e:
+                QMessageBox.critical(self.parent, "ERROR",
+                                     "There was an error loading the settings file...\n" +
+                                     "Reverting to default settings.\n" +
+                                     str(e))
+                self.generate_default_settings()
 
     def save_settings(self):
         try:
@@ -94,5 +105,5 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         values['default_location'] = self.edit_root_folder.text()
         return values
 
-    def closeEvent(self, ev):
-        ev.accept()  # redundant
+    # def closeEvent(self, ev):
+    #     ev.accept()  # redundant
