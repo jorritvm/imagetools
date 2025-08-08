@@ -1,5 +1,6 @@
 """ UI written by hand instead of the qt designer, but using the same 'trick' of creating a second super class """
 
+from PyQt6.QtWidgets import QGroupBox, QSizePolicy
 from pyprojroot import here
 
 from core.folder_select import *
@@ -44,11 +45,11 @@ class Ui_mainwindow(object):
 
         # create the thumbnailbrowser
         # self supervisor and self.settings must exist in subclass (templating)
-        self.t_browser = ThumbnailBrowser(self.supervisor, self.settings['path'], self.settings['image_size'])
+        self.browser = ThumbnailBrowser(self.supervisor, self.settings['path'], self.settings['image_size'])
 
         # combine thumbnailbrowser and buttonbox using a vlayout into the right widget
         layout_right = QVBoxLayout()
-        layout_right.addWidget(self.t_browser)
+        layout_right.addWidget(self.browser)
         layout_right.addWidget(group_actions)
         layout_right.setContentsMargins(0, 0, 0, 0)
         self.widget_right = QWidget()

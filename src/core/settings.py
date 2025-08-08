@@ -87,7 +87,6 @@ class SettingsManager(dict):
 
 
 class SettingsDialog(QDialog, Ui_SettingsDialog):
-
     def __init__(self, values, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
@@ -104,6 +103,3 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
         values['save_thumbs'] = self.check_save_thumbs.isChecked()
         values['default_location'] = self.edit_root_folder.text()
         return values
-
-    # def closeEvent(self, ev):
-    #     ev.accept()  # redundant
