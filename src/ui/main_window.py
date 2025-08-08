@@ -1,3 +1,4 @@
+from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QGroupBox, QSizePolicy, QSplitter, \
     QHBoxLayout, QWidget
 
@@ -12,9 +13,10 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
         self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
+        self.actions: dict = dict()
+
         self.setup_widgets()
-        # self.setup_btn_tweaks()
-        # self.setup_menu_bar()
+        self.setup_menu_bar()
         # self.setup_various()
         # self.setup_slots()
         #
@@ -31,7 +33,6 @@ class MainWindow(QMainWindow):
         self.browser = Browser(self.supervisor, self.settings['path'], self.settings['image_size'])
 
         # create the right section
-        self.actions = dict()
         self.actions['takeout'] = QPushButton("Takeout")
         self.actions['heic2jpg'] = QPushButton("Heic 2 JPG")
         self.actions['flat2tree'] = QPushButton("Flat 2 Tree")
@@ -67,12 +68,8 @@ class MainWindow(QMainWindow):
         self.hsplitter.addWidget(self.folder_select)
         self.hsplitter.addWidget(self.right_of_splitter)
         self.setCentralWidget(self.hsplitter)
-        self.setContentsMargins(10, 10, 10, 10)
-
-    def setup_btn_tweaks(self):
-        # todo: remove when features are added
-        self.btn_auto_select.setDisabled(True)
-        self.btn_rotate.setDisabled(True)
+        self.folder_select.setContentsMargins(10, 0, 0, 10)
+        self.middle_right.setContentsMargins(0, 0, 10, 10)
 
     def setup_menu_bar(self):
         """create menu_bar"""
