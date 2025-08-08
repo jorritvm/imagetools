@@ -1,6 +1,7 @@
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
-from resources.uipy.resize import *
+
+from ui.designer.resize import *
 
 
 class Resize(QDialog, Ui_Resize):

@@ -9,7 +9,8 @@ from ftplib import *
 
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
-from resources.uipy.upload import *
+
+from ui.designer.upload import *
 
 
 class Upload(QDialog, Ui_Upload):

@@ -2,7 +2,8 @@ import os
 
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
-from resources.uipy.web import *
+
+from ui.designer.web import *
 
 
 class WebAlbum(QDialog, Ui_WebAlbum):

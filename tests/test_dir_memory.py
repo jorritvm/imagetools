@@ -1,4 +1,4 @@
-from src.core import folder_select as fs
+from src.ui import folder_select as fs
 
 
 def test_dir_memory():

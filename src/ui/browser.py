@@ -5,7 +5,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 
 
-class ThumbnailBrowser(QWidget):
+class Browser(QWidget):
     def __init__(self, supervisor, path, image_size, parent=None):
         QWidget.__init__(self, parent)
 

@@ -4,22 +4,38 @@ A JPG photography workflow toolsuite.
 
 ## Description
 
-When you take many pictures in JPG, Imagetools helps you perform the necessary workflow operations to get everything
-cleaned up efficiently.
+Imagetools helps you perform the necessary photography workflow operations to manage your library efficiently through
+various actions. All actions are accessible through the UI or via their own CLI.
 
-Supported operations:
+| Action             | Description                                              | Supported in UI | Supported in CLI |
+|--------------------|----------------------------------------------------------|:---------------:|:----------------:|
+| Takeout            | Apply JSON metadata to google takeout images             |        ❌        |        ❌         |
+| Flat to Tree       | Convert flat list of imagest to date-based hierarchy     |        ❌        |        ❌         |
+| Heic to JPG        | Convert all heic in a folder into jpg & keep exif        |        ❌        |        ❌         |
+| Exif to Mtime      | Modify Mtime with date taken from EXIF                   |        ❌        |        ❌         |
+| Auto Select        | Auto select new images from a directory                  |        ❌        |        ❌         |
+| Import             | Import from your SD card                                 |        ❌        |        ❌         |
+| Make Sequential    | Force google to see name-based sequential order          |        ❌        |        ❌         |
+| Seperate Video     | Seperate pictures from video files                       |        ❌        |        ❌         |
+| Metadata Harvester | Overwrite downloaded google photos with correct metadata |        ❌        |        ❌         |
+| Prefix Mtime       | Add the mtime as prefix to all filenames                 |        ❌        |        ❌         |
+| Auto Rotate        | Auto rotate based on EXIF information                    |        ❌        |        ❌         |
+| Number             | Number                                                   |        ❌        |        ❌         |
+| Judge              | Select the best images from a series                     |        ❌        |        ❌         |
+| Rename             | Number and rename                                        |        ❌        |        ❌         |
+| Recursive Resize   | Recursively resize pictures                              |        ❌        |        ❌         |
+| Resize             | Resize                                                   |        ❌        |        ❌         |
+| Web Album          | Create a webalbum                                        |        ❌        |        ❌         |
+| FTP upload         | Upload to an FTP webhost                                 |        ❌        |        ❌         |
+| Cleanup            | Analyse and cleanup image folders                        |        ❌        |        ❌         |
+| Archive            | Zip image folders                                        |        ❌        |        ❌         |
 
-* Import from your SD card
-* Auto rotate based on EXIF information
-* Select the best images from a series of similar ones
-* Number and rename
-* Resize
-* Create a webalbum
-* Upload it to an FTP webhost
+✅ Supported    
+❌ Not supported
 
 ## Screenshot
 
-[<img src="doc/screenshots/v3.0/main_window.png" width="300"/>](doc/screenshots/v3.0/main_window.png)
+[<img src="docs/screenshots/v3.0/main_window.png" width="300"/>](docs/screenshots/v3.0/main_window.png)
 
 ## Changelog
 

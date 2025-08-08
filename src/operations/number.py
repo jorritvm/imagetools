@@ -1,6 +1,7 @@
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
-from resources.uipy.number import *
+
+from ui.designer.number import *
 
 
 class Number(QDialog, Ui_Number):

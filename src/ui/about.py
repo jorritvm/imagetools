@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import *
 from pyprojroot import here
 
-from resources.uipy.about import Ui_Dialog
+from ui.designer.about import Ui_Dialog
 
 
 class AboutDialog(QDialog, Ui_Dialog):

@@ -3,7 +3,8 @@ import shutil
 
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
-from resources.uipy.import_images import Ui_Import
+
+from ui.designer.import_images import Ui_Import
 
 
 class ImportImages(QDialog, Ui_Import):
