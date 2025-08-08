@@ -10,17 +10,17 @@ various actions. All actions are accessible through the UI or via their own CLI.
 | Action             | Description                                              | Supported in UI | Supported in CLI |
 |--------------------|----------------------------------------------------------|:---------------:|:----------------:|
 | Takeout            | Apply JSON metadata to google takeout images             |        ❌        |        ❌         |
-| Flat to Tree       | Convert flat list of imagest to date-based hierarchy     |        ❌        |        ❌         |
 | Heic to JPG        | Convert all heic in a folder into jpg & keep exif        |        ❌        |        ❌         |
+| Flat to Tree       | Convert flat list of imagest to date-based hierarchy     |        ❌        |        ❌         |
 | Exif to Mtime      | Modify Mtime with date taken from EXIF                   |        ❌        |        ❌         |
 | Auto Select        | Auto select new images from a directory                  |        ❌        |        ❌         |
 | Import             | Import from your SD card                                 |        ❌        |        ❌         |
-| Make Sequential    | Force google to see name-based sequential order          |        ❌        |        ❌         |
-| Seperate Video     | Seperate pictures from video files                       |        ❌        |        ❌         |
+| Separate Video     | Separate pictures from video files                       |        ❌        |        ❌         |
 | Metadata Harvester | Overwrite downloaded google photos with correct metadata |        ❌        |        ❌         |
 | Prefix Mtime       | Add the mtime as prefix to all filenames                 |        ❌        |        ❌         |
 | Auto Rotate        | Auto rotate based on EXIF information                    |        ❌        |        ❌         |
 | Number             | Number                                                   |        ❌        |        ❌         |
+| Make Sequential    | Force google to see name-based sequential order          |        ❌        |        ❌         |
 | Judge              | Select the best images from a series                     |        ❌        |        ❌         |
 | Rename             | Number and rename                                        |        ❌        |        ❌         |
 | Recursive Resize   | Recursively resize pictures                              |        ❌        |        ❌         |

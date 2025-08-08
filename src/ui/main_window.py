@@ -1,6 +1,9 @@
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QGroupBox, QSizePolicy, QSplitter, \
+    QHBoxLayout, QWidget
 
 from threaded_resizer.threaded_resizer import Supervisor
+from ui.browser import Browser
+from ui.folder_select import FolderSelectWidget
 from ui.settings import SettingsManager
 
 
@@ -9,7 +12,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
         self.settings = SettingsManager(self)
         self.supervisor = Supervisor(self.settings['n_threads'], self)
-        # self.setup_widgets()
+        self.setup_widgets()
         # self.setup_btn_tweaks()
         # self.setup_menu_bar()
         # self.setup_various()
@@ -21,54 +24,50 @@ class MainWindow(QMainWindow):
         # self.move(self.settings['app_position'])
 
     def setup_widgets(self):
-        """ create left widget"""
+        # create the left section
         self.folder_select = FolderSelectWidget()
 
-        """ create the right widget"""
-        # create toolbuttons & organise them in a 3x3 layout
-        self.btn_auto_select = QPushButton("1. Auto Select")
-        self.btn_import = QPushButton("2. Import")
-        self.btn_rotate = QPushButton("3. Rotate")
-        self.btn_number = QPushButton("4. Number")
-        self.btn_judge = QPushButton("5. Judge")
-        self.btn_rename = QPushButton("6. Rename")
-        self.btn_resize = QPushButton("7. Resize")
-        self.btn_webalbum = QPushButton("8. Web Album")
-        self.btn_upload = QPushButton("9. Upload")
-        list_buttons = [self.btn_auto_select, self.btn_import, self.btn_rotate, self.btn_number, self.btn_judge,
-                        self.btn_rename, self.btn_resize, self.btn_webalbum, self.btn_upload]
-        group_actions = QGroupBox("Actions")
-        layout_buttons = QGridLayout(group_actions)
-        i = 0
-        for btn in list_buttons:
-            x = i % 3
-            y = int(i / 3)
-            layout_buttons.addWidget(btn, y, x)
-            i += 1
-        layout_buttons.setContentsMargins(4, 4, 4, 4)
-        layout_buttons.setSpacing(4)
-        group_actions.setSizePolicy(QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum))
-
-        # create the thumbnailbrowser
-        # self supervisor and self.settings must exist in subclass (templating)
+        # create the middle section
         self.browser = Browser(self.supervisor, self.settings['path'], self.settings['image_size'])
 
-        # combine thumbnailbrowser and buttonbox using a vlayout into the right widget
-        layout_right = QVBoxLayout()
-        layout_right.addWidget(self.browser)
-        layout_right.addWidget(group_actions)
-        layout_right.setContentsMargins(0, 0, 0, 0)
-        self.widget_right = QWidget()
-        self.widget_right.setLayout(layout_right)
+        # create the right section
+        self.actions = dict()
+        self.actions['takeout'] = QPushButton("Takeout")
+        self.actions['heic2jpg'] = QPushButton("Heic 2 JPG")
+        self.actions['flat2tree'] = QPushButton("Flat 2 Tree")
+        self.actions['auto_select'] = QPushButton("Auto Select")
+        self.actions['import'] = QPushButton("Import")
+        self.actions['rotate'] = QPushButton("Rotate")
+        self.actions['number'] = QPushButton("Number")
+        self.actions['judge'] = QPushButton("Judge")
+        self.actions['rename'] = QPushButton("Rename")
+        self.actions['resize'] = QPushButton("Resize")
+        self.actions['webalbum'] = QPushButton("Web Album")
+        self.actions['ftp_upload'] = QPushButton("FTP Upload")
+        self.actions['archive'] = QPushButton("Archive")
+        self.actions['cleanup'] = QPushButton("Cleanup")
+        self.actions['make_sequential'] = QPushButton("Make Sequential")
+        self.actions['prefix_mtime'] = QPushButton("Prefix MTime")
+        self.actions['separate_video'] = QPushButton("Separate Video")
+        self.actions['harvest_metadata'] = QPushButton("Harvest Metadata")
+        self.group_actions = QGroupBox("Actions")
+        layout_buttons = QVBoxLayout(self.group_actions)
+        for btn in self.actions.values():
+            btn.setSizePolicy(QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum))
+            btn.setMinimumHeight(30)
+            btn.setMinimumWidth(100)
+            layout_buttons.addWidget(btn)
 
-        """combine left and right into the central widget"""
-        self.hsplitter = QSplitter()
+        """combine left, middle and right into the central widget"""
+        self.right_of_splitter = QWidget()
+        self.middle_right = QHBoxLayout(self.right_of_splitter)
+        self.middle_right.addWidget(self.browser)
+        self.middle_right.addWidget(self.group_actions)
+        self.hsplitter = QSplitter(self)
         self.hsplitter.addWidget(self.folder_select)
-        self.hsplitter.addWidget(self.widget_right)
-        self.centralWidget = QWidget(self)
-        self.setCentralWidget(self.centralWidget)
-        gridLayout = QGridLayout(self.centralWidget)
-        gridLayout.addWidget(self.hsplitter)
+        self.hsplitter.addWidget(self.right_of_splitter)
+        self.setCentralWidget(self.hsplitter)
+        self.setContentsMargins(10, 10, 10, 10)
 
     def setup_btn_tweaks(self):
         # todo: remove when features are added

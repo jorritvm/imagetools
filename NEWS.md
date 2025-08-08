@@ -22,6 +22,7 @@
 - adding style guide to the documentation folder
 - adding ADR to the documentation folder
 - adding main window widget nesting diagram
+- refactoring repo structure seperating ui and backend code
 
 ### NEW FEATURES
 
