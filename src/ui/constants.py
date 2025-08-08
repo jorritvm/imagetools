@@ -4,3 +4,5 @@ The usage is straightforward: import the constants you need from this module.
 """
 SETTINGS_FOLDER_NAME = "settings"
 SETTINGS_FILE_NAME = "settings.bin"
+INITIAL_WINDOW_WIDTH = 1000
+INITIAL_WINDOW_HEIGHT = 800

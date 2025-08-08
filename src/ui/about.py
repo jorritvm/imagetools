@@ -1,21 +1,19 @@
-from PyQt6.QtWidgets import *
-from pyprojroot import here
+from PyQt6.QtWidgets import QDialog, QMessageBox
 
 from ui.designer.about import Ui_Dialog
 
 
 class AboutDialog(QDialog, Ui_Dialog):
 
-    def __init__(self, md, parent=None):
+    def __init__(self, file_path: str, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)
 
-        if here(md).exists():
-            try:
-                fcon = open(here(md), "r")
-                txt = fcon.read()
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                txt = file.read()
                 self.textEdit.setMarkdown(txt)
-            finally:
-                fcon.close()
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
 
         self.resize(600, 600)

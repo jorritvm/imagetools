@@ -1,7 +1,7 @@
 import os
 import pickle
 
-from PyQt6.QtCore import QSize, QPoint, pyqtSlot
+from PyQt6.QtCore import QSize, QPoint
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from pyprojroot import here
 
@@ -15,6 +15,8 @@ class SettingsManager(dict):
 
     It adds functionality to load and save settings to a file, and display settings in a dialog.
     If there are problems during loading or saving, it will revert to default settings to avoid crashing the application.
+
+    Note: can't use @pyqtSlot decorator on slots because self is not a QObject (but that's OK)
     """
 
     def __init__(self, parent=None):
@@ -76,17 +78,12 @@ class SettingsManager(dict):
             flag = False
         return flag
 
-    def show_settings_dialog(self) -> None:
-        self.settingsDialog = SettingsDialog(self)
-        # todo: --- not yet implemented ---
-        self.settingsDialog.check_save_thumbs.setDisabled(True)
-        self.settingsDialog.label_2.setDisabled(True)
-        # ---------------------------
+    def show_settings_dialog(self, clicked: bool = False) -> None:
+        self.settingsDialog = SettingsDialog(self, self.parent)
         self.settingsDialog.accepted.connect(self.accept_settings)
         self.settingsDialog.rejected.connect(self.reject_settings)
         self.settingsDialog.exec()
 
-    @pyqtSlot()
     def accept_settings(self) -> None:
         temp = self.settingsDialog.to_dict()
         for key, value in temp.items():
@@ -95,7 +92,6 @@ class SettingsManager(dict):
             QMessageBox.warning(self.parent, "Warning", "You must restart Imagetools for changes to take effect...")
         self.settingsDialog.close()
 
-    @pyqtSlot()
     def reject_settings(self) -> None:
         self.settingsDialog.close()
 
