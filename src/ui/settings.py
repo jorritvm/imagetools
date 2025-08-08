@@ -2,6 +2,7 @@ import os
 import pickle
 
 from PyQt6.QtCore import QSize, QPoint, pyqtSlot
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from pyprojroot import here
 
 from ui import constants
@@ -100,6 +101,10 @@ class SettingsManager(dict):
 
 
 class SettingsDialog(QDialog, Ui_SettingsDialog):
+    """
+    SettingsDialog is a QDialog that allows the user to view and modify UI application settings.
+    """
+
     def __init__(self, values: SettingsManager, parent=None):
         QDialog.__init__(self, parent)
         self.setupUi(self)

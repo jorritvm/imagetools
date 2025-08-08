@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow
 
+from threaded_resizer.threaded_resizer import Supervisor
 from ui.settings import SettingsManager
 
 
@@ -7,7 +8,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.settings = SettingsManager(self)
-        # self.supervisor = Supervisor(self.settings['n_threads'], self)
+        self.supervisor = Supervisor(self.settings['n_threads'], self)
         # self.setup_widgets()
         # self.setup_btn_tweaks()
         # self.setup_menu_bar()
