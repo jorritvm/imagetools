@@ -33,9 +33,9 @@ class SettingsManager(dict):
         self['save_thumbs'] = False
         self['default_location'] = "c:/temp"
         self['path'] = ""
-        self['image_size'] = 2
-        self['app_size'] = QSize(800, 600)
-        self['app_position'] = QPoint(100, 100)
+        self['image_size']: int = 2
+        self['app_size'] = QSize(constants.INITIAL_WINDOW_WIDTH, constants.INITIAL_WINDOW_HEIGHT)
+        self['app_position'] = QPoint(constants.INITIAL_WINDOW_POSITION_X, constants.INITIAL_WINDOW_POSITION_Y)
 
     def create_settings_folder(self):
         """Create the settings folder if it does not exist."""

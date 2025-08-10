@@ -6,6 +6,7 @@
     - make sure autoformatter is applied to every document
     - add docstrings where needed (module/class/function doc)
     - add architecture document (diagram)
+- build in a resizer cache
 - add picture housekeeper modules
 - fix race conditions with threaded resizer!!!
 - maakt een versie 4 van imagetools als alles af is
@@ -23,6 +24,7 @@
 - adding ADR to the documentation folder
 - adding main window widget nesting diagram
 - refactoring repo structure seperating ui and backend code
+- joining mainwindow code but separating action handler code
 
 ### NEW FEATURES
 

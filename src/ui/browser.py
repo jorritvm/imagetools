@@ -4,6 +4,9 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 
+from threaded_resizer.threaded_resizer import ImageResizeTask
+from ui import constants
+
 
 class Browser(QWidget):
     def __init__(self, supervisor, path, image_size, parent=None):
@@ -12,8 +15,8 @@ class Browser(QWidget):
         self.setup_ui()
         self.setup_slots()
 
-        self.thumbs_view.icon_size_position = image_size
-        self.thumbs_view.set_icon_size()
+        self.thumbnail_view.icon_size_index = image_size
+        self.thumbnail_view.set_icon_size()
 
         self.supervisor = supervisor
         self.supervisor.newItemReady.connect(self.image_ready)
@@ -21,9 +24,9 @@ class Browser(QWidget):
         self.root_folder = ""
         self.change_folder(path)
 
-    def setup_ui(self):
+    def setup_ui(self) -> None:
         """create the custom listview that will show the thumbnails"""
-        self.thumbs_view = ThumbnailListWidget()
+        self.thumbnail_view = ThumbnailListWidget()
 
         """create selectionbox buttons"""
         self.btn_add = QPushButton("Add")
@@ -40,16 +43,12 @@ class Browser(QWidget):
         layout_buttons_selection.setSpacing(4)
 
         """create browser buttons"""
-        self.btn_thumb = QPushButton("T")
-        self.btn_detail = QPushButton("D")
+        self.btn_thumbnail_view = QPushButton("T")
+        self.btn_details_view = QPushButton("D")
         self.btn_zoom_in = QPushButton("+")
         self.btn_zoom_out = QPushButton("-")
 
-        # todo: remove when T and D view both exist
-        self.btn_thumb.setDisabled(True)
-        self.btn_detail.setDisabled(True)
-
-        list_buttons_browser = [self.btn_thumb, self.btn_detail, self.btn_zoom_out, self.btn_zoom_in]
+        list_buttons_browser = [self.btn_thumbnail_view, self.btn_details_view, self.btn_zoom_out, self.btn_zoom_in]
         group_browser = QGroupBox("Browser")
         layout_buttons_browser = QHBoxLayout(group_browser)
         for button in list_buttons_browser:
@@ -66,59 +65,62 @@ class Browser(QWidget):
         layout_all_buttons.addItem(spacer)
         layout_all_buttons.addWidget(group_browser)
         layout_thumbnail_browser = QVBoxLayout()
-        layout_thumbnail_browser.addWidget(self.thumbs_view)
+        layout_thumbnail_browser.addWidget(self.thumbnail_view)
         layout_thumbnail_browser.addLayout(layout_all_buttons)
         layout_thumbnail_browser.setContentsMargins(4, 4, 4, 4)
         self.setLayout(layout_thumbnail_browser)
 
-    def setup_slots(self):
-        self.thumbs_view.itemDoubleClicked.connect(self.open_in_external_app)
+    def setup_slots(self) -> None:
+        self.thumbnail_view.itemDoubleClicked.connect(self.open_in_external_app)
         self.btn_add.pressed.connect(self.add_to_selection)
         self.btn_remove.pressed.connect(self.remove_from_selection)
         self.btn_add_all.pressed.connect(self.add_all_to_selection)
         self.btn_clear.pressed.connect(self.clear_selection)
-        self.btn_zoom_in.pressed.connect(lambda: self.thumbs_view.adjust_icon_size("+"))
-        self.btn_zoom_out.pressed.connect(lambda: self.thumbs_view.adjust_icon_size("-"))
+        self.btn_zoom_in.pressed.connect(lambda: self.thumbnail_view.adjust_icon_size("+"))
+        self.btn_zoom_out.pressed.connect(lambda: self.thumbnail_view.adjust_icon_size("-"))
 
     @pyqtSlot(QListWidgetItem)
-    def open_in_external_app(self, item):
-        file_info = QFileInfo()
-        file_info.setFile(QDir(self.root_folder), item.text())
-        link = file_info.absoluteFilePath()
+    def open_in_external_app(self, item: QListWidgetItem) -> None:
+        file_path = os.path.join(self.root_folder, item.text())
+        link = os.path.abspath(file_path)
         os.startfile(link)
 
     @pyqtSlot()
-    def add_to_selection(self):
-        items = self.thumbs_view.selectedItems()
+    def add_to_selection(self) -> None:
+        items = self.thumbnail_view.selectedItems()
         self.change_color(items, Qt.GlobalColor.darkGray)
 
     @pyqtSlot()
-    def remove_from_selection(self):
-        items = self.thumbs_view.selectedItems()
+    def remove_from_selection(self) -> None:
+        items = self.thumbnail_view.selectedItems()
         self.change_color(items, Qt.GlobalColor.white)
 
     @pyqtSlot()
-    def add_all_to_selection(self):
-        items = [self.thumbs_view.item(x) for x in range(self.thumbs_view.count())]
+    def add_all_to_selection(self) -> None:
+        items = [self.thumbnail_view.item(x) for x in range(self.thumbnail_view.count())]
         self.change_color(items, Qt.GlobalColor.darkGray)
 
     @pyqtSlot()
-    def clear_selection(self):
-        items = [self.thumbs_view.item(x) for x in range(self.thumbs_view.count())]
-        self.change_color(items, Qt.GlobalColor.white)
+    def clear_selection(self) -> None:
+        items = [self.thumbnail_view.item(x) for x in range(self.thumbnail_view.count())]
+        self.change_color(items, Qt.GlobalColor.transparent)
 
-    def change_color(self, items, color):
+    def change_color(self, items: list[QListWidgetItem], color: Qt.GlobalColor) -> None:
         for item in items:
             item.setBackground(QColor(color))
 
-    def change_folder(self, path):
+    def change_folder(self, path: str) -> None:
+        """
+        change the folder to the given path and update the thumbnail view
+        :param path: the absolute path to the folder to change to
+        """
         self.root_folder = path
-        self.thumbs_view.clear()
+        self.thumbnail_view.clear()
         self.supervisor.clear_queue()
 
         """set a directory model with appropriate filters to get the image info"""
         folder = QDir(path)
-        folder.setNameFilters(["*.jpg", "*.jpeg", "*.png", "*.bmp"])
+        folder.setNameFilters(constants.IMAGE_FILTERS)
 
         """create the DATA the model will use"""
         images = folder.entryList()
@@ -126,48 +128,64 @@ class Browser(QWidget):
         for fileName in images:
             img_absolute_paths.append(folder.absoluteFilePath(fileName))
 
-        q = []
-        maximum_thumbnail_size = self.thumbs_view.iconSizes[-1]
+        # the threaded resizer will resize images to the maximum thumbnail size
+        # another option would be to resize to the screen height (monitor)
+        maximum_thumbnail_size = self.thumbnail_view.icon_sizes[-1]
+        image_resize_tasks = []
         for file in img_absolute_paths:
-            q.append([QFileInfo(file), maximum_thumbnail_size, False])  # not smooth
+            # creeate a n image resize task for every image
+            image_resize_task = ImageResizeTask(QFileInfo(file),
+                                                maximum_thumbnail_size,
+                                                True)  # fast resize
+            image_resize_tasks.append(image_resize_task)  # not smooth
+
+            # create a dummy thumbnail for every image
             px = QPixmap(maximum_thumbnail_size, maximum_thumbnail_size)  # take this dummy thumbnail large enough
             px.fill(QColor(255, 255, 255))  # makes sure it's white
-            x = QListWidgetItem(QIcon(px), os.path.basename(file))
-            self.thumbs_view.addItem(x)
+            placeholder = QListWidgetItem(QIcon(px), os.path.basename(file))
+            self.thumbnail_view.addItem(placeholder)
 
         # pass the work to the supervisor and receive tickets for every image in return
-        self.currentlyProcessing = self.supervisor.add_items(q, False)
+        self.ticketed_image_resize_tasks = self.supervisor.add_items(image_resize_tasks, False)
         self.supervisor.process_queue()
 
-    def image_ready(self, ticket, img):  # img is in QImage format
-        for item in self.currentlyProcessing:
-            # match the QListViewItem to the QImage using the ticket the threaded resizer offers
-            if item[3] == ticket:
-                name = os.path.basename(item[0].absoluteFilePath())
-                for i in range(self.thumbs_view.count()):
-                    if self.thumbs_view.item(i).text() == name:
-                        self.thumbs_view.item(i).setIcon(QIcon(QPixmap.fromImage(img)))
+    @pyqtSlot(int, QImage)
+    def image_ready(self, ticket: int, img: QImage) -> None:
+        """
+        update the thumbnail of an image by matching the QListViewItem to the QImage
+        using the ticket the threaded resizer offers and the file name
+        """
+        for image_resize_tasks in self.ticketed_image_resize_tasks:
+            if image_resize_tasks.ticket == ticket:
+                name = image_resize_tasks.file_info.fileName()
+                for i in range(self.thumbnail_view.count()):
+                    if self.thumbnail_view.item(i).text() == name:
+                        self.thumbnail_view.item(i).setIcon(QIcon(QPixmap.fromImage(img)))
 
     def get_selection(self):
-        """returns list of QFileInfo objetcs"""
-        x = []
-        view = self.thumbs_view
+        """
+        return the current selection by matching on the background color of the items in the thumbnail view
+        :return: list of QFileInfo objects of the selected items in the thumbnail view
+        """
+        selection = []
+        view = self.thumbnail_view
         for i in range(view.count()):
             item = view.item(i)
             if item.background() == QColor(Qt.GlobalColor.darkGray):
-                fi = QFileInfo()
-                fi.setFile(QDir(self.root_folder), item.text())
-                x.append(fi)
-        return x
+                file_info = QFileInfo()
+                file_info.setFile(QDir(self.root_folder), item.text())
+                selection.append(file_info)
+        return selection
 
     def update_elements(self, changes):
         """update filenames of items in the thumbnailbrowser"""
+        # todo: refactor when we see this being used for the first time
         for old, new in changes.items():
             file_old = QFileInfo(old)
             file_new = QFileInfo(new)
             if QFileInfo(self.root_folder).absoluteFilePath() == file_old.absolutePath():
-                for i in range(self.thumbs_view.count()):
-                    item = self.thumbs_view.item(i)
+                for i in range(self.thumbnail_view.count()):
+                    item = self.thumbnail_view.item(i)
                     if item.text() == file_old.fileName():
                         item.setText(file_new.fileName())
 
@@ -176,12 +194,12 @@ class ThumbnailListWidget(QListWidget):
     def __init__(self, parent=None):
         QListWidget.__init__(self, parent)
 
-        """change the viewmode to iconmode instead of listmode"""
+        """change the view mode to icon mode instead of list mode"""
         self.setViewMode(QListView.ViewMode.IconMode)
 
         """set the icon size"""
-        self.iconSizes = list(range(50, 750, 50))
-        self.icon_size_position = 2
+        self.icon_sizes = constants.BROWSER_THUMBNAIL_SIZES
+        self.icon_size_index = constants.BROWSER_DEFAULT_THUMBNAIL_SIZE
         self.set_icon_size()
 
         """add spacing around and wrapping of the items. also set up for auto resize"""
@@ -195,21 +213,21 @@ class ThumbnailListWidget(QListWidget):
 
     @pyqtSlot(str)
     def adjust_icon_size(self, direction):
-        new_position = self.icon_size_position
+        new_position = self.icon_size_index
         if direction == "+":
-            new_position = self.icon_size_position + 1
+            new_position = self.icon_size_index + 1
         elif direction == "-":
-            new_position = self.icon_size_position - 1
+            new_position = self.icon_size_index - 1
 
         """make sure we don't try to go out of bounds of our sizes list"""
-        if new_position < 0 or new_position > len(self.iconSizes) - 1:
-            new_position = self.icon_size_position
+        if new_position < 0 or new_position > len(self.icon_sizes) - 1:
+            new_position = self.icon_size_index
 
-        self.icon_size_position = new_position
+        self.icon_size_index = new_position
         self.set_icon_size()
 
     def set_icon_size(self):
-        """here we really set the iconSize, the view will update automaticly"""
-        size = self.iconSizes[self.icon_size_position]
+        """here we really set the iconSize, the view will update automatically"""
+        size = self.icon_sizes[self.icon_size_index]
         self.setIconSize(QSize(size, size))
         self.setGridSize(QSize(size + 25, size + 25))

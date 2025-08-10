@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         self.settings['path'] = self.folder_select.folder_edit.text()
-        self.settings['image_size'] = self.browser.thumbs_view.icon_size_position
+        self.settings['image_size'] = self.browser.thumbnail_view.icon_size_index
         self.settings['app_size'] = self.size()
         self.settings['app_position'] = self.pos()
         self.settings.save_settings()

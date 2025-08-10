@@ -31,7 +31,7 @@ class ImageResizeTask:
     file_info: QFileInfo
     img_size: int  # Size to resize the image to
     fast: bool  # If True, use fast transformation mode
-    ticket: int
+    ticket: int = -1  # Ticket number for tracking the task, default is -1, will be set by Supervisor when assigning to a worker
 
 
 class Supervisor(QObject):
@@ -61,18 +61,21 @@ class Supervisor(QObject):
     def clear_queue(self) -> None:
         self.queue = []
 
-    def add_items(self, new_images: list[ImageResizeTask], prior: bool = False) -> list[ImageResizeTask]:
+    def remove_from_queue(self, images_to_remove: int) -> None:
+        pass
+
+    def add_items(self, images_to_add: list[ImageResizeTask], prior: bool = False) -> list[ImageResizeTask]:
         """Add items to the queue. If prior is True, the new images will be added to the front of the queue."""
-        for image_resize_task in new_images:
+        for image_resize_task in images_to_add:
             self.ticket_counter += 1
             image_resize_task.ticket = self.ticket_counter
 
         if prior:
-            self.queue = new_images + self.queue
+            self.queue = images_to_add + self.queue
         else:
-            self.queue = self.queue + new_images
+            self.queue = self.queue + images_to_add
 
-        return new_images  # this time ticket has been added
+        return images_to_add  # this time ticket has been added
 
     def process_queue(self) -> None:
         """Process the queue by sending new jobs to workers that are not running as long as the queue is filled."""
@@ -110,4 +113,4 @@ class Worker(QThread):
         if self.image_resize_task.fast:
             speed = Qt.TransformationMode.FastTransformation
         image_resized = image_original.scaled(size, size, Qt.AspectRatioMode.KeepAspectRatio, speed)
-        self.resize_done.emit(self.ticket, image_resized)
+        self.resize_done.emit(self.image_resize_task.ticket, image_resized)
