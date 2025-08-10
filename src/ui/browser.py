@@ -88,17 +88,17 @@ class Browser(QWidget):
     @pyqtSlot()
     def add_to_selection(self) -> None:
         items = self.thumbnail_view.selectedItems()
-        self.change_color(items, Qt.GlobalColor.darkGray)
+        self.change_color(items, constants.THUMBNAIL_SELECTION_COLOR)
 
     @pyqtSlot()
     def remove_from_selection(self) -> None:
         items = self.thumbnail_view.selectedItems()
-        self.change_color(items, Qt.GlobalColor.white)
+        self.change_color(items, Qt.GlobalColor.transparent)
 
     @pyqtSlot()
     def add_all_to_selection(self) -> None:
         items = [self.thumbnail_view.item(x) for x in range(self.thumbnail_view.count())]
-        self.change_color(items, Qt.GlobalColor.darkGray)
+        self.change_color(items, constants.THUMBNAIL_SELECTION_COLOR)
 
     @pyqtSlot()
     def clear_selection(self) -> None:
