@@ -61,9 +61,6 @@ class Supervisor(QObject):
     def clear_queue(self) -> None:
         self.queue = []
 
-    def remove_from_queue(self, images_to_remove: int) -> None:
-        pass
-
     def add_items(self, images_to_add: list[ImageResizeTask], prior: bool = False) -> list[ImageResizeTask]:
         """Add items to the queue. If prior is True, the new images will be added to the front of the queue."""
         for image_resize_task in images_to_add:

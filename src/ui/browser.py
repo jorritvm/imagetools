@@ -141,7 +141,8 @@ class Browser(QWidget):
 
             # create a dummy thumbnail for every image
             px = QPixmap(maximum_thumbnail_size, maximum_thumbnail_size)  # take this dummy thumbnail large enough
-            px.fill(QColor(255, 255, 255))  # makes sure it's white
+            px.fill(Qt.GlobalColor.transparent)
+            # px.fill(QColor(255, 255, 255))  # makes sure it's white
             placeholder = QListWidgetItem(QIcon(px), os.path.basename(file))
             self.thumbnail_view.addItem(placeholder)
 

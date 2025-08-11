@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
         self.action_about.triggered.connect(self.show_about)
         self.action_changelog.triggered.connect(self.show_changelog)
 
-    def setFolder(self, path):
+    def setFolder(self, path: str):
         self.folder_select.folder_edit.setText(path)
         self.folder_select.folder_edit.returnPressed.emit()
 

@@ -4,6 +4,10 @@ from ui.designer.about import Ui_Dialog
 
 
 class AboutDialog(QDialog, Ui_Dialog):
+    """
+    AboutDialog is a dialog that displays a help file or information page.
+    It can load and show a markdown document such as a README or NEWS file.
+    """
 
     def __init__(self, file_path: str, parent=None):
         QDialog.__init__(self, parent)
