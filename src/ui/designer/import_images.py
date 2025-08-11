@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'C:\dev\python\imagetools\src\resources\uixml\import_images.ui'
+# Form implementation generated from reading ui file 'C:\dev\python\imagetools\src\ui\designer\import_images.ui'
 #
 # Created by: PyQt6 UI code generator 6.9.1
 #

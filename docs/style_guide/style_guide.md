@@ -23,6 +23,10 @@ There is one exception to this rule:
 
 - When overriding or interacting with Qt API methods, one must follow camelCase.
 
+When using Qt Designer to create UI files, the generated Python code will use camelCase by default for the widgets.   
+For all widgets the application interacts with (e.g. buttons, labels, etc.), the developer must modify this to use
+snake_case names.
+
 ## Avoid the use of abbreviations in names as much as possible
 
 While the abbreviation may seem clear at the time of writing, it may not be clear to others later on.  

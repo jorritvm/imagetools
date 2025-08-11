@@ -7,7 +7,7 @@ from pyprojroot import here
 
 pyuic = here("./.venv/Scripts/pyuic6.exe")
 ui_path_from = here("./src/ui/designer")
-ui_path_to = here("./src/ui/designer/py")
+ui_path_to = here("./src/ui/designer")
 
 print("Converting .xml UI designer files into python files...")
 for uifile in sorted(ui_path_from.glob('*.ui')):

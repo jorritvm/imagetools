@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'C:\dev\python\imagetools\src\resources\uixml\number.ui'
+# Form implementation generated from reading ui file 'C:\dev\python\imagetools\src\ui\designer\number.ui'
 #
 # Created by: PyQt6 UI code generator 6.9.1
 #

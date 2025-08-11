@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QDialog, QFileDialog
 
+from operations.takeout import takeout_operation
 from ui.browser import Browser
 from ui.folder_select import FolderSelectWidget
 
@@ -13,7 +14,7 @@ class ActionHandler:
         self.setup_slots()
 
     def setup_slots(self):
-        self.action_buttons['import'].pressed.connect(self.handle_import)
+        self.action_buttons['takeout'].pressed.connect(self.handle_takeout)
         # self.btn_number.pressed.connect(self.numberButtonAction)
         # self.btn_rename.pressed.connect(self.renameButtonAction)
         # self.btn_resize.pressed.connect(self.resizeButtonAction)
@@ -21,16 +22,56 @@ class ActionHandler:
         # self.btn_upload.pressed.connect(self.uploadButtonAction)
         # self.btn_judge.pressed.connect(self.judgeButtonAction)
 
-    def handle_import(self):
-        files = self.browser.get_selection()
-        if len(files) == 0:
-            QMessageBox.warning(self.parent, "No selection", "Create a selection first.")
-        else:
-            im = ImportImages(files, self.settings, self.folder_select.folder_edit.text())
-            if im.exec():
-                path = im.get_new_path()
-                self.setFolder(path)
-            im.close()
+    def handle_takeout(self):
+        from ui.designer.takeout import Ui_takeout
+
+        # define a wrapper class for the dialog
+        class TakeoutDialog(QDialog, Ui_takeout):
+            def __init__(self, parent=None):
+                QDialog.__init__(self, parent)
+                self.setupUi(self)
+
+                # slots
+                self.btn_takeout.clicked.connect(self.start_takeout)
+                self.btn_output_select.clicked.connect(
+                    lambda: self.edit_output_path.setText(
+                        QFileDialog.getExistingDirectory(self, 'Select Output Folder', self.edit_output_path.text())
+                    )
+                )
+                self.btn_input_select.clicked.connect(
+                    lambda: self.edit_input_path.setText(
+                        QFileDialog.getOpenFileName(self, 'Select Input File', self.edit_input_path.text(),
+                                                    "Zip Files (*.zip);;All Files (*)")[0]
+                    )
+                )
+
+            def start_takeout(self):
+                def callback(message, progress):
+                    self.progress_bar.setValue(progress)
+                    self.text_output.append(message)
+
+                input_path = self.edit_input_path.text()
+                output_path = self.edit_output_path.text()
+
+                return takeout_operation(input_path, output_path, callback)
+
+        dlg = TakeoutDialog()
+        dlg.exec()
+        #         if im.exec():
+        #             path = im.get_new_path()
+        #             self.setFolder(path)
+        #         im.close()
+
+    # def handle_import(self):
+    #     files = self.browser.get_selection()
+    #     if len(files) == 0:
+    #         QMessageBox.warning(self.parent, "No selection", "Create a selection first.")
+    #     else:
+    #         im = ImportImages(files, self.settings, self.folder_select.folder_edit.text())
+    #         if im.exec():
+    #             path = im.get_new_path()
+    #             self.setFolder(path)
+    #         im.close()
 
     # def numberButtonAction(self):
     #     files = self.browser.get_selection()
