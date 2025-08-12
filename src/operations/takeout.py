@@ -26,8 +26,6 @@ import shutil
 
 
 def takeout_operation(takeout_zip_file_path: str, output_folder_path: str, callback) -> str:
-    """if it's a zipfile unzip then modify mtime, if it's a folder just modify mtime"""
-
     # if no zip file is provided, only process the output folder
     if ((not takeout_zip_file_path or takeout_zip_file_path == "None") and
             os.path.exists(output_folder_path) and os.path.isdir(output_folder_path)):
@@ -58,6 +56,8 @@ def takeout_operation(takeout_zip_file_path: str, output_folder_path: str, callb
         move_all_files_to_output_folder(output_folder_path, callback)
         modify_mtime(output_folder_path, callback)
         return output_folder_path
+    else:
+        return None
 
 
 def unzip_takeout_files(takeout_zip_file_path, output_folder_path, callback):
