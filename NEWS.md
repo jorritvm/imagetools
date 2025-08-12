@@ -31,6 +31,7 @@
 
 - follow system color scheme
 - hardcoded parameters are now part of a constants file so you can easily change selection background color etc.
+- added google takeout operation, cli interface, and ui dialog
 
 # imagetools v3.0
 

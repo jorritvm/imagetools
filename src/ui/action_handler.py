@@ -27,9 +27,11 @@ class ActionHandler:
 
         # define a wrapper class for the dialog
         class TakeoutDialog(QDialog, Ui_takeout):
-            def __init__(self, parent=None):
+            def __init__(self, initial_output_folder: str, parent=None):
                 QDialog.__init__(self, parent)
                 self.setupUi(self)
+                self.edit_output_path.setText(initial_output_folder)
+                self.go_to_output = False
 
                 # slots
                 self.btn_takeout.clicked.connect(self.start_takeout)
@@ -44,23 +46,30 @@ class ActionHandler:
                                                     "Zip Files (*.zip);;All Files (*)")[0]
                     )
                 )
+                self.btn_close_redirect.clicked.connect(self.on_close_redirect)
 
             def start_takeout(self):
                 def callback(message, progress):
                     self.progress_bar.setValue(progress)
                     self.text_output.append(message)
 
+                # fetch the input and clean the dialog log textedit
                 input_path = self.edit_input_path.text()
                 output_path = self.edit_output_path.text()
-
+                self.text_output.clear()
+                # call the takeout operation
                 return takeout_operation(input_path, output_path, callback)
 
-        dlg = TakeoutDialog()
+            def on_close_redirect(self):
+                self.go_to_output = True
+                self.accept()
+
+        # create the dialog and show it,
+        dlg = TakeoutDialog(self.folder_select.folder_edit.text(), self.parent)
         dlg.exec()
-        #         if im.exec():
-        #             path = im.get_new_path()
-        #             self.setFolder(path)
-        #         im.close()
+        # perform follow-up actions after closing
+        if dlg.go_to_output:
+            self.folder_select.force_set_directory(dlg.edit_output_path.text())
 
     # def handle_import(self):
     #     files = self.browser.get_selection()
