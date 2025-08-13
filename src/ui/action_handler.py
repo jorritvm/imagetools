@@ -1,8 +1,10 @@
 from PyQt6.QtWidgets import QDialog, QFileDialog
 
-from operations.heic2jpg import heic_to_jpg_operation
+from operations.heic_to_jpg import heic_to_jpg_operation
 from operations.takeout import takeout_operation
 from ui.browser import Browser
+from ui.designer.heic_to_jpg import Ui_heic_to_jpg
+from ui.designer.takeout import Ui_takeout
 from ui.folder_select import FolderSelectWidget
 
 
@@ -16,7 +18,7 @@ class ActionHandler:
 
     def setup_slots(self):
         self.action_buttons['takeout'].pressed.connect(self.handle_takeout)
-        self.action_buttons['heic2jpg'].released.connect(self.handle_heic2jpg)
+        self.action_buttons['heic_to_jpg'].released.connect(self.handle_heic_to_jpg)
         # self.btn_number.pressed.connect(self.numberButtonAction)
         # self.btn_rename.pressed.connect(self.renameButtonAction)
         # self.btn_resize.pressed.connect(self.resizeButtonAction)
@@ -25,8 +27,6 @@ class ActionHandler:
         # self.btn_judge.pressed.connect(self.judgeButtonAction)
 
     def handle_takeout(self):
-        from ui.designer.takeout import Ui_takeout
-
         # define a wrapper class for the dialog
         class TakeoutDialog(QDialog, Ui_takeout):
             def __init__(self, initial_output_folder: str, parent=None):
@@ -73,11 +73,9 @@ class ActionHandler:
         if dlg.go_to_output:
             self.folder_select.force_set_directory(dlg.edit_output_path.text())
 
-    def handle_heic2jpg(self):
-        from ui.designer.heic2jpg import Ui_heic2jpg
-
+    def handle_heic_to_jpg(self):
         # define a wrapper class for the dialog
-        class Heic2JpegDialog(QDialog, Ui_heic2jpg):
+        class HeicToJpegDialog(QDialog, Ui_heic_to_jpg):
             def __init__(self, initial_folder: str, parent=None):
                 QDialog.__init__(self, parent)
                 self.setupUi(self)
@@ -85,7 +83,7 @@ class ActionHandler:
                 self.go_to_output = False
 
                 # slots
-                self.btn_perform_action.clicked.connect(self.start_heic2jpg)
+                self.btn_perform_action.clicked.connect(self.start_heic_to_jpg)
                 self.btn_folder_select.clicked.connect(
                     lambda: self.edit_folder_path.setText(
                         QFileDialog.getExistingDirectory(self, 'Select Images Folder', self.edit_folder_path.text())
@@ -93,7 +91,7 @@ class ActionHandler:
                 )
                 self.btn_close_redirect.clicked.connect(self.on_close_redirect)
 
-            def start_heic2jpg(self):
+            def start_heic_to_jpg(self):
                 def callback(message, progress):
                     self.progress_bar.setValue(progress)
                     self.text_output.append(message)
@@ -109,7 +107,7 @@ class ActionHandler:
                 self.accept()
 
         # create the dialog and show it,
-        dlg = Heic2JpegDialog(self.folder_select.folder_edit.text(), self.parent)
+        dlg = HeicToJpegDialog(self.folder_select.folder_edit.text(), self.parent)
         dlg.exec()
         # perform follow-up actions after closing
         if dlg.go_to_output:

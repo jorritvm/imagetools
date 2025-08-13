@@ -43,8 +43,8 @@ class MainWindow(QMainWindow):
 
         # create the right section
         self.action_buttons['takeout'] = QPushButton("Takeout")
-        self.action_buttons['heic2jpg'] = QPushButton("Heic 2 JPG")
-        self.action_buttons['flat2tree'] = QPushButton("Flat 2 Tree")
+        self.action_buttons['heic_to_jpg'] = QPushButton("Heic to JPG")
+        self.action_buttons['flat_to_tree'] = QPushButton("Flat to Tree")
         self.action_buttons['auto_select'] = QPushButton("Auto Select")
         self.action_buttons['import'] = QPushButton("Import")
         self.action_buttons['rotate'] = QPushButton("Rotate")

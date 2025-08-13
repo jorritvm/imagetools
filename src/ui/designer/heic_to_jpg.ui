@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>heic2jpg</class>
- <widget class="QWidget" name="heic2jpg">
+ <class>heic_to_jpg</class>
+ <widget class="QWidget" name="heic_to_jpg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>HEIC 2 JPEG</string>
+   <string>HEIC to JPEG</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -91,7 +91,7 @@ Iphone live photos also come with an associated .mov or .mp4 file that have the 
    <item>
     <widget class="QPushButton" name="btn_perform_action">
      <property name="text">
-      <string>Perform heic2jpg operation</string>
+      <string>Perform heic to jpg operation</string>
      </property>
     </widget>
    </item>
@@ -139,7 +139,7 @@ Iphone live photos also come with an associated .mov or .mp4 file that have the 
   <connection>
    <sender>btn_close</sender>
    <signal>clicked()</signal>
-   <receiver>heic2jpg</receiver>
+   <receiver>heic_to_jpg</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
