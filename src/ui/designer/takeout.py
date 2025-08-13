@@ -70,6 +70,7 @@ class Ui_takeout(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.groupBox_2)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.text_output = QtWidgets.QTextEdit(parent=self.groupBox_2)
+        self.text_output.setReadOnly(True)
         self.text_output.setObjectName("text_output")
         self.gridLayout_2.addWidget(self.text_output, 1, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_2)

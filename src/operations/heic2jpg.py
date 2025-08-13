@@ -1,10 +1,10 @@
 """
 Iphone pictures are taken in .heic format, which is not supported by many applications.
-This operations converts those .heic files into .jpg files while preserving the EXIF data and modified date.
+This operation converts those .heic files into .jpg files while preserving the EXIF data and modified date.
 It will also remove the original .heic files.
 
 Iphone live photos also come with an associated .mov or .mp4 file that have the same base name and nearly the same modified time.
-This operation will also remove those files if they are close to the .jpg file's modified time.
+This operation will also remove those files.
 
 Summary of workflow:
 1. convert all heic in a folder into jpg & keep exif -  #
