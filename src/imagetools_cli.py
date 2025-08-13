@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import takeout, heic2jpg
+from operations import takeout, heic_to_jpg, flat_to_tree
 
 
 def print_callback(msg, progress):
@@ -17,8 +17,13 @@ def process_cli(args):
             args.output_folder,
             callback=print_callback)
 
-    if args.command == "heic2jpg":
-        heic2jpg.heic_to_jpg_operation(
+    if args.command == "heic_to_jpg":
+        heic_to_jpg.heic_to_jpg_operation(
+            args.folder_path,
+            callback=print_callback)
+
+    if args.command == "flat_to_tree":
+        flat_to_tree.flat_to_tree_operation(
             args.folder_path,
             callback=print_callback)
 
@@ -33,12 +38,16 @@ def main():
 
     # --- takeout command ---
     takeout_parser = subparsers.add_parser("takeout", help="Run the takeout operation.")
-    takeout_parser.add_argument("takeout_zip_file", help="Path to input takeout zip file, empty if already unzipped")
-    takeout_parser.add_argument("output_folder", help="Path to output folder")
+    takeout_parser.add_argument("takeout_zip_file", help="Path to input takeout zip file, empty if already unzipped.")
+    takeout_parser.add_argument("output_folder", help="Path to output folder.")
 
-    # --- heic2jpg command ---
-    heic2jpg_parser = subparsers.add_parser("heic2jpg", help="Run the heic2jpg operation.")
-    heic2jpg_parser.add_argument("folder_path", help="Path to folder containing the HEIC files")
+    # --- heic_to_jpg command ---
+    heic_to_jpg_parser = subparsers.add_parser("heic_to_jpg", help="Run the heic_to_jpg operation.")
+    heic_to_jpg_parser.add_argument("folder_path", help="Path to folder containing the HEIC files.")
+
+    # --- flat_to_tree command ---
+    flat_to_tree_parser = subparsers.add_parser("flat_to_tree", help="Run the flat_to_tree operation.")
+    flat_to_tree_parser.add_argument("folder_path", help="Path to folder with files to restructure into subfolders.")
 
     args = parser.parse_args()
     print(args)

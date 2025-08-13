@@ -93,6 +93,9 @@ class FolderSelectWidget(QWidget):
 
     """navigation section: clicking in the tree, entering the path in the edit, or using back & forward buttons"""
 
+    def force_refresh(self):
+        self.set_directory_upon_edit()
+
     def force_set_directory(self, str):
         self.folder_edit.setText(str)
         self.set_directory_upon_edit()
