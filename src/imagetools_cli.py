@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import takeout, heic_to_jpg, flat_to_tree
+from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata
 
 
 def print_callback(msg, progress):
@@ -27,6 +27,13 @@ def process_cli(args):
             args.folder_path,
             callback=print_callback)
 
+    if args.command == "harvest_metadata":
+        harvest_metadata.harvest_metadata_for_folder_path_operation(
+            args.folder_path,
+            args.album_name,
+            args.client_secret_json_file_path,
+            callback=print_callback)
+
 
 def main():
     # create the cli argument parser
@@ -48,6 +55,14 @@ def main():
     # --- flat_to_tree command ---
     flat_to_tree_parser = subparsers.add_parser("flat_to_tree", help="Run the flat_to_tree operation.")
     flat_to_tree_parser.add_argument("folder_path", help="Path to folder with files to restructure into subfolders.")
+
+    # --- harvest_metadata command ---
+    harvest_metadata_parser = subparsers.add_parser("harvest_metadata", help="Run the harvest_metadata operation.")
+    harvest_metadata_parser.add_argument("folder_path",
+                                         help="Path to folder with files to overwrite with new metadata from google api.")
+    harvest_metadata_parser.add_argument("album_name", help="Name of the matching album on google photos.")
+    harvest_metadata_parser.add_argument("client_secret_json_file_path",
+                                         help="Path to the client secret JSON file for Google Photos API.")
 
     args = parser.parse_args()
     print(args)

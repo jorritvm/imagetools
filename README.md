@@ -10,7 +10,7 @@ various actions. All actions are accessible through the UI or via their own CLI.
 | Action             | Description                                              | Supported in UI | Supported in CLI |
 |--------------------|----------------------------------------------------------|:---------------:|:----------------:|
 | Takeout            | Apply JSON metadata to google takeout images             |        ❌        |        ❌         |
-| Heic to JPG        | Convert all heic in a folder into jpg & keep exif        |        ❌        |        ❌         |
+| Heic to JPG        | Convert all .heic in a folder into .jpg & keep exif      |        ❌        |        ❌         |
 | Flat to Tree       | Convert flat list of imagest to date-based hierarchy     |        ❌        |        ❌         |
 | Exif to Mtime      | Modify Mtime with date taken from EXIF                   |        ❌        |        ❌         |
 | Auto Select        | Auto select new images from a directory                  |        ❌        |        ❌         |
