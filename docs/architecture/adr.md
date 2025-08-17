@@ -108,7 +108,7 @@ if __name__ == "__main__":
     copy_images(files, "/tmp/copied", progress_callback=cli_progress)
 ```
 
-#### Use of this core operation from a CLI entrypoint:
+#### Use of this core operation from a UI entrypoint:
 
 Simple single thread version:
 
