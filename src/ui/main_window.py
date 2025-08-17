@@ -45,6 +45,8 @@ class MainWindow(QMainWindow):
         self.action_buttons['takeout'] = QPushButton("Takeout")
         self.action_buttons['heic_to_jpg'] = QPushButton("Heic to JPG")
         self.action_buttons['flat_to_tree'] = QPushButton("Flat to Tree")
+        self.action_buttons['harvest_metadata'] = QPushButton("Harvest Metadata")
+        self.action_buttons['created_to_mod'] = QPushButton("Created to Mod")
         self.action_buttons['auto_select'] = QPushButton("Auto Select")
         self.action_buttons['import'] = QPushButton("Import")
         self.action_buttons['rotate'] = QPushButton("Rotate")
@@ -59,7 +61,7 @@ class MainWindow(QMainWindow):
         self.action_buttons['make_sequential'] = QPushButton("Make Sequential")
         self.action_buttons['prefix_mtime'] = QPushButton("Prefix MTime")
         self.action_buttons['separate_video'] = QPushButton("Separate Video")
-        self.action_buttons['harvest_metadata'] = QPushButton("Harvest Metadata")
+
         self.group_actions = QGroupBox("Actions")
         layout_buttons = QVBoxLayout(self.group_actions)
         for btn in self.action_buttons.values():

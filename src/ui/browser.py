@@ -163,7 +163,7 @@ class Browser(QWidget):
                     if self.thumbnail_view.item(i).text() == name:
                         self.thumbnail_view.item(i).setIcon(QIcon(QPixmap.fromImage(img)))
 
-    def get_selection(self):
+    def get_selection(self) -> list[QFileInfo]:
         """
         return the current selection by matching on the background color of the items in the thumbnail view
         :return: list of QFileInfo objects of the selected items in the thumbnail view
@@ -172,7 +172,7 @@ class Browser(QWidget):
         view = self.thumbnail_view
         for i in range(view.count()):
             item = view.item(i)
-            if item.background() == QColor(Qt.GlobalColor.darkGray):
+            if item.background() == QColor(constants.THUMBNAIL_SELECTION_COLOR):
                 file_info = QFileInfo()
                 file_info.setFile(QDir(self.root_folder), item.text())
                 selection.append(file_info)

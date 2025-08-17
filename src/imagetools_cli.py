@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata
+from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod
 
 
 def print_callback(msg, progress):
@@ -32,6 +32,11 @@ def process_cli(args):
             args.folder_path,
             args.album_name,
             args.client_secret_json_file_path,
+            callback=print_callback)
+
+    if args.command == "created_to_mod":
+        created_to_mod.created_to_mod_for_folder_path_operation(
+            args.folder_path,
             callback=print_callback)
 
 
@@ -63,6 +68,11 @@ def main():
     harvest_metadata_parser.add_argument("album_name", help="Name of the matching album on google photos.")
     harvest_metadata_parser.add_argument("client_secret_json_file_path",
                                          help="Path to the client secret JSON file for Google Photos API.")
+
+    # --- created_to_mod command ---
+    created_to_mod_parser = subparsers.add_parser("created_to_mod", help="Run the created_to_mod operation.")
+    created_to_mod_parser.add_argument("folder_path",
+                                       help="Path to folder with files for which to ovewrite atime and mtime with ctime.")
 
     args = parser.parse_args()
     print(args)

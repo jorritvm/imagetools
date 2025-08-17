@@ -9,14 +9,14 @@ various actions. All actions are accessible through the UI or via their own CLI.
 
 | Action             | Description                                              | Supported in UI | Supported in CLI |
 |--------------------|----------------------------------------------------------|:---------------:|:----------------:|
-| Takeout            | Apply JSON metadata to google takeout images             |        ❌        |        ❌         |
-| Heic to JPG        | Convert all .heic in a folder into .jpg & keep exif      |        ❌        |        ❌         |
-| Flat to Tree       | Convert flat list of imagest to date-based hierarchy     |        ❌        |        ❌         |
-| Exif to Mtime      | Modify Mtime with date taken from EXIF                   |        ❌        |        ❌         |
+| Takeout            | Apply JSON metadata to google takeout images             |        ✅        |        ✅         |
+| Heic to JPG        | Convert all .heic in a folder into .jpg & keep exif      |        ✅        |        ✅         |
+| Flat to Tree       | Convert flat list of imagest to date-based hierarchy     |        ✅        |        ✅         |
+| Created to Mod     | Overwrite append and modified times with created times   |        ✅        |        ✅         |
 | Auto Select        | Auto select new images from a directory                  |        ❌        |        ❌         |
 | Import             | Import from your SD card                                 |        ❌        |        ❌         |
 | Separate Video     | Separate pictures from video files                       |        ❌        |        ❌         |
-| Metadata Harvester | Overwrite downloaded google photos with correct metadata |        ❌        |        ❌         |
+| Metadata Harvester | Overwrite downloaded google photos with correct metadata |        ❌        |        ⚠️        |
 | Prefix Mtime       | Add the mtime as prefix to all filenames                 |        ❌        |        ❌         |
 | Auto Rotate        | Auto rotate based on EXIF information                    |        ❌        |        ❌         |
 | Number             | Number                                                   |        ❌        |        ❌         |
@@ -31,6 +31,7 @@ various actions. All actions are accessible through the UI or via their own CLI.
 | Archive            | Zip image folders                                        |        ❌        |        ❌         |
 
 ✅ Supported    
+⚠️ Warning
 ❌ Not supported
 
 ## Screenshot

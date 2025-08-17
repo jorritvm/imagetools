@@ -32,8 +32,10 @@
 - follow system color scheme
 - hardcoded parameters are now part of a constants file so you can easily change selection background color etc.
 - added google takeout operation, cli interface, and ui dialog
-- added heic_to_jpg operation, cli interface, and ui dialog
-- added flat_to_tree operation, cli interface, and ui dialog
+- added heic to jpg operation, cli interface, and ui dialog
+- added flat to tree operation, cli interface, and ui dialog
+- added metadata harvester operation, cli interface - then realised the google api is no longer available
+- added created to modified operation, cli interface, and ui dialog
 
 # imagetools v3.0
 
