@@ -37,6 +37,8 @@
 - added flat to tree operation, cli interface, and ui dialog
 - added metadata harvester operation, cli interface - then realised the google api is no longer available
 - added created to modified operation, cli interface, and ui dialog
+- added rename auto operation, cli interface, and ui dialog
+- added separate media operation, cli interface, and ui dialog
 
 # imagetools v3.0
 

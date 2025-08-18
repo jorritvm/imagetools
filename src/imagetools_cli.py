@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto
+from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto, separate_media
 
 
 def print_callback(msg, progress):
@@ -39,13 +39,19 @@ def process_cli(args):
             args.folder_path,
             callback=print_callback)
 
-    if args.command == "auto_rename":
+    if args.command == "rename_auto":
         rename_auto.rename_auto_for_folder_path_operation(
             args.folder_path,
             args.new_file_name_template,
             callback=print_callback)
 
-        
+    if args.command == "separate_media":
+        separate_media.separate_media_operation(
+            args.folder_path,
+            args.separate_what,
+            callback=print_callback)
+
+
 def main():
     # create the cli argument parser
     parser = argparse.ArgumentParser(
@@ -80,11 +86,17 @@ def main():
     created_to_mod_parser.add_argument("folder_path",
                                        help="Path to folder with files for which to ovewrite atime and mtime with ctime.")
 
-    # --- auto rename command ---
-    auto_rename_parser = subparsers.add_parser("auto_rename", help="Run the auto rename operation.")
-    auto_rename_parser.add_argument("folder_path", help="Path to folder with files to rename.")
-    auto_rename_parser.add_argument("new_file_name_template",
+    # --- rename auto command ---
+    rename_auto_parser = subparsers.add_parser("rename_auto", help="Run the rename_auto operation.")
+    rename_auto_parser.add_argument("folder_path", help="Path to folder with files to rename.")
+    rename_auto_parser.add_argument("new_file_name_template",
                                     help="Template for the new file names. Use tags like $name, $ext, $mtime_date, etc.")
+
+    # --- separate_media command ---
+    separate_media_parser = subparsers.add_parser("separate_media", help="Run the separate_media operation.")
+    separate_media_parser.add_argument("folder_path", help="Root path to recurse to separate media by type.")
+    separate_media_parser.add_argument("separate_what",
+                                       help="Choose between 'images', 'movies', or 'both'.", )
 
     args = parser.parse_args()
     print(args)

@@ -4,6 +4,7 @@ import ui.operation_handlers.created_to_mod_handler as created_to_mod_handler
 import ui.operation_handlers.flat_to_tree_handler as flat_to_tree_handler
 import ui.operation_handlers.heic_to_jpg_handler as heic_to_jpg_handler
 import ui.operation_handlers.rename_auto_handler as rename_auto_handler
+import ui.operation_handlers.separate_media_handler as separate_media_handler
 import ui.operation_handlers.takeout_handler as takeout_handler
 
 
@@ -20,6 +21,7 @@ class OperationHandler:
         self.operation_buttons['created_to_mod'].released.connect(self.handle_created_to_mod)
         self.operation_buttons['harvest_metadata'].released.connect(self.handle_harvest_metadata)
         self.operation_buttons['auto_rename'].released.connect(self.handle_rename_auto)
+        self.operation_buttons['separate_media'].released.connect(self.handle_separate_media)
 
     def handle_takeout(self):
         takeout_handler.handle_takeout(self.main_window)
@@ -42,6 +44,9 @@ class OperationHandler:
 
     def handle_rename_auto(self):
         rename_auto_handler.handle_rename_auto(self.main_window)
+
+    def handle_separate_media(self):
+        separate_media_handler.handle_separate_media(self.main_window)
 
     # def handle_import(self):
     #     files = self.browser.get_selection()
