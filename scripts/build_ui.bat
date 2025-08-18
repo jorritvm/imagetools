@@ -9,5 +9,5 @@ call .\.venv\Scripts\activate.bat
 echo "Executing conversion script..."
 python .\scripts\build_ui.py
 
-echo "Conversion done... Press any key to exit."
-pause
+:: echo "Conversion done... Press any key to exit."
+:: pause

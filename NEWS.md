@@ -9,6 +9,7 @@
 - build in a catalog = resizer cache / metadata manager
 - add picture housekeeper modules
 - maak een versie 4 van imagetools als alles af is
+- performing heic to jpg does not update the ui, need to fix that using a subthread for the operation wrapper
 
 # imagetools v4.0
 
@@ -25,7 +26,7 @@
 - refactoring repo structure separating ui and backend code
 - joining main window code but separating action handler code
 - refactoring folder_select, browser and threaded resizer code slightly for better maintainability
--
+- refactoring all UI operation handlers into their own submodules
 
 ### NEW FEATURES
 

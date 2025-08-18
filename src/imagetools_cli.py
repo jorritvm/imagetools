@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod
+from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto
 
 
 def print_callback(msg, progress):
@@ -39,7 +39,13 @@ def process_cli(args):
             args.folder_path,
             callback=print_callback)
 
+    if args.command == "auto_rename":
+        rename_auto.rename_auto_for_folder_path_operation(
+            args.folder_path,
+            args.new_file_name_template,
+            callback=print_callback)
 
+        
 def main():
     # create the cli argument parser
     parser = argparse.ArgumentParser(
@@ -73,6 +79,12 @@ def main():
     created_to_mod_parser = subparsers.add_parser("created_to_mod", help="Run the created_to_mod operation.")
     created_to_mod_parser.add_argument("folder_path",
                                        help="Path to folder with files for which to ovewrite atime and mtime with ctime.")
+
+    # --- auto rename command ---
+    auto_rename_parser = subparsers.add_parser("auto_rename", help="Run the auto rename operation.")
+    auto_rename_parser.add_argument("folder_path", help="Path to folder with files to rename.")
+    auto_rename_parser.add_argument("new_file_name_template",
+                                    help="Template for the new file names. Use tags like $name, $ext, $mtime_date, etc.")
 
     args = parser.parse_args()
     print(args)
