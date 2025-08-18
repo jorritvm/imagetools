@@ -49,7 +49,6 @@ class MainWindow(QMainWindow):
         # self.operation_buttons['auto_select'] = QPushButton("Auto Select")
         # self.operation_buttons['import'] = QPushButton("Import")
         # self.operation_buttons['rotate'] = QPushButton("Rotate")
-        # self.operation_buttons['number'] = QPushButton("Number")
         # self.operation_buttons['judge'] = QPushButton("Judge")
         # self.operation_buttons['rename'] = QPushButton("Rename")
         # self.operation_buttons['resize'] = QPushButton("Resize")
@@ -58,7 +57,6 @@ class MainWindow(QMainWindow):
         # self.operation_buttons['archive'] = QPushButton("Archive")
         # self.operation_buttons['cleanup'] = QPushButton("Cleanup")
         # self.operation_buttons['make_sequential'] = QPushButton("Make Sequential")
-        # self.operation_buttons['prefix_mtime'] = QPushButton("Prefix MTime")
         # self.operation_buttons['separate_video'] = QPushButton("Separate Video")
 
         self.group_operations = QGroupBox("Operations")

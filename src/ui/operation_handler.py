@@ -54,18 +54,6 @@ class OperationHandler:
     #             self.setFolder(path)
     #         im.close()
 
-    # def numberButtonAction(self):
-    #     files = self.browser.get_selection()
-    #     if len(files) == 0:
-    #         QMessageBox.warning(self, "No selection", "Create a selection first.")
-    #     else:
-    #         """create the dialog and extract the user's settings"""
-    #         num = Number()
-    #         if num.exec():
-    #             settings = num.get_settings()
-    #             track_changes = num.rename_files(files, settings)
-    #             self.browser.update_elements(track_changes)
-    #             num.close()
     #
     # def renameButtonAction(self):
     #     files = self.browser.get_selection()
