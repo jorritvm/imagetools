@@ -10,6 +10,8 @@
 - add picture housekeeper modules
 - maak een versie 4 van imagetools als alles af is
 - performing heic to jpg does not update the ui, need to fix that using a subthread for the operation wrapper
+- executing takeout does not update the ui, need to fix that using a subthread for the operation wrapper
+- takeout operation crashes when a metadata.json file is present which is not a valid media metadata file
 
 # imagetools v4.0
 
@@ -19,19 +21,20 @@
 - project changes from pip to uv for dependency management
 - remove settings.bin from github & improve default settings handling
 - upgrade to PyQt6
-- added style guide to repo
-- adding style guide to the documentation folder
-- adding ADR to the documentation folder
+- adding style guide to the documentation folder + started applying it more rigorously
+- adding architecture documentation: module_view and ADR to the documentation folder
 - adding main window widget nesting diagram
 - refactoring repo structure separating ui and backend code
-- joining main window code but separating action handler code
-- refactoring folder_select, browser and threaded resizer code slightly for better maintainability
+- joining main window code but separating operation handler code
 - refactoring all UI operation handlers into their own submodules
+- refactoring folder_select, browser and threaded resizer code slightly for better maintainability
 
 ### NEW FEATURES
 
-- follow system color scheme
-- hardcoded parameters are now part of a constants file so you can easily change selection background color etc.
+- now follows system color scheme
+- hardcoded parameters of the UI application are now part of a constants file so you can easily change selection
+  background color etc.
+- mouse press on folder select now highlights the entire value making it easy to copy or overwrite
 - added google takeout operation, cli interface, and ui dialog
 - added heic to jpg operation, cli interface, and ui dialog
 - added flat to tree operation, cli interface, and ui dialog
@@ -39,6 +42,7 @@
 - added created to modified operation, cli interface, and ui dialog
 - added rename auto operation, cli interface, and ui dialog
 - added separate media operation, cli interface, and ui dialog
+-
 
 # imagetools v3.0
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Rename</class>
- <widget class="QWidget" name="Rename">
+ <class>rename_manual</class>
+ <widget class="QWidget" name="rename_manual">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>442</width>
-    <height>456</height>
+    <width>457</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Rename images</string>
+   <string>Rename Manual</string>
   </property>
-  <layout class="QVBoxLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout">
      <item>
@@ -33,7 +33,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="labelImagePreview">
+      <widget class="QLabel" name="lbl_preview_image">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -67,7 +67,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout">
+    <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
@@ -76,7 +76,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="labelOldName">
+      <widget class="QLabel" name="lbl_old_file_name">
        <property name="text">
         <string/>
        </property>
@@ -90,7 +90,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="labelExtension">
+      <widget class="QLabel" name="lbl_extension">
        <property name="text">
         <string/>
        </property>
@@ -106,7 +106,7 @@
      <item row="2" column="1">
       <layout class="QHBoxLayout">
        <item>
-        <widget class="QSpinBox" name="spinSkipLeft"/>
+        <widget class="QSpinBox" name="spin_skip_left"/>
        </item>
        <item>
         <spacer>
@@ -124,24 +124,34 @@
       </layout>
      </item>
      <item row="3" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Separator</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="edit_separator"/>
+     </item>
+     <item row="4" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>New Name</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="editNewName"/>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="edit_new_name"/>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Preview</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="labelPreview">
+     <item row="5" column="1">
+      <widget class="QLabel" name="lbl_preview_file_name">
        <property name="text">
         <string/>
        </property>
@@ -152,7 +162,7 @@
    <item>
     <layout class="QHBoxLayout">
      <item>
-      <widget class="QPushButton" name="buttonSaveNext">
+      <widget class="QPushButton" name="btn_save_next">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -165,7 +175,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="buttonSkipNext">
+      <widget class="QPushButton" name="btn_skip_next">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>

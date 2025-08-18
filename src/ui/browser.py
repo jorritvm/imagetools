@@ -178,17 +178,18 @@ class Browser(QWidget):
                 selection.append(file_info)
         return selection
 
-    def update_elements(self, changes):
-        """update filenames of items in the thumbnailbrowser"""
-        # todo: refactor when we see this being used for the first time
-        for old, new in changes.items():
-            file_old = QFileInfo(old)
-            file_new = QFileInfo(new)
-            if QFileInfo(self.root_folder).absoluteFilePath() == file_old.absolutePath():
-                for i in range(self.thumbnail_view.count()):
-                    item = self.thumbnail_view.item(i)
-                    if item.text() == file_old.fileName():
-                        item.setText(file_new.fileName())
+    # i think it makes more sense to force reload the browser than to update elements filenames
+    # updating  can lead to inconsistent sorting
+    # def update_elements(self, changes):
+    #     """update filenames of items in the thumbnailbrowser"""
+    #     for old, new in changes.items():
+    #         file_old = QFileInfo(old)
+    #         file_new = QFileInfo(new)
+    #         if QFileInfo(self.root_folder).absoluteFilePath() == file_old.absolutePath():
+    #             for i in range(self.thumbnail_view.count()):
+    #                 item = self.thumbnail_view.item(i)
+    #                 if item.text() == file_old.fileName():
+    #                     item.setText(file_new.fileName())
 
 
 class ThumbnailListWidget(QListWidget):
