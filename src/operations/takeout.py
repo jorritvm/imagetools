@@ -24,6 +24,8 @@ import json
 import os
 import shutil
 
+INVALID_JSON_FILES = ["metadata.json"]
+
 
 def takeout_operation(takeout_zip_file_path: str, output_folder_path: str, callback) -> str:
     # if no zip file is provided, only process the output folder
@@ -99,7 +101,9 @@ def modify_mtime(folder_path, callback):
         root, ext = os.path.splitext(file_name)
         file_name_full = os.path.join(folder_path, file_name)
         if ext.lower() == ".json":
-            json_files.append(file_name_full)
+            # need to filter out some json files that google takeout provides but do not accompany a media file
+            if file_name not in INVALID_JSON_FILES:
+                json_files.append(file_name_full)
 
     # read json files and make file-modified pairs
     info = dict()
