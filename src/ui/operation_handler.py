@@ -1,14 +1,9 @@
-# from operations.created_to_mod import created_to_mod_for_folder_path_operation, \
-#     created_to_mod_for_list_of_files_operation
-# from operations.flat_to_tree import flat_to_tree_operation
-# from operations.heic_to_jpg import heic_to_jpg_operation
-# from ui.designer.created_to_mod import Ui_created_to_mod
-# from ui.designer.flat_to_tree import Ui_flat_to_tree
-# from ui.folder_select import FolderSelectWidget
+from PyQt6.QtWidgets import QMessageBox
 
 import ui.operation_handlers.created_to_mod_handler as created_to_mod_handler
 import ui.operation_handlers.flat_to_tree_handler as flat_to_tree_handler
 import ui.operation_handlers.heic_to_jpg_handler as heic_to_jpg_handler
+import ui.operation_handlers.rename_auto_handler as rename_auto_handler
 import ui.operation_handlers.takeout_handler as takeout_handler
 
 
@@ -23,12 +18,8 @@ class OperationHandler:
         self.operation_buttons['heic_to_jpg'].released.connect(self.handle_heic_to_jpg)
         self.operation_buttons['flat_to_tree'].released.connect(self.handle_flat_to_tree)
         self.operation_buttons['created_to_mod'].released.connect(self.handle_created_to_mod)
-        # self.btn_number.pressed.connect(self.numberButtonAction)
-        # self.btn_rename.pressed.connect(self.renameButtonAction)
-        # self.btn_resize.pressed.connect(self.resizeButtonAction)
-        # self.btn_webalbum.pressed.connect(self.webAlbumButtonAction)
-        # self.btn_upload.pressed.connect(self.uploadButtonAction)
-        # self.btn_judge.pressed.connect(self.judgeButtonAction)
+        self.operation_buttons['harvest_metadata'].released.connect(self.handle_harvest_metadata)
+        self.operation_buttons['auto_rename'].released.connect(self.handle_rename_auto)
 
     def handle_takeout(self):
         takeout_handler.handle_takeout(self.main_window)
@@ -41,6 +32,16 @@ class OperationHandler:
 
     def handle_created_to_mod(self):
         created_to_mod_handler.handle_created_to_mod(self.main_window)
+
+    def handle_harvest_metadata(self):
+        QMessageBox.warning(
+            self.main_window,
+            "Harvest Metadata",
+            "Due to recent changes in the Google API, this feature is currently unavailable."
+        )
+
+    def handle_rename_auto(self):
+        rename_auto_handler.handle_rename_auto(self.main_window)
 
     # def handle_import(self):
     #     files = self.browser.get_selection()

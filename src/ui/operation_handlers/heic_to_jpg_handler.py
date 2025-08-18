@@ -26,7 +26,7 @@ class HeicToJpegDialog(QDialog, Ui_heic_to_jpg):
         self.go_to_output = False
 
         # slots
-        self.btn_perform_action.clicked.connect(self.start_heic_to_jpg)
+        self.btn_perform_action.clicked.connect(self.start_operation)
         self.btn_folder_select.clicked.connect(
             lambda: self.edit_folder_path.setText(
                 QFileDialog.getExistingDirectory(self, 'Select Images Folder', self.edit_folder_path.text())
@@ -34,7 +34,7 @@ class HeicToJpegDialog(QDialog, Ui_heic_to_jpg):
         )
         self.btn_close_redirect.clicked.connect(self.on_close_redirect)
 
-    def start_heic_to_jpg(self):
+    def start_operation(self):
         def callback(message, progress):
             self.progress_bar.setValue(progress)
             self.text_output.append(message)
