@@ -220,6 +220,9 @@ class TabSensitiveLineEdit(QLineEdit):
         # finally, pass event to parent
         return QLineEdit.event(self, event)
 
+    def mousePressEvent(self, e):
+        self.selectAll()
+
 
 class FolderMemory:
     """
