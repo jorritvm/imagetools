@@ -6,23 +6,25 @@ from PyQt6.QtWidgets import *
 
 from threaded_resizer.threaded_resizer import ImageResizeTask
 from ui import constants
+from ui.settings import SettingsManager
 
 
 class Browser(QWidget):
-    def __init__(self, supervisor, path, image_size, parent=None):
+    def __init__(self, supervisor, settings: SettingsManager, parent=None):
         QWidget.__init__(self, parent)
 
+        self.settings = settings
         self.setup_ui()
         self.setup_slots()
 
-        self.thumbnail_view.icon_size_index = image_size
+        self.thumbnail_view.icon_size_index = self.settings['image_size']
         self.thumbnail_view.set_icon_size()
 
         self.supervisor = supervisor
         self.supervisor.newItemReady.connect(self.image_ready)
 
         self.root_folder = ""
-        self.change_folder(path)
+        self.change_folder(self.settings['path'])
 
     def setup_ui(self) -> None:
         """create the custom listview that will show the thumbnails"""
@@ -33,8 +35,11 @@ class Browser(QWidget):
         self.btn_remove = QPushButton("Remove")
         self.btn_add_all = QPushButton("Add All")
         self.btn_clear = QPushButton("Clear")
+        self.btn_save = QPushButton("Save")
+        self.btn_load = QPushButton("Load")
 
-        list_buttons_selection = [self.btn_add, self.btn_remove, self.btn_add_all, self.btn_clear]
+        list_buttons_selection = [self.btn_add, self.btn_remove, self.btn_add_all, self.btn_clear, self.btn_save,
+                                  self.btn_load]
         group_selection = QGroupBox("Selection")
         layout_buttons_selection = QHBoxLayout(group_selection)
         for button in list_buttons_selection:
@@ -76,6 +81,8 @@ class Browser(QWidget):
         self.btn_remove.pressed.connect(self.remove_from_selection)
         self.btn_add_all.pressed.connect(self.add_all_to_selection)
         self.btn_clear.pressed.connect(self.clear_selection)
+        self.btn_save.pressed.connect(self.save_selection)
+        self.btn_load.pressed.connect(self.load_selection)
         self.btn_zoom_in.pressed.connect(lambda: self.thumbnail_view.adjust_icon_size("+"))
         self.btn_zoom_out.pressed.connect(lambda: self.thumbnail_view.adjust_icon_size("-"))
 
@@ -104,6 +111,39 @@ class Browser(QWidget):
     def clear_selection(self) -> None:
         items = [self.thumbnail_view.item(x) for x in range(self.thumbnail_view.count())]
         self.change_color(items, Qt.GlobalColor.transparent)
+
+    @pyqtSlot()
+    def save_selection(self) -> None:
+        """Saving the current selection to the settings manager as a list of file_names with key the file_path."""
+        key = self.root_folder
+        selection = self.get_selection()
+        if len(selection) == 0:
+            QMessageBox.warning(self, "No selection", "Create a selection first.")
+            return
+        else:
+            if key not in self.settings['selections']:
+                self.settings['selections'][key] = []
+            self.settings['selections'][key] = [file_info.fileName() for file_info in selection]
+            QMessageBox.information(self, "Selection saved",
+                                    "Will be restored when you click the load button next time.")
+
+    @pyqtSlot()
+    def load_selection(self) -> None:
+        """Load the latest save selection from the settings manager."""
+        key = self.root_folder
+        if key in self.settings['selections']:
+            selection = self.settings['selections'][key]
+            # loop through all the files (outer loop largest set is most efficient)
+            for i in range(self.thumbnail_view.count()):
+                item = self.thumbnail_view.item(i)
+                if item.text() in selection:
+                    item.setBackground(QColor(constants.THUMBNAIL_SELECTION_COLOR))
+                else:
+                    # reset any prior selection!
+                    item.setBackground(QColor(Qt.GlobalColor.transparent))
+            QMessageBox.information(self, "Selection loaded", "Restored to the last saved selection.")
+        else:
+            QMessageBox.information(self, "Selection not found", "No prior selection loaded.")
 
     def change_color(self, items: list[QListWidgetItem], color: Qt.GlobalColor) -> None:
         for item in items:
