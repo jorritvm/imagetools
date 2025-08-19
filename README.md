@@ -17,17 +17,18 @@ various actions. All actions are accessible through the UI or via their own CLI.
 | Rename Auto      | Automatically rename files using a template string       |        ✅        |        ✅         |
 | Rename Manual    | Manually rename files efficiently                        |        ✅        |        ❌         |
 | Separate Media   | Separate images from video files                         |        ✅        |        ✅         |
+| Judge            | Select the best images from a series                     |        ✅        |        ❌         |
 | Auto Select      | Auto select new images from a directory                  |        ❌        |        ❌         |
 | Import           | Import from your SD card                                 |        ❌        |        ❌         |
 | Auto Rotate      | Auto rotate based on EXIF information                    |        ❌        |        ❌         |
 | Make Sequential  | Force google to see name-based sequential order          |        ❌        |        ❌         |
-| Judge            | Select the best images from a series                     |        ❌        |        ❌         |
-| Recursive Resize | Recursively resize pictures                              |        ❌        |        ❌         |
-| Resize           | Resize                                                   |        ❌        |        ❌         |
-| Web Album        | Create a webalbum                                        |        ❌        |        ❌         |
-| FTP upload       | Upload to an FTP webhost                                 |        ❌        |        ❌         |
-| Cleanup          | Analyse and cleanup image folders                        |        ❌        |        ❌         |
-| Archive          | Zip image folders                                        |        ❌        |        ❌         |
+
+| Recursive Resize | Recursively resize pictures | ❌ | ❌ |
+| Resize | Resize | ❌ | ❌ |
+| Web Album | Create a webalbum | ❌ | ❌ |
+| FTP upload | Upload to an FTP webhost | ❌ | ❌ |
+| Cleanup | Analyse and cleanup image folders | ❌ | ❌ |
+| Archive | Zip image folders | ❌ | ❌ |
 
 ✅ Supported    
 ⚠️ Warning

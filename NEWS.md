@@ -1,14 +1,7 @@
-# future
+# Backlog
 
-- refactor everything
-    - add type annotations everywhere
-    - make sure style guide is followed
-    - make sure autoformatter is applied to every document
-    - add docstrings where needed (module/class/function doc)
-    - add architecture document (diagram)
-- build in a catalog = resizer cache / metadata manager
-- add picture housekeeper modules
-- maak een versie 4 van imagetools als alles af is
+- build in a catalog = resizer cache / metadata manager that can be hosted both centrally or per folder
+-
 
 # imagetools v4.0
 
@@ -39,8 +32,9 @@
 - added metadata harvester operation, cli interface - then realised the google api is no longer available
 - added created to modified operation, cli interface, and ui dialog
 - added separate media operation, cli interface, and ui dialog
-- readded rename auto operation, cli interface, and ui dialog
-- readded judge operation, cli interface, and ui dialog
+- added rename auto operation, cli interface, and ui dialog, replaces old number tool
+- readded rename manual operation (ui only) and refactored the code to be more maintainable
+- readded judge operation (ui only) and refactored the code to be more maintainable and feature rich
 
 # imagetools v3.0
 

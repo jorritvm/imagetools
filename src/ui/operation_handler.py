@@ -1,12 +1,13 @@
 from PyQt6.QtWidgets import QMessageBox
 
-import ui.operation_handlers.created_to_mod_handler as created_to_mod_handler
-import ui.operation_handlers.flat_to_tree_handler as flat_to_tree_handler
-import ui.operation_handlers.heic_to_jpg_handler as heic_to_jpg_handler
-import ui.operation_handlers.rename_auto_handler as rename_auto_handler
-import ui.operation_handlers.rename_manual_handler as rename_manual_handler
-import ui.operation_handlers.separate_media_handler as separate_media_handler
-import ui.operation_handlers.takeout_handler as takeout_handler
+from ui.operation_handlers import created_to_mod_handler
+from ui.operation_handlers import flat_to_tree_handler
+from ui.operation_handlers import heic_to_jpg_handler
+from ui.operation_handlers import judge_handler
+from ui.operation_handlers import rename_auto_handler
+from ui.operation_handlers import rename_manual_handler
+from ui.operation_handlers import separate_media_handler
+from ui.operation_handlers import takeout_handler
 
 
 class OperationHandler:
@@ -24,6 +25,7 @@ class OperationHandler:
         self.operation_buttons['rename_auto'].released.connect(self.handle_rename_auto)
         self.operation_buttons['rename_manual'].released.connect(self.handle_rename_manual)
         self.operation_buttons['separate_media'].released.connect(self.handle_separate_media)
+        self.operation_buttons['judge'].released.connect(self.handle_judge)
 
     def handle_takeout(self):
         takeout_handler.handle_takeout(self.main_window)
@@ -52,6 +54,9 @@ class OperationHandler:
 
     def handle_separate_media(self):
         separate_media_handler.handle_separate_media(self.main_window)
+
+    def handle_judge(self):
+        judge_handler.handle_judge(self.main_window)
 
     # def handle_import(self):
     #     files = self.browser.get_selection()

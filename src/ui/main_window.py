@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         self.folder_select = FolderSelectWidget()
 
         # create the middle section
-        self.browser = Browser(self.supervisor, self.settings['path'], self.settings['image_size'])
+        self.browser = Browser(self.supervisor, self.settings)
 
         # create the right section
         self.operation_buttons['takeout'] = QPushButton("Takeout")
@@ -48,10 +48,10 @@ class MainWindow(QMainWindow):
         self.operation_buttons['rename_auto'] = QPushButton("Rename Auto")
         self.operation_buttons['rename_manual'] = QPushButton("Rename Manual")
         self.operation_buttons['separate_media'] = QPushButton("Separate Media")
+        self.operation_buttons['judge'] = QPushButton("Judge")
         # self.operation_buttons['auto_select'] = QPushButton("Auto Select")
         # self.operation_buttons['import'] = QPushButton("Import")
         # self.operation_buttons['rotate'] = QPushButton("Rotate")
-        # self.operation_buttons['judge'] = QPushButton("Judge")
         # self.operation_buttons['rename'] = QPushButton("Rename")
         # self.operation_buttons['resize'] = QPushButton("Resize")
         # self.operation_buttons['webalbum'] = QPushButton("Web Album")
@@ -136,7 +136,11 @@ class MainWindow(QMainWindow):
         self.settings.save_settings()
 
     def debug(self):
-        print("paths")
-        print(self.folder_select.folder_memory.paths)
-        print("index")
-        print(self.folder_select.folder_memory.index)
+        print("--------------------debug--------------------")
+        print("printing saved selection for this folder:")
+        path = self.browser.root_folder
+        print(path)
+        if path in self.settings['selections']:
+            print(self.settings['selections'][path])
+        else:
+            print("no selection saved for this folder")
