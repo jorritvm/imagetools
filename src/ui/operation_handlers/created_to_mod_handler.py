@@ -1,3 +1,10 @@
+"""
+This operation handler is responsible for the 'created to mod' operation
+The handle_ function is called from the main window when a button is clicked
+It spawns a user dialog to configure the operation and execute it
+It handles the operation termination (closing the dialog) by triggering a main application state refresh
+"""
+
 from PyQt6.QtWidgets import QDialog, QFileDialog, QMessageBox
 
 from operations.created_to_mod import created_to_mod_for_folder_path_operation, \

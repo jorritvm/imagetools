@@ -1,3 +1,9 @@
+"""
+This operation handler is responsible for the 'flat_to_tree' operation
+The handle_ function is called from the main window when a button is clicked
+It spawns a user dialog to configure the operation, and execute it
+It handles the operation termination (closing the dialog) by triggering a main application state refresh
+"""
 from PyQt6.QtWidgets import QDialog, QFileDialog
 
 from operations.flat_to_tree import flat_to_tree_operation

@@ -1,3 +1,9 @@
+"""
+This operation handler is responsible for the 'separate media' operation
+The handle_ function is called from the main window when a button is clicked
+It spawns a user dialog to configure the operation, and execute it
+It handles the operation termination (closing the dialog) by triggering a main application state refresh
+"""
 from PyQt6.QtWidgets import QDialog, QFileDialog
 
 from operations.separate_media import separate_media_operation

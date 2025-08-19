@@ -1,3 +1,9 @@
+"""
+This operation handler is responsible for the 'rename auto' operation
+The handle_ function is called from the main window when a button is clicked
+It spawns a user dialog to configure the operation, and execute it
+It handles the operation termination (closing the dialog) by triggering a main application state refresh
+"""
 from PyQt6.QtWidgets import QDialog, QFileDialog, QMessageBox
 
 from operations.rename_auto import rename_auto_for_folder_path_operation, rename_auto_for_list_of_file_paths_operation
