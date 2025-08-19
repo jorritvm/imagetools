@@ -9,9 +9,6 @@
 - build in a catalog = resizer cache / metadata manager
 - add picture housekeeper modules
 - maak een versie 4 van imagetools als alles af is
-- performing heic to jpg does not update the ui, need to fix that using a subthread for the operation wrapper
-- executing takeout does not update the ui, need to fix that using a subthread for the operation wrapper
-- takeout operation crashes when a metadata.json file is present which is not a valid media metadata file
 
 # imagetools v4.0
 
@@ -35,14 +32,15 @@
 - hardcoded parameters of the UI application are now part of a constants file so you can easily change selection
   background color etc.
 - mouse press on folder select now highlights the entire value making it easy to copy or overwrite
-- added google takeout operation, cli interface, and ui dialog
-- added heic to jpg operation, cli interface, and ui dialog
+- added a save/load feature to the browser image selection module
+- added google takeout operation, cli interface, and ui dialog (with non blocking operation wrapper)
+- added heic to jpg operation, cli interface, and ui dialog (with non blocking operation wrapper)
 - added flat to tree operation, cli interface, and ui dialog
 - added metadata harvester operation, cli interface - then realised the google api is no longer available
 - added created to modified operation, cli interface, and ui dialog
-- added rename auto operation, cli interface, and ui dialog
 - added separate media operation, cli interface, and ui dialog
--
+- readded rename auto operation, cli interface, and ui dialog
+- readded judge operation, cli interface, and ui dialog
 
 # imagetools v3.0
 
