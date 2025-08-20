@@ -18,6 +18,7 @@ various actions. All actions are accessible through the UI or via their own CLI.
 | Rename Manual    | Manually rename files efficiently                        |        ✅        |        ❌         |
 | Separate Media   | Separate images from video files                         |        ✅        |        ✅         |
 | Judge            | Select the best images from a series                     |        ✅        |        ❌         |
+| Resize           | Resize images uniformly                                  |        ✅        |        ✅         |
 | Auto Select      | Auto select new images from a directory                  |        ❌        |        ❌         |
 | Import           | Import from your SD card                                 |        ❌        |        ❌         |
 | Auto Rotate      | Auto rotate based on EXIF information                    |        ❌        |        ❌         |
@@ -64,10 +65,26 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-### Running the application
+### Running the CLI application
+
+Get an overview of all available commands:
 
 ```commandline
-(.venv) python src/imagetools.py 
+(.venv) python src/imagetools_cli.py
+```commandline
+(.venv) python src/imagetools_cli.py -h 
+```
+
+Get more details on the arguments for a specific command:
+
+```commandline
+(.venv) python src/imagetools_cli.py <command> -h
+```
+
+### Running the UI application
+
+```commandline
+(.venv) python src/imagetools_ui.py 
 ```
 
 ### Running all the unit tests

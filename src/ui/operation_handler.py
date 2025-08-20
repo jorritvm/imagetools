@@ -6,6 +6,7 @@ from ui.operation_handlers import heic_to_jpg_handler
 from ui.operation_handlers import judge_handler
 from ui.operation_handlers import rename_auto_handler
 from ui.operation_handlers import rename_manual_handler
+from ui.operation_handlers import resize_handler
 from ui.operation_handlers import separate_media_handler
 from ui.operation_handlers import takeout_handler
 
@@ -26,6 +27,7 @@ class OperationHandler:
         self.operation_buttons['rename_manual'].released.connect(self.handle_rename_manual)
         self.operation_buttons['separate_media'].released.connect(self.handle_separate_media)
         self.operation_buttons['judge'].released.connect(self.handle_judge)
+        self.operation_buttons['resize'].released.connect(self.handle_resize)
 
     def handle_takeout(self):
         takeout_handler.handle_takeout(self.main_window)
@@ -58,6 +60,9 @@ class OperationHandler:
     def handle_judge(self):
         judge_handler.handle_judge(self.main_window)
 
+    def handle_resize(self):
+        resize_handler.handle_resize(self.main_window)
+
     # def handle_import(self):
     #     files = self.browser.get_selection()
     #     if len(files) == 0:
@@ -71,18 +76,6 @@ class OperationHandler:
 
     #
 
-    #
-    # def resizeButtonAction(self):
-    #     files = self.browser.get_selection()
-    #     if len(files) == 0:
-    #         QMessageBox.warning(self, "No selection", "Create a selection first.")
-    #     else:
-    #         """create the dialog"""
-    #         res = Resize(files, self.supervisor, self.folder_select.folder_edit.text())
-    #         res.exec()
-    #         x = self.folder_select.folder_edit.text()
-    #         res.close()
-    #
     # def webAlbumButtonAction(self):
     #     files = self.browser.get_selection()
     #     if len(files) == 0:
@@ -99,12 +92,3 @@ class OperationHandler:
     #     up.exec()
     #     up.close()
     #
-    # def judgeButtonAction(self):
-    #     files = self.browser.get_selection()
-    #     if len(files) == 0:
-    #         QMessageBox.warning(self, "No selection", "Create a selection first.")
-    #     else:
-    #         """create the dialog"""
-    #         ju = Judge(files, self.supervisor)
-    #         ju.exec()
-    #         ju.close()

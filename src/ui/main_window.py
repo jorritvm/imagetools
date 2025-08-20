@@ -49,11 +49,12 @@ class MainWindow(QMainWindow):
         self.operation_buttons['rename_manual'] = QPushButton("Rename Manual")
         self.operation_buttons['separate_media'] = QPushButton("Separate Media")
         self.operation_buttons['judge'] = QPushButton("Judge")
+        self.operation_buttons['resize'] = QPushButton("Resize")
         # self.operation_buttons['auto_select'] = QPushButton("Auto Select")
         # self.operation_buttons['import'] = QPushButton("Import")
         # self.operation_buttons['rotate'] = QPushButton("Rotate")
         # self.operation_buttons['rename'] = QPushButton("Rename")
-        # self.operation_buttons['resize'] = QPushButton("Resize")
+
         # self.operation_buttons['webalbum'] = QPushButton("Web Album")
         # self.operation_buttons['ftp_upload'] = QPushButton("FTP Upload")
         # self.operation_buttons['archive'] = QPushButton("Archive")

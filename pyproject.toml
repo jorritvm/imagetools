@@ -11,6 +11,7 @@ dependencies = [
     "google-auth-oauthlib>=1.2.2",
     "pyprojroot>=0.3.0",
     "pyqt6>=6.9.1",
+    "pillow (>=11.3.0,<12.0.0)",
 ]
 
 [dependency-groups]

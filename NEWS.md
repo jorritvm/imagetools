@@ -1,7 +1,7 @@
 # Backlog
 
 - build in a catalog = resizer cache / metadata manager that can be hosted both centrally or per folder
--
+- if usefull, make the resize operation recursive?
 
 # imagetools v4.0
 
@@ -34,7 +34,8 @@
 - added separate media operation, cli interface, and ui dialog
 - added rename auto operation, cli interface, and ui dialog, replaces old number tool
 - readded rename manual operation (ui only) and refactored the code to be more maintainable
-- readded judge operation (ui only) and refactored the code to be more maintainable and feature rich
+- readded judge operation (ui only) and refactored the code to be more maintainable, stable and feature rich
+- readded resize operation with separate cli and ui interface
 
 # imagetools v3.0
 

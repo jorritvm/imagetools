@@ -3,7 +3,8 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto, separate_media
+from operations import separate_media, resize
+from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto
 
 
 def print_callback(msg, progress):
@@ -49,6 +50,16 @@ def process_cli(args):
         separate_media.separate_media_operation(
             args.folder_path,
             args.separate_what,
+            callback=print_callback)
+
+    if args.command == "resize":
+        resize.resize_folder_path_operation(
+            args.folder_path,
+            args.output_folder_name,
+            args.prefix,
+            args.suffix,
+            args.size,
+            args.quality,
             callback=print_callback)
 
 
@@ -97,6 +108,16 @@ def main():
     separate_media_parser.add_argument("folder_path", help="Root path to recurse to separate media by type.")
     separate_media_parser.add_argument("separate_what",
                                        help="Choose between 'images', 'movies', or 'both'.", )
+
+    # --- resize command ---
+    resize_parser = subparsers.add_parser("resize", help="Run the resize operation.")
+    resize_parser.add_argument("folder_path", help="Folder for which to resize all .jpg files.")
+    resize_parser.add_argument("output_folder_name", help="Name of the subfolder to store the resized images. "
+                                                          "Choose '.' to keep them in the original folder.")
+    resize_parser.add_argument("prefix", help="Prefix string to give to the resized files. Use 'none' to skip.")
+    resize_parser.add_argument("suffix", help="Suffix string to give to the resized files. Use 'none' to skip.")
+    resize_parser.add_argument("size", type=int, help="Size of the longest side of the resized images.")
+    resize_parser.add_argument("quality", type=int, help="Quality of the resized images (85 is a good default).")
 
     args = parser.parse_args()
     print(args)
