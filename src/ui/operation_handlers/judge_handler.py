@@ -87,8 +87,10 @@ class JudgeDialog(QDialog):
         QDialog.__init__(self, parent)
         self.judged_images: list[JudgedImage] = self.convert_files_to_judged_images(files)
         self.setup_ui()
+        self.is_ui_up_to_date: bool = False  # performance flag to check if the UI already drew all the thumbnails
 
         self.supervisor = supervisor
+        self.supervisor.clear_queue()  # this prevents the main browser hogging the cpu with its resize tasks
         self.supervisor.newItemReady.connect(self.process_next_resized_item)
         self.start_resize()
 
@@ -159,8 +161,10 @@ class JudgeDialog(QDialog):
 
     def adapt_count(self, i):
         """Adapt the number of images shown simultaneously in the dialog."""
-        self.show_count = i
-        self.setup_judging()
+        if i != self.show_count:
+            self.show_count = i
+            self.is_ui_up_to_date = False
+            self.setup_judging()
 
     def move(self, direction: Direction):
         """Move to the next or previous image based on the pressed arrow key."""
@@ -168,6 +172,7 @@ class JudgeDialog(QDialog):
             self.current_judged_image_index = min(len(self.judged_images) - 1, self.current_judged_image_index + 1)
         if direction == Direction.LEFT:
             self.current_judged_image_index = max(0, self.current_judged_image_index - 1)
+        self.is_ui_up_to_date = False
         self.setup_judging()
 
     def mark_image(self, marker: Marker):
@@ -214,6 +219,9 @@ class JudgeDialog(QDialog):
 
     def setup_judging(self):
         """Set up the judging UI by showing the thumbnails of the images."""
+        if self.is_ui_up_to_date:
+            return
+
         if self.verify_if_ui_is_ready_for_judging():
             self.wipe_layout()
             target_width = int(self.size().width() / self.show_count - 25)
@@ -242,6 +250,7 @@ class JudgeDialog(QDialog):
                 vbox.addWidget(top_widget)
                 vbox.addWidget(bottom_widget)
                 self.layout.addLayout(vbox)
+            self.is_ui_up_to_date = True
 
     def get_subset_of_judged_images(self):
         """Returns only the judged images that should be shown on the UI."""
