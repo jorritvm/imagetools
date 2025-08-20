@@ -96,6 +96,9 @@ class Browser(QWidget):
     def add_to_selection(self) -> None:
         items = self.thumbnail_view.selectedItems()
         self.change_color(items, constants.THUMBNAIL_SELECTION_COLOR)
+        # now also 'unselect' the items in the thumbnail view
+        for item in items:
+            item.setSelected(False)
 
     @pyqtSlot()
     def remove_from_selection(self) -> None:
