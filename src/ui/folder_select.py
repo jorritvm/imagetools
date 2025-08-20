@@ -55,11 +55,9 @@ class FolderSelectWidget(QWidget):
         self.folder_edit.tabPressed.connect(self.tab_action)
 
         # set buttons
-        self.erase_path_btn = QPushButton()
         self.prev_btn = QPushButton()
         self.next_btn = QPushButton()
 
-        self.erase_path_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_LineEditClearButton))
         self.prev_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowBack))
         self.next_btn.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_ArrowForward))
 
@@ -67,15 +65,12 @@ class FolderSelectWidget(QWidget):
         self.next_btn.setMaximumWidth(20)
 
         # connect the button signals
-        self.erase_path_btn.pressed.connect(self.folder_edit.clear)
-        self.erase_path_btn.pressed.connect(self.folder_edit.setFocus)
         self.prev_btn.pressed.connect(self.to_previous_directory)
         self.next_btn.pressed.connect(self.to_next_directory)
 
         line_edit_layout = QHBoxLayout()
         line_edit_layout.addWidget(self.folder_edit)
         line_edit_layout.addWidget(self.prev_btn)
-        line_edit_layout.addWidget(self.erase_path_btn)
         line_edit_layout.addWidget(self.next_btn)
         line_edit_layout.setSpacing(2)
 
