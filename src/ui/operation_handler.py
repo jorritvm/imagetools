@@ -9,6 +9,7 @@ from ui.operation_handlers import rename_manual_handler
 from ui.operation_handlers import resize_handler
 from ui.operation_handlers import separate_media_handler
 from ui.operation_handlers import takeout_handler
+from ui.operation_handlers import web_album_handler
 
 
 class OperationHandler:
@@ -28,6 +29,7 @@ class OperationHandler:
         self.operation_buttons['separate_media'].released.connect(self.handle_separate_media)
         self.operation_buttons['judge'].released.connect(self.handle_judge)
         self.operation_buttons['resize'].released.connect(self.handle_resize)
+        self.operation_buttons['web_album'].released.connect(self.handle_web_album)
 
     def handle_takeout(self):
         takeout_handler.handle_takeout(self.main_window)
@@ -63,6 +65,9 @@ class OperationHandler:
     def handle_resize(self):
         resize_handler.handle_resize(self.main_window)
 
+    def handle_web_album(self):
+        web_album_handler.handle_web_album(self.main_window)
+
     # def handle_import(self):
     #     files = self.browser.get_selection()
     #     if len(files) == 0:
@@ -74,17 +79,6 @@ class OperationHandler:
     #             self.setFolder(path)
     #         im.close()
 
-    #
-
-    # def webAlbumButtonAction(self):
-    #     files = self.browser.get_selection()
-    #     if len(files) == 0:
-    #         QMessageBox.warning(self, "No selection", "Create a selection first.")
-    #     else:
-    #         """create the dialog"""
-    #         wa = WebAlbum(files, self.supervisor)
-    #         wa.exec()
-    #         wa.close()
     #
     # def uploadButtonAction(self):
     #     """create the dialog"""

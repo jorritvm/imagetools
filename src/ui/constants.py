@@ -23,3 +23,6 @@ JUDGE_MARKER_T_COLOR = Qt.GlobalColor.red  # color for images marked with marker
 JUDGE_FOLDER_NAME_MARKER_A: str = "sel_a"
 JUDGE_FOLDER_NAME_MARKER_B: str = "sel_b"
 JUDGE_FOLDER_NAME_MARKER_T: str = "trash"
+
+WEB_ALBUM_THUMBNAIL_SIZE: int = 200
+WEB_ALBUM_ZOOM_SIZE: int = 1200

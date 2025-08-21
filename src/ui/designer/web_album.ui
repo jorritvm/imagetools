@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WebAlbum</class>
- <widget class="QWidget" name="WebAlbum">
+ <class>web_album</class>
+ <widget class="QWidget" name="web_album">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,10 +15,10 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1">
-    <widget class="QLineEdit" name="editTitle"/>
+    <widget class="QLineEdit" name="edit_title"/>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="editLocation"/>
+    <widget class="QLineEdit" name="edit_location"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
@@ -28,7 +28,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="editDescription"/>
+    <widget class="QLineEdit" name="edit_description"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -45,21 +45,21 @@
     </widget>
    </item>
    <item row="3" column="0" colspan="2">
-    <widget class="QPushButton" name="btnCreate">
+    <widget class="QPushButton" name="btn_create">
      <property name="text">
       <string>Create webalbum</string>
      </property>
     </widget>
    </item>
    <item row="4" column="0" colspan="2">
-    <widget class="QPushButton" name="btnCancel">
+    <widget class="QPushButton" name="btn_cancel">
      <property name="text">
       <string>Cancel</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0" colspan="2">
-    <widget class="QProgressBar" name="progressBar">
+    <widget class="QProgressBar" name="progress_bar">
      <property name="value">
       <number>0</number>
      </property>
@@ -72,17 +72,17 @@
     </widget>
    </item>
    <item row="6" column="0" colspan="2">
-    <widget class="QTextBrowser" name="textBox"/>
+    <widget class="QTextBrowser" name="text_box"/>
    </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>editTitle</tabstop>
-  <tabstop>editDescription</tabstop>
-  <tabstop>editLocation</tabstop>
-  <tabstop>btnCreate</tabstop>
-  <tabstop>btnCancel</tabstop>
-  <tabstop>textBox</tabstop>
+  <tabstop>edit_title</tabstop>
+  <tabstop>edit_description</tabstop>
+  <tabstop>edit_location</tabstop>
+  <tabstop>btn_create</tabstop>
+  <tabstop>btn_cancel</tabstop>
+  <tabstop>text_box</tabstop>
  </tabstops>
  <resources/>
  <connections/>

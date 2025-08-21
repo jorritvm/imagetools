@@ -2,6 +2,7 @@
 Judge is a pure UI operation.
 As such all of the logic is contained in this module.
 There is no separate operation module for the file system operations.
+There is no separate .ui file for the dialog. The dialog is created programmatically.
 """
 import os
 from dataclasses import dataclass

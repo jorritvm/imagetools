@@ -10,7 +10,7 @@ from ftplib import *
 from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
 
-from ui.designer.upload import *
+from ui.designer.todo.upload import *
 
 
 class Upload(QDialog, Ui_Upload):

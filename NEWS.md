@@ -36,6 +36,7 @@
 - readded rename manual operation (ui only) and refactored the code to be more maintainable
 - readded judge operation (ui only) and refactored the code to be more maintainable, stable and feature rich
 - readded resize operation with separate cli and ui interface
+- readded web album creation operation (ui only) without refactoring
 
 # imagetools v3.0
 
