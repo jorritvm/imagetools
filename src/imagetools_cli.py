@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import ftp_upload
+from operations import ftp_upload, archive
 from operations import separate_media, resize
 from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto
 
@@ -74,6 +74,11 @@ def process_cli(args):
             callback=print_callback
         )
 
+    if args.command == "archive":
+        archive.archive_operation(
+            args.folder_path,
+            callback=print_callback)
+
 
 def main():
     # create the cli argument parser
@@ -107,7 +112,7 @@ def main():
     # --- created_to_mod command ---
     created_to_mod_parser = subparsers.add_parser("created_to_mod", help="Run the created_to_mod operation.")
     created_to_mod_parser.add_argument("folder_path",
-                                       help="Path to folder with files for which to ovewrite atime and mtime with ctime.")
+                                       help="Path to folder with files for which to overwrite atime and mtime with ctime.")
 
     # --- rename auto command ---
     rename_auto_parser = subparsers.add_parser("rename_auto", help="Run the rename_auto operation.")
@@ -141,8 +146,12 @@ def main():
                                    help="Destination folder on the FTP server (will be created if it doesn't exist).")
     ftp_upload_parser.add_argument("source_folder_path", help="Local path to the folder contents to upload.")
 
+    # --- archive command ---
+    archive_parser = subparsers.add_parser("archive", help="Run the archive operation.")
+    archive_parser.add_argument("folder_path", help="Folder containing the subfolders to zip one by one.")
+
     args = parser.parse_args()
-    print(args)
+    # print(args) # debug only
     process_cli(args)
 
 
