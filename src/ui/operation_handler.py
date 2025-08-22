@@ -7,7 +7,7 @@ from ui.operation_handlers.flat_to_tree_handler import handle_flat_to_tree
 from ui.operation_handlers.ftp_upload_handler import handle_ftp_upload
 from ui.operation_handlers.harvest_metadata_handler import handle_harvest_metadata
 from ui.operation_handlers.heic_to_jpg_handler import handle_heic_to_jpg
-from ui.operation_handlers.import_images import handle_import_images
+from ui.operation_handlers.import_images_handler import handle_import_images
 from ui.operation_handlers.judge_handler import handle_judge
 from ui.operation_handlers.rename_auto_handler import handle_rename_auto
 from ui.operation_handlers.rename_manual_handler import handle_rename_manual
@@ -38,4 +38,3 @@ class OperationHandler:
         self.btns['resize'].released.connect(lambda: handle_resize(self.main_window))
         self.btns['web_album'].released.connect(lambda: handle_web_album(self.main_window))
         self.btns['ftp_upload'].released.connect(lambda: handle_ftp_upload(self.main_window))
-        self.btns['import_images'].released.connect(lambda: handle_import_images(self.main_window))

@@ -43,6 +43,8 @@
 - readded web album creation operation (ui only) without refactoring
 - readded ftp upload operation with separate cli and ui interface
 - adding google seq operation with cli interface
+- adding auto select operation (ui only)
+- adding import operation (ui only)
 
 # imagetools v3.0
 
