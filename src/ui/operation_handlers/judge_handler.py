@@ -17,16 +17,18 @@ from ui import constants
 
 
 def handle_judge(main_window):
+    # fetch the UI inputs
     folder_select = main_window.folder_select
     browser_selection: list[QFileInfo] = main_window.browser.get_selection()
     resize_supervisor = main_window.supervisor  # this module will use the same threaded resize as the browser
     if len(browser_selection) == 0:
         QMessageBox.warning(main_window, "No selection", "Create a selection first.")
-    else:
-        """create the dialog"""
-        dlg = JudgeDialog(browser_selection, resize_supervisor)
-        dlg.exec()
-        folder_select.force_refresh()
+        return
+
+    """create the dialog"""
+    dlg = JudgeDialog(browser_selection, resize_supervisor)
+    dlg.exec()
+    folder_select.force_refresh()
 
 
 class Direction(Enum):

@@ -36,8 +36,8 @@ class ResizeDialog(QDialog, Ui_resize):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.edit_folder_path.setText(initial_folder)
-        self.go_to_output = False
         self.current_selection = current_selection
+        self.go_to_output = False
 
         # slots
         self.btn_perform_action.clicked.connect(self.start_operation)
