@@ -40,6 +40,8 @@ class MainWindow(QMainWindow):
         self.browser = Browser(self.supervisor, self.settings)
 
         # create the right section
+        self.operation_buttons['auto_select'] = QPushButton("Auto Select")
+        self.operation_buttons['import_images'] = QPushButton("Import Images")
         self.operation_buttons['takeout'] = QPushButton("Takeout")
         self.operation_buttons['heic_to_jpg'] = QPushButton("Heic to JPG")
         self.operation_buttons['flat_to_tree'] = QPushButton("Flat to Tree")
@@ -52,14 +54,7 @@ class MainWindow(QMainWindow):
         self.operation_buttons['resize'] = QPushButton("Resize")
         self.operation_buttons['web_album'] = QPushButton("Web Album")
         self.operation_buttons['ftp_upload'] = QPushButton("FTP Upload")
-        # self.operation_buttons['auto_select'] = QPushButton("Auto Select")
-        # self.operation_buttons['import'] = QPushButton("Import")
-        # self.operation_buttons['rotate'] = QPushButton("Rotate")
-        # self.operation_buttons['rename'] = QPushButton("Rename")
-
-        # self.operation_buttons['archive'] = QPushButton("Archive")
         # self.operation_buttons['cleanup'] = QPushButton("Cleanup")
-        # self.operation_buttons['make_sequential'] = QPushButton("Make Sequential")
 
         self.group_operations = QGroupBox("Operations")
         layout_buttons = QVBoxLayout(self.group_operations)

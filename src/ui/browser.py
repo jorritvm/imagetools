@@ -77,7 +77,7 @@ class Browser(QWidget):
 
     def setup_slots(self) -> None:
         self.thumbnail_view.itemDoubleClicked.connect(self.open_in_external_app)
-        self.btn_add.pressed.connect(self.add_to_selection)
+        self.btn_add.pressed.connect(self.add_selected_items_to_selection)
         self.btn_remove.pressed.connect(self.remove_from_selection)
         self.btn_add_all.pressed.connect(self.add_all_to_selection)
         self.btn_clear.pressed.connect(self.clear_selection)
@@ -92,8 +92,20 @@ class Browser(QWidget):
         link = os.path.abspath(file_path)
         os.startfile(link)
 
+    def add_file_names_to_selection(self, file_names: list[str]) -> None:
+        """Add the given file names to the current selection."""
+        items = []
+        for file_name in file_names:
+            for i in range(self.thumbnail_view.count()):
+                item = self.thumbnail_view.item(i)
+                if item.text() == file_name:
+                    items.append(item)
+                    break
+        self.change_color(items, constants.THUMBNAIL_SELECTION_COLOR)
+
     @pyqtSlot()
-    def add_to_selection(self) -> None:
+    def add_selected_items_to_selection(self) -> None:
+        """Add the currently selected items in the thumbnail view to the selection."""
         items = self.thumbnail_view.selectedItems()
         self.change_color(items, constants.THUMBNAIL_SELECTION_COLOR)
         # now also 'unselect' the items in the thumbnail view
