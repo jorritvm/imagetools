@@ -36,8 +36,10 @@ class SettingsManager(dict):
         self['image_size']: int = 2
         self['app_size'] = QSize(constants.INITIAL_WINDOW_WIDTH, constants.INITIAL_WINDOW_HEIGHT)
         self['app_position'] = QPoint(constants.INITIAL_WINDOW_POSITION_X, constants.INITIAL_WINDOW_POSITION_Y)
-        self['selections'] = dict()  # used to store selections: keys=folder_paths, values=list of file names
-        self['ftp_presets'] = dict()  # will store FtpPreset objects
+        self['selections']: dict[
+            str, list[str]] = dict()  # used to store selections: keys=folder_paths, values=list of file names
+        self['ftp_presets'] = dict()  # will store str,FtpPreset items
+        self['auto_select_history'] = dict()  # stores keys=folder_paths, values=set of previously imported file names
 
     def create_settings_folder(self):
         """Create the settings folder if it does not exist."""

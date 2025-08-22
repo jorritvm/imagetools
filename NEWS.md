@@ -4,6 +4,8 @@
 - if usage shows that it could be useful, make the resize operation recursive?
 - evaluate an alternative templating solution fr the web album creation
 - wrap UI operation calls in threads for operations that seem to block the UI (evaluate after some usage)
+- make an auto rotate operation that can rotate pictures based on exif data
+-
 
 # imagetools v4.0
 
@@ -40,6 +42,7 @@
 - readded resize operation with separate cli and ui interface
 - readded web album creation operation (ui only) without refactoring
 - readded ftp upload operation with separate cli and ui interface
+- adding google seq operation with cli interface
 
 # imagetools v3.0
 

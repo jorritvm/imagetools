@@ -3,7 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
-from operations import ftp_upload, archive
+from operations import ftp_upload, archive, google_seq
 from operations import separate_media, resize
 from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto
 
@@ -79,6 +79,11 @@ def process_cli(args):
             args.folder_path,
             callback=print_callback)
 
+    if args.command == "google_seq":
+        google_seq.google_seq_operation(
+            args.folder_path,
+            callback=print_callback)
+
 
 def main():
     # create the cli argument parser
@@ -149,6 +154,10 @@ def main():
     # --- archive command ---
     archive_parser = subparsers.add_parser("archive", help="Run the archive operation.")
     archive_parser.add_argument("folder_path", help="Folder containing the subfolders to zip one by one.")
+
+    # --- google_seq command ---
+    google_seq_parser = subparsers.add_parser("google_seq", help="Run the google_seq operation.")
+    google_seq_parser.add_argument("folder_path", help="Folder containing the files on which to enforce sequence.")
 
     args = parser.parse_args()
     # print(args) # debug only
