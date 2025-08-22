@@ -24,7 +24,7 @@ various actions. All actions are accessible through the UI or via their own CLI.
 | Archive          | Zip image folders                                         |        ❌        |        ✅         |
 | Google Seq       | Make files appear in alphabetical order on google photos. |        ❌        |        ✅         |
 | Auto Select      | Auto select new images from a directory                   |        ✅        |        ❌         |
-| Import           | Import from your SD card                                  |        ❌        |        ❌         |
+| Import           | Import from your SD card                                  |        ✅        |        ❌         |
 | Cleanup          | Analyse and cleanup image folders                         |        ❌        |        ❌         |
 
 ✅ Supported    
