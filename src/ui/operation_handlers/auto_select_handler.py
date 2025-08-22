@@ -17,19 +17,20 @@ def handle_auto_select(main_window):
     browser: Browser = main_window.browser
     settings: SettingsManager = main_window.settings
 
-    # get the current folder path
+    # Get the current folder path
     folder_path = folder_select.folder_edit.text()
     if folder_path == "":
         return
 
-    # compare files in folder to history of imported files from this folder
+    # Get both sets of file names: the folder and the folder history
     file_names = set(os.listdir(folder_path))
     history = settings['auto_select_history'].get(folder_path, set())
 
-    # get all values in set file_names that are not in set history
-    first_time_seen_files = file_names - history
+    # Clean up history: remove files no longer in the folder
+    history.intersection_update(file_names)
 
-    # update the browser selection
+    # Select files not yet in history
+    first_time_seen_files = file_names - history
     browser.add_file_names_to_selection(first_time_seen_files)
 
     # inform the user
