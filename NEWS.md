@@ -1,7 +1,9 @@
 # Backlog
 
 - build in a catalog = resizer cache / metadata manager that can be hosted both centrally or per folder
-- if usefull, make the resize operation recursive?
+- if usage shows that it could be useful, make the resize operation recursive?
+- evaluate an alternative templating solution fr the web album creation
+- wrap UI operation calls in threads for operations that seem to block the UI (evaluate after some usage)
 
 # imagetools v4.0
 
@@ -37,6 +39,7 @@
 - readded judge operation (ui only) and refactored the code to be more maintainable, stable and feature rich
 - readded resize operation with separate cli and ui interface
 - readded web album creation operation (ui only) without refactoring
+- readded ftp upload operation with separate cli and ui interface
 
 # imagetools v3.0
 

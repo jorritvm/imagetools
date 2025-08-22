@@ -3,6 +3,7 @@ Entry point for the ImageTools CLI application.
 """
 import argparse
 
+from operations import ftp_upload
 from operations import separate_media, resize
 from operations import takeout, heic_to_jpg, flat_to_tree, harvest_metadata, created_to_mod, rename_auto
 
@@ -62,6 +63,17 @@ def process_cli(args):
             args.quality,
             callback=print_callback)
 
+    if args.command == "ftp_upload":
+        ftp_upload.ftp_upload_operation(
+            args.ip,
+            args.port,
+            args.user,
+            args.password,
+            args.destination_folder_name,
+            args.source_folder_path,
+            callback=print_callback
+        )
+
 
 def main():
     # create the cli argument parser
@@ -118,6 +130,16 @@ def main():
     resize_parser.add_argument("suffix", help="Suffix string to give to the resized files. Use 'none' to skip.")
     resize_parser.add_argument("size", type=int, help="Size of the longest side of the resized images.")
     resize_parser.add_argument("quality", type=int, help="Quality of the resized images (85 is a good default).")
+
+    # --- ftp_upload command ---
+    ftp_upload_parser = subparsers.add_parser("ftp_upload", help="Run the ftp_upload operation.")
+    ftp_upload_parser.add_argument("ip", help="IP address of the FTP server.")
+    ftp_upload_parser.add_argument("port", type=int, help="Port number of the FTP server.")
+    ftp_upload_parser.add_argument("user", help="Username for FTP login.")
+    ftp_upload_parser.add_argument("password", help="Password for FTP login.")
+    ftp_upload_parser.add_argument("destination_folder_name",
+                                   help="Destination folder on the FTP server (will be created if it doesn't exist).")
+    ftp_upload_parser.add_argument("source_folder_path", help="Local path to the folder contents to upload.")
 
     args = parser.parse_args()
     print(args)

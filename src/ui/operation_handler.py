@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox
 
-from ui.operation_handlers import created_to_mod_handler
+from ui.operation_handlers import created_to_mod_handler, ftp_upload_handler
 from ui.operation_handlers import flat_to_tree_handler
 from ui.operation_handlers import heic_to_jpg_handler
 from ui.operation_handlers import judge_handler
@@ -30,6 +30,7 @@ class OperationHandler:
         self.operation_buttons['judge'].released.connect(self.handle_judge)
         self.operation_buttons['resize'].released.connect(self.handle_resize)
         self.operation_buttons['web_album'].released.connect(self.handle_web_album)
+        self.operation_buttons['ftp_upload'].released.connect(self.handle_ftp_upload)
 
     def handle_takeout(self):
         takeout_handler.handle_takeout(self.main_window)
@@ -68,6 +69,9 @@ class OperationHandler:
     def handle_web_album(self):
         web_album_handler.handle_web_album(self.main_window)
 
+    def handle_ftp_upload(self):
+        ftp_upload_handler.handle_ftp_upload(self.main_window)
+
     # def handle_import(self):
     #     files = self.browser.get_selection()
     #     if len(files) == 0:
@@ -78,11 +82,3 @@ class OperationHandler:
     #             path = im.get_new_path()
     #             self.setFolder(path)
     #         im.close()
-
-    #
-    # def uploadButtonAction(self):
-    #     """create the dialog"""
-    #     up = Upload(self.settings, self.folder_select.folder_edit.text())
-    #     up.exec()
-    #     up.close()
-    #
