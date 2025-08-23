@@ -57,6 +57,7 @@ def takeout_operation(takeout_zip_file_path: str, output_folder_path: str, callb
         unzip_takeout_files(takeout_zip_file_path, output_folder_path, callback)
         move_all_files_to_output_folder(output_folder_path, callback)
         modify_mtime(output_folder_path, callback)
+        callback("Finished!", 100)
         return output_folder_path
     else:
         return None
@@ -131,5 +132,3 @@ def modify_mtime(folder_path, callback):
             # update stats onto the file
             os.utime(image_file_path, (int(val), int(val)))
             callback(f"Changed mtime for {key}", int(100 * i / total))
-
-    callback("Finished!", 100)

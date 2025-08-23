@@ -72,6 +72,8 @@ def rename_auto_for_list_of_file_paths_operation(list_of_file_paths: list[str], 
         callback(f"Renaming {file_name} to {new_file_name}", int((i + 1) / total_files * 100))
         os.rename(file_path, new_file_path)
 
+    callback("Finished!", 100)
+
 
 def breakdown_mtime(mtime: float) -> dict[str, str]:
     """Break down the mtime into different formats."""

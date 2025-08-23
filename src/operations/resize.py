@@ -85,18 +85,3 @@ def resize_image(file_path, output_folder_name, prefix, suffix, size, quality):
             return file_name, True
     except Exception as e:
         return file_path, False
-
-
-if __name__ == "__main__":
-    # Example usage
-    def progress_callback(message, progress):
-        print(f"{message} - Progress: {progress}%")
-
-
-    resize_folder_path_operation(r"C:\Users\jorrit\Desktop\sandbox\test100",
-                                 "resized_subfolder",
-                                 "small_",
-                                 "none",
-                                 150,
-                                 85,
-                                 progress_callback)

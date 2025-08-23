@@ -193,12 +193,3 @@ def delete_if_without_json(file_path, all_files):
     json_file = find_matching_json(file_path, all_files, folder_path)
     if not json_file:
         os.remove(file_path)
-
-
-if __name__ == "__main__":
-    # Example usage
-    def callback(message, progress):
-        print(f"({progress}%) {message}")
-
-
-    heic_to_jpg_operation(r"D:\sandbox\test4", callback)
