@@ -2,7 +2,27 @@
 
 A JPG photography workflow toolsuite.
 
-TOC
+<!-- TOC -->
+
+* [Imagetools](#imagetools)
+    * [Description](#description)
+    * [Screenshot](#screenshot)
+    * [Changelog](#changelog)
+    * [Developer instructions (windows)](#developer-instructions-windows)
+        * [Cloning the repository](#cloning-the-repository)
+        * [Restoring the virtual environment](#restoring-the-virtual-environment)
+            * [Installing using `uv` based on `pyproject.toml`](#installing-using-uv-based-on-pyprojecttoml)
+            * [Installing using `pip` based on `requirements.txt`](#installing-using-pip-based-on-requirementstxt)
+        * [Running all the unit tests](#running-all-the-unit-tests)
+        * [Updating the dependencies (after adding new packages)](#updating-the-dependencies-after-adding-new-packages)
+        * [Building the windows installer](#building-the-windows-installer)
+    * [Installation instructions (windows)](#installation-instructions-windows)
+    * [Usage instructions (windows)](#usage-instructions-windows)
+        * [Running the CLI application](#running-the-cli-application)
+        * [Running the UI application](#running-the-ui-application)
+    * [Author](#author)
+
+<!-- TOC -->
 
 ## Description
 
@@ -43,8 +63,6 @@ Operations are accessible through either the UI or via their own CLI or both.
 
 ## Developer instructions (windows)
 
-The project comes with both a pyproject.toml and requirements.txt file.
-
 ### Cloning the repository
 
 ```commandline
@@ -52,7 +70,11 @@ git clone https://github.com/jorritvm/imagetools.git
 cd imagetools
 ```
 
-### Installing using `uv` based on `pyproject.toml`
+### Restoring the virtual environment
+
+The project comes with both a pyproject.toml and requirements.txt file.
+
+#### Installing using `uv` based on `pyproject.toml`
 
 Requires python 3.13.
 
@@ -60,7 +82,7 @@ Requires python 3.13.
 uv install --dev
 ```
 
-### Installing using `pip` based on `requirements.txt`
+#### Installing using `pip` based on `requirements.txt`
 
 ```commandline
 python -m venv .venv
