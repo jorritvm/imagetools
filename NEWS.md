@@ -2,10 +2,10 @@
 
 - build in a catalog = resizer cache / metadata manager that can be hosted both centrally or per folder
 - if usage shows that it could be useful, make the resize operation recursive?
-- evaluate an alternative templating solution fr the web album creation
+- evaluate an alternative templating solution for the web album creation
 - wrap UI operation calls in threads for operations that seem to block the UI (evaluate after some usage)
 - make an auto rotate operation that can rotate pictures based on exif data
--
+- integrate the picture_housekeeper 'cleanup' tool into the CLI and/or UI
 
 # imagetools v4.0
 
