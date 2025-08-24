@@ -57,6 +57,8 @@ Operations are accessible through either the UI or via their own CLI or both.
 
 [<img src="docs/screenshots/v4.0/main.png" width="300"/>](docs/screenshots/v4.0/main.png)
 
+More screenshots can be found in the [docs/screenshots](docs/screenshots) folder.
+
 ## Changelog
 
 [See NEWS.md](NEWS.md)
@@ -128,18 +130,56 @@ Unzip the folder and run `imagetools_gui.exe` or `imagetools_cli.exe`.
 
 ### Running the CLI application
 
+```commandline
+(.venv) python src/imagetools_cli.py
+usage: imagetools_cli.py [-h] {takeout,heic_to_jpg,flat_to_tree,harvest_metadata,created_to_mod,rename_auto,separate_media,resize,ftp_upload,archive,google_seq} ...
+
+```
+
 Get an overview of all available commands:
 
 ```commandline
-(.venv) python src/imagetools_cli.py
-```commandline
 (.venv) python src/imagetools_cli.py -h 
+usage: imagetools_cli.py [-h] {takeout,heic_to_jpg,flat_to_tree,harvest_metadata,created_to_mod,rename_auto,separate_media,resize,ftp_upload,archive,google_seq} ...
+
+ImageTools CLI - run various image operations.
+
+positional arguments:
+  {takeout,heic_to_jpg,flat_to_tree,harvest_metadata,created_to_mod,rename_auto,separate_media,resize,ftp_upload,archive,google_seq}
+    takeout             Run the takeout operation.
+    heic_to_jpg         Run the heic_to_jpg operation.
+    flat_to_tree        Run the flat_to_tree operation.
+    harvest_metadata    Run the harvest_metadata operation.
+    created_to_mod      Run the created_to_mod operation.
+    rename_auto         Run the rename_auto operation.
+    separate_media      Run the separate_media operation.
+    resize              Run the resize operation.
+    ftp_upload          Run the ftp_upload operation.
+    archive             Run the archive operation.
+    google_seq          Run the google_seq operation.
+
+options:
+  -h, --help            show this help message and exit
 ```
 
 Get more details on the arguments for a specific command:
 
 ```commandline
 (.venv) python src/imagetools_cli.py <command> -h
+
+(imagetools) PS C:\dev\python\imagetools> python src/imagetools_cli.py resize -h     
+usage: imagetools_cli.py resize [-h] folder_path output_folder_name prefix suffix size quality
+
+positional arguments:
+  folder_path         Folder for which to resize all .jpg files.
+  output_folder_name  Name of the subfolder to store the resized images. Choose '.' to keep them in the original folder.
+  prefix              Prefix string to give to the resized files. Use 'none' to skip.
+  suffix              Suffix string to give to the resized files. Use 'none' to skip.
+  size                Size of the longest side of the resized images.
+  quality             Quality of the resized images (85 is a good default).
+
+options:
+  -h, --help          show this help message and exit
 ```
 
 ### Running the UI application

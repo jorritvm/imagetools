@@ -1,3 +1,6 @@
+import os
+import sys
+
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtGui import QAction, QIcon
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QGroupBox, QSizePolicy, QSplitter, \
@@ -90,14 +93,18 @@ class MainWindow(QMainWindow):
         menu_help = menu_bar.addMenu("&Help")
         menu_help.addAction(self.action_about)
         menu_help.addAction(self.action_changelog)
-        # todo: remove debug button and related code
-        action_debug = QAction("&Debug", self)
-        action_debug.triggered.connect(self.debug)
-        menu_help.addAction(action_debug)
 
     def setup_various(self):
         self.setWindowTitle("Imagetools by JVM")
-        self.setWindowIcon(QIcon("ui/resources/appicon.ico"))
+        # self.setWindowIcon(QIcon("ui/resources/appicon.ico"))
+        if getattr(sys, 'frozen', False):
+            # Running as compiled executable
+            icon_path = os.path.join(sys._MEIPASS, 'ui', 'resources', 'appicon.ico')
+        else:
+            # Running as script
+            icon_path = os.path.join(os.path.dirname(__file__), 'ui', 'resources', 'appicon.ico')
+
+        self.setWindowIcon(QIcon(icon_path))
         self.resize(constants.INITIAL_WINDOW_WIDTH, constants.INITIAL_WINDOW_HEIGHT)
         self.hsplitter.setSizes([100, 300])  # this gives us a nice startup size distribution
 
@@ -130,13 +137,3 @@ class MainWindow(QMainWindow):
         self.settings['app_size'] = self.size()
         self.settings['app_position'] = self.pos()
         self.settings.save_settings()
-
-    def debug(self):
-        print("--------------------debug--------------------")
-        print("printing saved selection for this folder:")
-        path = self.browser.root_folder
-        print(path)
-        if path in self.settings['selections']:
-            print(self.settings['selections'][path])
-        else:
-            print("no selection saved for this folder")
