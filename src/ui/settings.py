@@ -3,7 +3,6 @@ import pickle
 
 from PyQt6.QtCore import QSize, QPoint
 from PyQt6.QtWidgets import QDialog, QMessageBox
-from pyprojroot import here
 
 from ui import constants
 from ui.designer.settings import Ui_SettingsDialog
@@ -22,8 +21,8 @@ class SettingsManager(dict):
     def __init__(self, parent=None):
         super().__init__()
         self.parent = parent
-        self.settings_folder_path = here(constants.SETTINGS_FOLDER_NAME)
-        self.settings_file_path = os.path.join(self.settings_folder_path, constants.SETTINGS_FILE_NAME)
+        self.settings_file_path = self.get_settings_file_path()
+        self.settings_folder_path = os.path.dirname(self.settings_file_path)
         self.create_settings_folder()
         self.load_settings()
 
@@ -41,10 +40,17 @@ class SettingsManager(dict):
         self['ftp_presets'] = dict()  # will store str,FtpPreset items
         self['auto_select_history'] = dict()  # stores keys=folder_paths, values=set of previously imported file names
 
+    def get_settings_file_path(self) -> str:
+        settings_file_path = os.path.join(os.environ["APPDATA"],
+                                          "imagetools",
+                                          constants.SETTINGS_FOLDER_NAME,
+                                          constants.SETTINGS_FILE_NAME)
+        return settings_file_path
+
     def create_settings_folder(self):
         """Create the settings folder if it does not exist."""
         try:
-            if not self.settings_folder_path.exists():
+            if not os.path.exists(self.settings_folder_path):
                 os.makedirs(self.settings_folder_path, exist_ok=True)
         except OSError as e:
             QMessageBox.critical(self.parent, "ERROR", "There was an error creating the settings folder...")
