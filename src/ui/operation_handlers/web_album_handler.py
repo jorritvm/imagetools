@@ -13,7 +13,7 @@ from urllib.parse import unquote
 from PyQt6.QtCore import QFileInfo, QFile, QIODevice, QTextStream
 from PyQt6.QtWidgets import QDialog, QMessageBox
 
-from src.ui.designer.web_album import Ui_web_album
+from ui.designer.web_album import Ui_web_album
 from threaded_resizer.threaded_resizer import Supervisor, ImageResizeTask
 from ui import constants
 
