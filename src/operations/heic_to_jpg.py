@@ -20,15 +20,27 @@ import multiprocessing as mp
 import os
 import shutil
 import subprocess
+from typing import Optional
 
 TIME_WINDOW_FOR_LIVE_PHOTO: int = 300  # in seconds, 300 seconds = 5 minutes
+
+
+def iter_all_files(folder_path: str):
+    for current_folder, _, file_names in os.walk(folder_path):
+        for file_name in file_names:
+            yield current_folder, file_name, os.path.join(current_folder, file_name)
+
+
+def iter_all_folders(folder_path: str):
+    for current_folder, _, file_names in os.walk(folder_path):
+        yield current_folder, file_names
 
 
 def heic_to_jpg_operation(folder_path: str, callback) -> None:
     if not check_if_imagemagick_is_installed(callback):
         return
 
-    if not os.path.exists(folder_path) and not os.path.isdir(folder_path):
+    if not os.path.isdir(folder_path):
         callback(f"The specified folder does not exist: {folder_path}", 100)
         return
 
@@ -51,19 +63,19 @@ def check_if_imagemagick_is_installed(callback):
 
 
 def perform_all_jpg_to_heic_conversion(folder_path: str, callback) -> None:
-    callback("Converting HEIC to JPEG using parallel application of imagemagick..", 0)
-    # list all heic files
-    all_files = os.listdir(folder_path)
-    heic_files_to_convert = list()
-    for file_name in all_files:
-        root, ext = os.path.splitext(file_name)
-        file_name_full = os.path.join(folder_path, file_name)
-        jpg_file = root + ".jpg"
-        if ext.lower() == ".heic" and not os.path.exists(jpg_file):
-            heic_files_to_convert.append(file_name_full)
-    # perform all conversions in parallel
-    pool = mp.Pool()
-    pool.map(convert_heic_to_jpg, heic_files_to_convert)
+    callback("Converting HEIC to JPEG recursively using parallel application of imagemagick..", 0)
+    heic_files_to_convert = []
+    for _, _, file_path in iter_all_files(folder_path):
+        file_path_root, file_name_ext = os.path.splitext(file_path)
+        jpg_file = file_path_root + ".jpg"
+        if file_name_ext.lower() == ".heic" and not os.path.exists(jpg_file):
+            heic_files_to_convert.append(file_path)
+
+    if not heic_files_to_convert:
+        return
+
+    with mp.Pool() as pool:
+        pool.map(convert_heic_to_jpg, heic_files_to_convert)
 
 
 def convert_heic_to_jpg(heic_file_path: str) -> None:
@@ -86,9 +98,7 @@ def convert_heic_to_jpg(heic_file_path: str) -> None:
 
 def copy_stats_to_new_jpg_files(folder_path: str, callback) -> None:
     callback("Copying stats to new JPG files...", 33)
-    all_files = os.listdir(folder_path)
-    for file_name in all_files:
-        file_path = os.path.join(folder_path, file_name)
+    for _, _, file_path in iter_all_files(folder_path):
         file_path_root, file_name_ext = os.path.splitext(file_path)
         if file_name_ext.lower() == ".heic":
             jpg_file = file_path_root + ".jpg"
@@ -98,61 +108,60 @@ def copy_stats_to_new_jpg_files(folder_path: str, callback) -> None:
 
 def cleanup_live_files(folder_path: str, callback) -> None:
     callback("Cleaning up live files (associated MOV/MP4 files)...", 66)
-    all_files = os.listdir(folder_path)
-    total = len(all_files)
-    for i, file_name in enumerate(all_files):
-        file_path = os.path.join(folder_path, file_name)
-        file_path_root, file_name_ext = os.path.splitext(file_path)
+    heic_files = [(current_folder, file_name) for current_folder, file_names in iter_all_folders(folder_path)
+                  for file_name in file_names if os.path.splitext(file_name)[1].lower() == ".heic"]
+    total = len(heic_files)
 
-        if file_name_ext.lower() == ".heic":
-            callback(f"Cleaning up live files for: {file_name}", int(100 * i / total))
+    for i, (current_folder, file_name) in enumerate(heic_files, start=1):
+        file_path = os.path.join(current_folder, file_name)
+        file_path_root, _ = os.path.splitext(file_path)
+        sibling_files = os.listdir(current_folder)
+        callback(f"Cleaning up live files for: {file_name}", int(100 * i / total))
 
-            # remove the mov_file named exactly like the heic file if it exists and has no associated json
-            mov_file_path = file_path_root + ".mov"
-            if os.path.exists(mov_file_path):
-                # delete_if_within_same_period(os.path.join(flat_folder, jpg_file),
-                #                              os.path.join(flat_folder, mov_file))
-                delete_if_without_json(mov_file_path, all_files)
+        # remove the mov_file named exactly like the heic file if it exists and has no associated json
+        mov_file_path = file_path_root + ".mov"
+        if os.path.exists(mov_file_path):
+            # delete_if_within_same_period(os.path.join(flat_folder, jpg_file),
+            #                              os.path.join(flat_folder, mov_file))
+            delete_if_without_json(mov_file_path, sibling_files)
 
-            # remove the mp4_file named exactly like the heic file if it exists and has no associated json
-            mp4_file_path = file_path_root + ".mp4"
-            if os.path.exists(mp4_file_path):
-                # delete_if_within_same_period(os.path.join(flat_folder, jpg_file),
-                #                              os.path.join(flat_folder, mp4_file))
-                delete_if_without_json(mp4_file_path, all_files)
+        # remove the mp4_file named exactly like the heic file if it exists and has no associated json
+        mp4_file_path = file_path_root + ".mp4"
+        if os.path.exists(mp4_file_path):
+            # delete_if_within_same_period(os.path.join(flat_folder, jpg_file),
+            #                              os.path.join(flat_folder, mp4_file))
+            delete_if_without_json(mp4_file_path, sibling_files)
 
 
 def cleanup_json_files(folder_path: str, callback) -> None:
     callback("Cleaning up JSON files...", 90)
-    all_files = os.listdir(folder_path)
-    total = len(all_files)
-    for i, file_name in enumerate(all_files):
-        file_path = os.path.join(folder_path, file_name)
-        file_path_root, file_name_ext = os.path.splitext(file_path)
+    all_media_files = [(current_folder, file_name) for current_folder, file_names in iter_all_folders(folder_path)
+                       for file_name in file_names if os.path.splitext(file_name)[1].lower() in [".jpg", ".mov", ".png", ".heic", ".mp4"]]
+    total = len(all_media_files)
 
-        if file_name_ext.lower() in [".jpg", ".mov", ".png", ".heic", ".mp4"]:
-            json_file = find_matching_json(file_name, all_files, folder_path)
-            if json_file:
-                os.remove(json_file)
+    for i, (current_folder, file_name) in enumerate(all_media_files, start=1):
+        sibling_files = os.listdir(current_folder)
+        callback(f"Cleaning up JSON files for: {file_name}", int(100 * i / total))
+        json_file = find_matching_json(file_name, sibling_files, current_folder)
+        if json_file:
+            os.remove(json_file)
 
 
 def cleanup_heic_files(folder_path: str, callback) -> None:
     # remove the heic if the jpg exists
     callback("Cleaning up HEIC files...", 66)
-    all_files = os.listdir(folder_path)
-    total = len(all_files)
-    for i, file_name in enumerate(all_files):
-        file_path = os.path.join(folder_path, file_name)
-        file_path_root, file_name_ext = os.path.splitext(file_path)
-
-        if file_name_ext.lower() == ".heic":
-            callback(f"Cleaning up HEIC file: {file_name}", int(100 * i / total))
-            jpg_file_path = file_path_root + ".jpg"
-            if os.path.exists(jpg_file_path):
-                os.remove(file_path)
+    heic_files = [file_path for _, _, file_path in iter_all_files(folder_path)
+                  if os.path.splitext(file_path)[1].lower() == ".heic"]
+    total = len(heic_files)
+    for i, file_path in enumerate(heic_files, start=1):
+        file_path_root, _ = os.path.splitext(file_path)
+        callback(f"Cleaning up HEIC file: {os.path.basename(file_path)}", int(100 * i / total))
+        jpg_file_path = file_path_root + ".jpg"
+        if os.path.exists(jpg_file_path):
+            os.remove(file_path)
 
 
-def find_matching_json(file_name: str, all_files: list[str], folder_path: str) -> str:
+def find_matching_json(file_name: str, all_files: list[str], folder_path: str) -> Optional[str]:
     """
     Finds the matching json file for a given file name.
     This can be non-trivial because google keeps adding and changing suffixes.
@@ -190,6 +199,6 @@ def delete_if_without_json(file_path, all_files):
     """mov_file must be absolute file path"""
     file_name = os.path.basename(file_path)
     folder_path = os.path.dirname(file_path)
-    json_file = find_matching_json(file_path, all_files, folder_path)
+    json_file = find_matching_json(file_name, all_files, folder_path)
     if not json_file:
         os.remove(file_path)

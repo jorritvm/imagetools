@@ -81,7 +81,13 @@ The project comes with both a pyproject.toml and requirements.txt file.
 Requires python 3.13.
 
 ```commandline
-uv install --dev
+uv sync
+```
+
+Or alternatively without development dependencies:
+
+```commandline
+uv sync --without dev 
 ```
 
 #### Installing using `pip` based on `requirements.txt`
